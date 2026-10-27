@@ -1,0 +1,46 @@
+=== H1 mean reversion portfolio ===
+               config             split    n  win    avg   total   pf     dd
+        z20_sl20_tp15     design_2024H1  893 43.7  0.031   27.32 1.05  57.92
+        z20_sl20_tp15 validation_2024H2  872 37.5 -0.124 -107.84 0.81 131.98
+        z20_sl20_tp15          OOS_2025 1683 39.6 -0.065 -109.49 0.89 128.80
+        z20_sl20_mean     design_2024H1 1133 50.4 -0.016  -17.83 0.97  67.29
+        z20_sl20_mean validation_2024H2 1098 48.6 -0.104 -114.37 0.80 131.62
+        z20_sl20_mean          OOS_2025 2195 53.5 -0.025  -54.77 0.95 100.91
+  z15_sl20_tp10_trend     design_2024H1  553 51.9 -0.024  -13.30 0.95  43.79
+  z15_sl20_tp10_trend validation_2024H2  524 56.7  0.082   42.73 1.18  16.58
+  z15_sl20_tp10_trend          OOS_2025 1103 49.5 -0.061  -67.61 0.88  84.04
+        z25_sl25_tp20     design_2024H1  432 41.7  0.122   52.65 1.21  30.20
+        z25_sl25_tp20 validation_2024H2  407 38.6 -0.015   -6.07 0.98  34.67
+        z25_sl25_tp20          OOS_2025  786 36.8 -0.049  -38.32 0.92  80.73
+  z20_sl20_tp15_trend     design_2024H1  332 41.0 -0.053  -17.59 0.91  35.40
+  z20_sl20_tp15_trend validation_2024H2  291 48.1  0.148   43.11 1.28  17.31
+  z20_sl20_tp15_trend          OOS_2025  604 37.9 -0.108  -65.24 0.83  71.63
+  z20_sl20_mean_trend     design_2024H1  364 53.3 -0.038  -13.89 0.92  25.01
+  z20_sl20_mean_trend validation_2024H2  310 58.1  0.035   10.95 1.08  10.23
+  z20_sl20_mean_trend          OOS_2025  661 53.6 -0.031  -20.18 0.93  41.75
+z20_sl20_tp15_counter     design_2024H1  724 44.6  0.053   38.29 1.09  53.80
+z20_sl20_tp15_counter validation_2024H2  713 33.9 -0.216 -154.36 0.68 161.86
+z20_sl20_tp15_counter          OOS_2025 1367 40.3 -0.046  -63.49 0.92 114.69
+        z15_sl15_tp10     design_2024H1 1920 49.7 -0.084 -161.92 0.84 175.05
+        z15_sl15_tp10 validation_2024H2 1991 50.6 -0.050 -100.10 0.90 136.43
+        z15_sl15_tp10          OOS_2025 3907 50.4 -0.054 -209.47 0.90 232.59
+        z25_sl20_tp15     design_2024H1  541 44.9  0.065   35.16 1.11  25.61
+        z25_sl20_tp15 validation_2024H2  491 38.3 -0.104  -51.12 0.84  74.28
+        z25_sl20_tp15          OOS_2025  936 39.3 -0.081  -75.37 0.87 105.82
+        z20_sl25_tp15     design_2024H1  732 44.0  0.034   24.65 1.06  30.53
+        z20_sl25_tp15 validation_2024H2  708 39.7 -0.096  -67.75 0.84  86.72
+        z20_sl25_tp15          OOS_2025 1382 41.1 -0.048  -66.18 0.92 102.89
+
+=== positive in design AND validation ===
+none
+
+=== per-symbol total R for best validation config: z20_sl20_tp15_trend ===
+split   OOS_2025  design_2024H1  validation_2024H2
+symbol                                            
+AUDUSD    -20.72          -6.62              19.45
+EURUSD     -4.78          -4.27              15.50
+GBPUSD      8.25          -1.84               5.82
+NZDUSD      7.91           0.13               5.27
+USDCAD     -9.15         -12.75               4.51
+USDCHF    -13.26           3.94              -9.35
+USDJPY    -33.48           3.83               1.91

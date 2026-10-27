@@ -1,0 +1,73 @@
+{
+  "start_date": "2026-01-01",
+  "end_date": "2026-10-26",
+  "latest_available_date": "2026-10-23",
+  "revision_tracking": {
+    "enabled": true,
+    "started_at": "2026-10-08T23:30:08.779198+00:00",
+    "last_change_sequence": 13970,
+    "complete_first_release_history_verified": false,
+    "timestamp_semantics": "FXMacroData recording time; not publisher publication or customer receipt time",
+    "changes_endpoint": "/v1/risk_sentiment/changes"
+  },
+  "last_updated": "2026-10-25T23:30:26.583897+00:00",
+  "data_quality": {
+    "is_official": false,
+    "is_proxy": false,
+    "is_fallback": false,
+    "is_stale": false,
+    "has_announcement_datetime": false,
+    "point_in_time_safe": false,
+    "unverified_vintage_count": 238,
+    "unknown_publication_time_count": 0,
+    "has_assumed_release_times": false,
+    "assumed_release_time_count": 0,
+    "bounded_release_time_count": 0,
+    "unbounded_release_time_count": 0,
+    "latest_available_date": "2026-10-23",
+    "last_updated": "2026-10-25T23:30:26.583897+00:00",
+    "data_lag_days": 3,
+    "source_name": "OFR, National Bank of Ukraine official gold price with NBP fallback, and European Central Bank euro reference rates (AUD/USD and USD/JPY crossed via EUR)",
+    "source_type": "derived",
+    "is_derived": true,
+    "row_count": 238,
+    "announcement_datetime_count": 0,
+    "missing_announcement_datetime_count": 238,
+    "quality_scope": "full_result",
+    "stale_after_days": 7
+  },
+  "component_metadata": {
+    "stored_components": [
+      "ofr_fsi",
+      "gold",
+      "aud_usd",
+      "usd_jpy"
+    ],
+    "component_coverage_fields": [
+      "aud_usd",
+      "credit_spreads",
+      "dxy",
+      "gold",
+      "ofr_fsi",
+      "spx",
+      "us10y",
+      "usd_jpy",
+      "vix"
+    ],
+    "aliases": {
+      "score": "alias for val",
+      "risk_regime": "alias for regime",
+      "sentiment": "alias for regime"
+    },
+    "unavailable_components_are_reported_false": true
+  },
+  "pagination": {
+    "limit": 100,
+    "offset": 200,
+    "returned_count": 38,
+    "total_count": 238,
+    "has_more": false,
+    "next_offset": null
+  },
+  "point_in_time_safe": false
+}

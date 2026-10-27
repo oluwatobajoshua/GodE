@@ -1,0 +1,161 @@
+{
+  "currency": "USD",
+  "indicator": "pce",
+  "name": "PCE (Personal Consumption Expenditures Price Index)",
+  "unit": "%YoY",
+  "source": "BEA",
+  "source_url": "https://www.bea.gov/itable/national-gdp-and-personal-income",
+  "source_series_id": "BEA:NIPA:T20804:Line1",
+  "source_series_name": "PCE (Personal Consumption Expenditures Price Index)",
+  "seasonal_adjustment": "SA",
+  "is_proxy": false,
+  "provenance": {
+    "storage": "FXMacroData",
+    "is_proxy": false,
+    "publisher": "BEA",
+    "served_by": "/v1/announcements/{currency}/{indicator}",
+    "proxy_note": null,
+    "price_basis": null,
+    "value_field": "val",
+    "publisher_url": "https://www.bea.gov/itable/national-gdp-and-personal-income",
+    "timestamp_field": "announcement_datetime",
+    "source_series_id": "BEA:NIPA:T20804:Line1",
+    "source_local_name": null,
+    "source_series_name": "PCE (Personal Consumption Expenditures Price Index)",
+    "seasonal_adjustment": "SA"
+  },
+  "has_official_forecast": true,
+  "requested_start_date": "2026-07-28",
+  "requested_end_date": "2026-10-26",
+  "requested_window_has_data": true,
+  "page_includes_latest_available": true,
+  "start_date": "2026-07-31",
+  "end_date": "2026-10-26",
+  "earliest_available_date": "2026-07-31",
+  "latest_available_date": "2026-08-31",
+  "cb_target": {
+    "description": "Federal Reserve PCE inflation target",
+    "source": "Federal Reserve Statement on Longer-Run Goals and Monetary Policy Strategy",
+    "current": {
+      "effective_from": "2020-08-27",
+      "target": 2.0,
+      "notes": "Flexible Average Inflation Targeting (FAIT) adopted"
+    },
+    "history": [
+      {
+        "effective_from": "2012-01-25",
+        "target": 2.0,
+        "notes": "Fed primary inflation target is the headline PCE price index at 2%"
+      },
+      {
+        "effective_from": "2020-08-27",
+        "target": 2.0,
+        "notes": "Flexible Average Inflation Targeting (FAIT) adopted"
+      }
+    ]
+  },
+  "remap": {
+    "applied": false,
+    "rule_id": null,
+    "transform": "raw",
+    "canonical_indicator": "pce"
+  },
+  "filters": {
+    "basis": null,
+    "frequency": null,
+    "revisions": "latest",
+    "seasonality": null,
+    "annualization": null,
+    "period_aggregation": null
+  },
+  "selected_series_id": "usd_pce_canonical_yoy_sa_not_annualized_monthly",
+  "selected_series": {
+    "basis": null,
+    "label": "Pce, YOY, SA",
+    "frequency": "yoy",
+    "revisions": "latest",
+    "series_id": "usd_pce_canonical_yoy_sa_not_annualized_monthly",
+    "seasonality": "sa",
+    "annualization": "not_annualized",
+    "source_series_id": "BEA:NIPA:T20804:Line1",
+    "period_aggregation": "monthly"
+  },
+  "supported_options": {
+    "basis": [],
+    "frequency": [
+      "yoy",
+      "mom"
+    ],
+    "revisions": [
+      "latest",
+      "first",
+      "final",
+      "all"
+    ],
+    "seasonality": [
+      "sa"
+    ],
+    "annualization": [
+      "not_annualized"
+    ],
+    "period_aggregation": [
+      "monthly"
+    ]
+  },
+  "data_quality": {
+    "is_official": true,
+    "is_proxy": false,
+    "is_fallback": false,
+    "is_stale": false,
+    "has_announcement_datetime": true,
+    "point_in_time_safe": false,
+    "unverified_vintage_count": 2,
+    "unknown_publication_time_count": 0,
+    "latest_available_date": "2026-08-31",
+    "data_lag_days": 56,
+    "source_name": "BEA",
+    "source_type": "official",
+    "is_derived": false,
+    "row_count": 2,
+    "announcement_datetime_count": 2,
+    "missing_announcement_datetime_count": 0,
+    "has_assumed_release_times": false,
+    "assumed_release_time_count": 0,
+    "bounded_release_time_count": 0,
+    "unbounded_release_time_count": 0,
+    "quality_scope": "full_result",
+    "stale_after_days": 95,
+    "requested_window_has_data": true,
+    "page_includes_latest_available": true
+  },
+  "dataset_version": "1e4fa77484338ec4bdb81b8aea2ae698e79e9fafc626a39252332dd5d51dc1e8",
+  "value_mode": "normalized",
+  "value_metadata": {
+    "source_unit": "%YoY",
+    "normalization_applied": true
+  },
+  "pagination": {
+    "limit": 100,
+    "offset": 0,
+    "returned_count": 2,
+    "total_count": 2,
+    "has_more": false,
+    "page_includes_latest_available": true
+  },
+  "freemium_window": {
+    "applied": true,
+    "max_days": 90,
+    "cutoff_date": "2026-07-28",
+    "message": "Anonymous access returns the most recent 90 days. Supply an API key for the full history."
+  },
+  "freemium_delay": {
+    "applied": true,
+    "delay_seconds": 900,
+    "delay_minutes": 15,
+    "cutoff": 1793052300,
+    "cutoff_iso": "2026-10-26T22:05:00Z",
+    "withheld_count": 0,
+    "message": "Free access is delayed by 15 minutes. Releases published in the last 15 minutes are withheld. An Individual or Business API key returns them in real time.",
+    "subscribe_url": "https://fxmacrodata.com/subscribe?utm_source=api&utm_medium=referral&utm_campaign=freemium_delay"
+  }
+}

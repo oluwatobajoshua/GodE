@@ -1,0 +1,10 @@
+# Project Sovereign - Python analytics brain
+# Verified on Python 3.14.7 with numpy 2.5.4, pandas 3.0.6, pyzmq 27.2.0.
+# NOTE: pandas 3.1.0 hangs on import under this Python build; keep <3.1.
+numpy>=1.26,<3
+pandas>=2.2,<3.1
+pyzmq>=25,<28
+requests>=2.31,<3
+scikit-learn>=1.5,<2
+# MT5 history export and live bridge helpers (Windows-only).
+MetaTrader5>=5.0.45; platform_system == "Windows"

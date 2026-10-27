@@ -1,0 +1,67 @@
+=== portfolio H1 trend ===
+                config             split    n  win    avg   total   pf     dd
+        don20_sl20_tp3     design_2024H1  449 24.7 -0.067  -29.91 0.92  99.92
+        don20_sl20_tp3 validation_2024H2  456 30.0  0.151   68.92 1.21  43.50
+        don20_sl20_tp3          OOS_2025  885 25.0 -0.054  -47.53 0.93 109.62
+        don20_sl20_tp4     design_2024H1  352 16.8 -0.217  -76.31 0.75  94.37
+        don20_sl20_tp4 validation_2024H2  400 23.8  0.138   55.14 1.17  52.01
+        don20_sl20_tp4          OOS_2025  726 18.7 -0.118  -85.79 0.86 119.30
+        don20_sl20_tp6     design_2024H1  275  9.8 -0.366 -100.54 0.61 116.77
+        don20_sl20_tp6 validation_2024H2  290 19.0  0.279   80.99 1.33  38.12
+        don20_sl20_tp6          OOS_2025  538 13.6 -0.127  -68.11 0.86 111.66
+        don40_sl20_tp3     design_2024H1  384 22.9 -0.139  -53.27 0.83  90.69
+        don40_sl20_tp3 validation_2024H2  389 29.3  0.122   47.34 1.16  36.05
+        don40_sl20_tp3          OOS_2025  736 25.4 -0.040  -29.15 0.95  61.59
+        don40_sl20_tp4     design_2024H1  325 19.1 -0.102  -33.04 0.88  80.94
+        don40_sl20_tp4 validation_2024H2  347 23.1  0.104   35.96 1.13  56.72
+        don40_sl20_tp4          OOS_2025  603 19.2 -0.097  -58.75 0.88  88.25
+        don40_sl20_tp6     design_2024H1  262 11.8 -0.228  -59.63 0.76  96.79
+        don40_sl20_tp6 validation_2024H2  265 19.6  0.325   86.10 1.39  40.90
+        don40_sl20_tp6          OOS_2025  438 14.6 -0.057  -25.10 0.94  98.15
+        don55_sl20_tp4     design_2024H1  295 18.3 -0.139  -41.07 0.84  78.86
+        don55_sl20_tp4 validation_2024H2  313 24.0  0.150   46.98 1.19  40.28
+        don55_sl20_tp4          OOS_2025  569 17.9 -0.162  -91.90 0.81 103.40
+        don55_sl25_tp6     design_2024H1  172 11.0 -0.270  -46.41 0.71  68.93
+        don55_sl25_tp6 validation_2024H2  180 20.6  0.398   71.71 1.48  33.00
+        don55_sl25_tp6          OOS_2025  294 12.6 -0.194  -57.00 0.78  68.33
+       don100_sl25_tp4     design_2024H1  199 17.6 -0.163  -32.52 0.81  56.40
+       don100_sl25_tp4 validation_2024H2  213 26.3  0.276   58.85 1.36  34.18
+       don100_sl25_tp4          OOS_2025  394 15.2 -0.303 -119.52 0.65 132.77
+        don40_sl15_tp4     design_2024H1  414 19.3 -0.107  -44.39 0.88  95.27
+        don40_sl15_tp4 validation_2024H2  443 22.6  0.061   26.81 1.07  51.32
+        don40_sl15_tp4          OOS_2025  860 20.0 -0.068  -58.42 0.92 100.81
+        don40_sl25_tp4     design_2024H1  256 16.0 -0.242  -62.07 0.72  87.14
+        don40_sl25_tp4 validation_2024H2  261 26.1  0.263   68.70 1.34  43.50
+        don40_sl25_tp4          OOS_2025  467 18.0 -0.148  -69.06 0.83 102.81
+    don20_sl20_trail20     design_2024H1  553 41.0 -0.041  -22.94 0.93  91.78
+    don20_sl20_trail20 validation_2024H2  556 41.2  0.032   17.56 1.05  68.13
+    don20_sl20_trail20          OOS_2025 1078 39.4 -0.055  -59.54 0.91  84.42
+    don40_sl20_trail20     design_2024H1  445 40.7 -0.090  -40.27 0.85  83.95
+    don40_sl20_trail20 validation_2024H2  440 41.6  0.003    1.35 1.01  57.67
+    don40_sl20_trail20          OOS_2025  857 40.5 -0.058  -49.57 0.90  81.53
+    don40_sl20_trail30     design_2024H1  415 34.2 -0.154  -63.83 0.75  89.22
+    don40_sl20_trail30 validation_2024H2  384 34.6  0.086   33.08 1.14  41.94
+    don40_sl20_trail30          OOS_2025  767 34.2 -0.054  -41.66 0.91  67.61
+    don55_sl25_trail30     design_2024H1  336 38.4 -0.191  -64.22 0.69  80.68
+    don55_sl25_trail30 validation_2024H2  320 40.9  0.075   24.01 1.13  24.53
+    don55_sl25_trail30          OOS_2025  616 40.4 -0.018  -10.92 0.97  42.21
+don40_sl20_tp4_notrend     design_2024H1  343 19.0 -0.109  -37.34 0.87  84.03
+don40_sl20_tp4_notrend validation_2024H2  381 22.0  0.053   20.35 1.07  54.20
+don40_sl20_tp4_notrend          OOS_2025  611 20.9 -0.008   -4.72 0.99  61.77
+don20_sl20_tp3_reverse     design_2024H1  469 25.2 -0.037  -17.55 0.95  95.07
+don20_sl20_tp3_reverse validation_2024H2  471 31.0  0.170   79.91 1.24  44.51
+don20_sl20_tp3_reverse          OOS_2025  962 24.9 -0.060  -57.51 0.92  91.86
+
+=== configs positive in design AND validation ===
+none
+
+=== per-symbol total R for best validation config: don40_sl20_tp6 ===
+split   OOS_2025  design_2024H1  validation_2024H2
+symbol                                            
+AUDUSD     16.37         -11.71              20.15
+EURUSD     11.15         -13.94               8.25
+GBPUSD      6.25           3.48               0.18
+NZDUSD    -20.43          -4.54              16.91
+USDCAD    -16.33         -27.58              16.13
+USDCHF     -9.22          -9.08               8.39
+USDJPY    -12.89           3.75              16.08

@@ -1,0 +1,16 @@
+name,split,strategy,start,end,years,cagr,vol,sharpe,maxdd,total
+carry_pure,design_2005_2014,carry_pure,2010-02-01,2014-12-01,4.8,5.78,9.4,0.63,-12.76,31.17
+carry_pure,validation_2015_2019,carry_pure,2015-01-01,2019-12-01,4.9,-4.05,11.81,-0.28,-12.52,-18.37
+carry_pure,OOS_2020_2026,carry_pure,2020-01-01,2025-12-01,5.9,2.06,9.91,0.26,-12.04,12.85
+carry_pure,recent_2025_2026,carry_pure,2025-01-01,2025-12-01,0.9,0.33,5.42,0.08,-5.52,0.3
+carry_pure,full_2005_2026,carry_pure,2010-02-01,2025-12-01,15.8,1.2,10.4,0.17,-32.1,20.83
+carry_mom_filter,design_2005_2014,carry_mom_filter,2010-02-01,2014-12-01,4.8,2.63,11.82,0.27,-20.73,13.38
+carry_mom_filter,validation_2015_2019,carry_mom_filter,2015-01-01,2019-12-01,4.9,0.26,10.31,0.08,-14.42,1.27
+carry_mom_filter,OOS_2020_2026,carry_mom_filter,2020-01-01,2025-12-01,5.9,3.35,11.21,0.35,-17.24,21.51
+carry_mom_filter,recent_2025_2026,carry_mom_filter,2025-01-01,2025-12-01,0.9,3.67,9.49,0.39,-7.17,3.35
+carry_mom_filter,full_2005_2026,carry_mom_filter,2010-02-01,2025-12-01,15.8,2.13,11.08,0.24,-20.73,39.51
+carry_usd_filter,design_2005_2014,carry_usd_filter,2010-02-01,2014-12-01,4.8,3.19,7.5,0.45,-8.86,16.39
+carry_usd_filter,validation_2015_2019,carry_usd_filter,2015-01-01,2019-12-01,4.9,-3.28,11.83,-0.22,-11.2,-15.13
+carry_usd_filter,OOS_2020_2026,carry_usd_filter,2020-01-01,2025-12-01,5.9,-0.41,8.73,-0.0,-13.97,-2.43
+carry_usd_filter,recent_2025_2026,carry_usd_filter,2025-01-01,2025-12-01,0.9,-4.69,4.03,-1.07,-5.9,-4.29
+carry_usd_filter,full_2005_2026,carry_usd_filter,2010-02-01,2025-12-01,15.8,-0.23,9.47,0.02,-28.96,-3.62

@@ -1,0 +1,40 @@
+# Python
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+
+# Environment / secrets
+.env
+.env.*
+
+# Logs and runtime artifacts
+*.log
+logs/
+*.csv
+!docs/**/*.csv
+!research/results/**/*.csv
+!research/data/rates/*.csv
+!research/data/cot/*.csv
+
+# Large regenerable research artifacts (keep the small summaries)
+research/results/**/m5_candidates_histdata.csv
+research/results/**/*_trades.csv
+
+# MetaTrader build artifacts
+*.ex5
+*.ex4
+*.mqproj
+*.set
+
+# Test reports and downloaded archives
+backtest/
+*.zip
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

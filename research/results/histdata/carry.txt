@@ -1,0 +1,22 @@
+=== FX carry: full period ===
+            name          split         strategy      start        end  years  cagr   vol  sharpe  maxdd  total
+carry_mom_filter full_2005_2026 carry_mom_filter 2010-02-01 2025-12-01   15.8  2.13 11.08    0.24 -20.73  39.51
+      carry_pure full_2005_2026       carry_pure 2010-02-01 2025-12-01   15.8  1.20 10.40    0.17 -32.10  20.83
+carry_usd_filter full_2005_2026 carry_usd_filter 2010-02-01 2025-12-01   15.8 -0.23  9.47    0.02 -28.96  -3.62
+
+=== FX carry: CAGR by split ===
+split             OOS_2020_2026  design_2005_2014  full_2005_2026  recent_2025_2026  validation_2015_2019
+name                                                                                                     
+carry_mom_filter           3.35              2.63            2.13              3.67                  0.26
+carry_pure                 2.06              5.78            1.20              0.33                 -4.05
+carry_usd_filter          -0.41              3.19           -0.23             -4.69                 -3.28
+
+=== positive in design AND validation ===
+split             OOS_2020_2026  design_2005_2014  full_2005_2026  recent_2025_2026  validation_2015_2019
+name                                                                                                     
+carry_mom_filter           3.35              2.63            2.13              3.67                  0.26
+
+=== OOS and recent for those ===
+split             OOS_2020_2026  recent_2025_2026
+name                                             
+carry_mom_filter           3.35              3.67
