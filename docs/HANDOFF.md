@@ -374,8 +374,8 @@ or a real CSV/tick feed.
   confirmed. Keep `InpRequirePythonSignal=false`.
 - The EA compile-time defaults for partial close and break-even at +1.5R are not
   the tested configuration (see section 6.3).
-- No git repository was initialized at the time of this check; the research
-  baseline should be committed so negative results are preserved.
+- The research baseline is committed (`da53b8c`); keep the working tree clean
+  after each tested change so negative results are preserved.
 
 These are engineering fixes for a future deployment. They do not change the
 validation verdict: the entry signals have no edge.
