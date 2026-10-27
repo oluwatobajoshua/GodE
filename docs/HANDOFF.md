@@ -43,7 +43,7 @@ Secondary requirements already agreed:
 | Symbol data | EURUSD 2020-2026 `.hcc`, 2025-12..2026-10 real ticks |
 | EA magic | `20261103` |
 | Ports | ZMQ PUB **5555**, native TCP NDJSON **5556** |
-| Git | Repository initialized. Baseline commits `da53b8c`, `947c9b2`. |
+| Git | Repository initialized. Latest commits `2846494` (carry), `af528d7` (freeze); baselines `da53b8c`, `947c9b2`. |
 
 `pandas 3.1.0` hangs on import in this Python build. Keep `pandas<3.1`.
 Deriv is used only because it has usable local real-tick history. It is not a
@@ -542,8 +542,9 @@ what was completed and what would be required to reopen the project.
 7. Update `scripts/install_ea.ps1` stale warning.
 8. Write `docs/DEPLOYMENT.md` only after a deployable edge exists. It should
    cover VPS, firewall, demo incubation, and a migration checklist.
-9. Commit the 2005-2025 carry results, overlays, and decomposition. The
-   repository is initialized; baseline commits are `da53b8c` and `947c9b2`.
+9. Commit the 2005-2025 carry results, overlays, and decomposition (commit
+   `2846494`). The freeze documentation is in `af528d7`; earlier baselines are
+   `da53b8c` and `947c9b2`.
 
 ---
 
