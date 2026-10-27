@@ -1,6 +1,6 @@
 # Project Sovereign: God's Eye Institutional Hybrid Algorithmic Trading Ecosystem
 
-> **2026-10-27 status: no deployable edge. Do not deploy live.**
+> **2026-10-27 status: PROJECT FROZEN. No deployable edge. Do not deploy live.**
 > Independent HistData 2005-2025 validation confirms that H1 trend, H1 mean
 > reversion, D1 trend, D1 momentum, CFTC COT positioning, and the EA's own M5
 > breakout and mean-reversion engines all fail a chronological out-of-sample
@@ -17,9 +17,10 @@
 > improve the risk-adjusted result enough. A return decomposition shows the
 > carry return is almost entirely interest carry, not a durable spot edge. Carry
 > is not an intraday EA strategy, is still crash-prone, and is not enough for the
-> stated goal. **Freeze the intraday EA**; do not deploy the carry sleeve. See
-> `docs/HANDOFF.md` sections 6.3-6.4 before changing any parameter or running the
-> EA on a live account.
+> stated goal. **The project is frozen**: keep the EA as infrastructure, do not
+> deploy the carry sleeve, and reopen only with a genuinely new data source or
+> economic hypothesis. See `docs/HANDOFF.md` sections 6.3-6.4 before changing
+> any parameter or running the EA on a live account.
 
 Welcome to the official technical documentation and deployment guide for **Project Sovereign**, an institutional-grade, hybrid algorithmic trading engine that bridges high-performance MQL5 execution with external Python-driven machine learning and volume profile analytics.
 

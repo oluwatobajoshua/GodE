@@ -1,6 +1,6 @@
 # Project Sovereign - AI Handoff / Work Log
 
-Last updated: **2026-10-27 01:56 local (UTC+1)**
+Last updated: **2026-10-27 02:03 local (UTC+1)**
 
 This file is the authoritative continuation point for another AI or developer.
 Read it before changing code. Update it after every meaningful work session.
@@ -159,6 +159,9 @@ market when a limit retcode is 10015.
 
 **Verdict: the system is not deployable. No tested strategy has a robust
 out-of-sample edge.** The apparent M5 breakout profit is in-sample.
+**Decision (2026-10-27): the project is frozen.** Do not deploy live. Reopen
+only with a genuinely new data source or economic hypothesis, tested with a
+fresh design / validation / OOS cycle.
 
 M5 breakout results (EURUSD, Deriv-Demo, 1% risk, one position):
 
@@ -500,31 +503,29 @@ Get-Content <agent>\Agent-127.0.0.1-3000\logs\<date>.log -Tail 100
 
 ---
 
-## 8. Next actions (priority order)
+## 8. Next actions / stopping point (priority order)
 
-1. **Freeze the current intraday EA.** Independent HistData validation confirms
-   that H1 trend, H1 mean reversion, D1 trend, D1 momentum, and the EA's own M5
-   hour-7 breakout have no durable edge. The 2025 M5 holdout was flat and the
-   independent M5 check is negative in design, validation, and OOS. Do not paper
-   over a missing edge with more filters, exits, or parameter sweeps on the same
-   families.
+**Status: FROZEN as of 2026-10-27.** No live deployment. The items below record
+what was completed and what would be required to reopen the project.
+
+1. **Keep the current intraday EA frozen.** Independent HistData validation
+   confirms that H1 trend, H1 mean reversion, D1 trend, D1 momentum, and the
+   EA's own M5 hour-7 breakout have no durable edge. The 2025 M5 holdout was
+   flat and the independent M5 check is negative in design, validation, and OOS.
+   Do not paper over a missing edge with more filters, exits, or parameter
+   sweeps on the same families.
 2. **Independent validation is complete for H1/D1/COT/carry and the M5 setup.**
    The negative results were not a Deriv-Demo data artifact; HistData reproduces
    them. If a new data source or family is tested, keep the same chronological
    design / validation / OOS discipline and write results to a separate
    `SOVEREIGN_RESULTS_DIR`.
-3. **Choose the next path deliberately:**
-   - **Freeze the trading project** (recommended). The evidence is now complete:
-     H1/D1/COT/M5 fail, and the only survivor (monthly carry + momentum) is a
-     weak interest-carry harvest, not a durable spot edge. Keep the EA as
-     infrastructure and the research as a documented negative result.
-   - Or build a **separate multi-factor / multi-asset carry sleeve** only if it
-     adds genuinely new data (cross-asset carry, value, options skew, order
-     flow). A single FX carry sleeve is not enough: +1.64% CAGR, Sharpe 0.20,
-     -26.03% DD, and the return is almost entirely interest carry. Do not force
-     this into the M5 EA.
-   - Or deploy a small carry sleeve anyway, accepting the +1.64% CAGR /
-     -26.03% DD. Not recommended for the stated "stress-free" goal.
+3. **Project frozen (decision 2026-10-27).** The evidence is complete: H1, D1,
+   COT, and M5 fail, and the only survivor (monthly carry + momentum) is a weak
+   interest-carry harvest, not a durable spot edge. Keep the EA as
+   infrastructure and the research as a documented negative result. Do not
+   deploy live. Reopen only if a genuinely new data source or economic
+   hypothesis is proposed (cross-asset carry, options skew, order flow, real
+   macro surprises) and tested with a fresh design / validation / OOS cycle.
 4. **2005-2025 independent carry test is complete.** Design +1.35%, validation
    +0.26%, OOS +3.35%, full +1.64% CAGR, Sharpe 0.20, max DD -26.03% (2007-06
    to 2012-10). The independent series matches Deriv (+1.61%, -26.30%, same
@@ -681,3 +682,8 @@ Get-Content <agent>\Agent-127.0.0.1-3000\logs\<date>.log -Tail 100
   carry sleeve is not enough for the stated goal. Results are in
   `research/results/histdata_2005/`, with the original 2010-2025 suite retained
   in `research/results/histdata/`.
+- **Decision (2026-10-27): project frozen.** After reviewing the carry result,
+  the weak interest-carry return, the -26.03% drawdown, and the failed risk
+  overlays, the chosen path is to stop trading research and keep the EA as
+  infrastructure. No live deployment. Reopen only with a genuinely new data
+  source or economic hypothesis and a fresh design / validation / OOS cycle.
