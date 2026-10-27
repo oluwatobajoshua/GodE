@@ -1,6 +1,6 @@
 # Project Sovereign - AI Handoff / Work Log
 
-Last updated: **2026-10-27 01:05 local (UTC+1)**
+Last updated: **2026-10-27 01:56 local (UTC+1)**
 
 This file is the authoritative continuation point for another AI or developer.
 Read it before changing code. Update it after every meaningful work session.
@@ -43,7 +43,7 @@ Secondary requirements already agreed:
 | Symbol data | EURUSD 2020-2026 `.hcc`, 2025-12..2026-10 real ticks |
 | EA magic | `20261103` |
 | Ports | ZMQ PUB **5555**, native TCP NDJSON **5556** |
-| Git | **Not a git repository.** Consider `git init` + initial commit. |
+| Git | Repository initialized. Baseline commits `da53b8c`, `947c9b2`. |
 
 `pandas 3.1.0` hangs on import in this Python build. Keep `pandas<3.1`.
 Deriv is used only because it has usable local real-tick history. It is not a
@@ -190,7 +190,8 @@ is the scoreboard.
 ### 6.4 Alpha research verdict (2026-10-27)
 
 After the M5 result was judged insufficient, six additional families were
-tested. Every one failed a chronological out-of-sample check:
+tested. Every one failed a chronological out-of-sample check except the weak
+carry premium:
 
 | Family | Timeframe / data | Design | Validation | OOS / holdout | Verdict |
 |---|---|---|---|---|---|
@@ -200,38 +201,63 @@ tested. Every one failed a chronological out-of-sample check:
 | Donchian trend, 12 pairs | D1, 2005-2026 | none positive | none positive | mixed, recent negative | fail |
 | Time-series / cross-sectional momentum | D1, 2006-2026 | +3-4% CAGR | -6 to -8% CAGR | -2 to -8% CAGR | fail |
 | CFTC COT positioning | weekly, 2010-2026 | +5.91% CAGR | +3.30% CAGR | **-1.63% CAGR** | fail |
-| Carry + 12m momentum filter | monthly, 2005-2026 | +1.32% CAGR | +0.05% CAGR | +3.26% CAGR | weak only |
+| Carry + 12m momentum, Deriv | monthly, 2005-2026 | +1.32% CAGR | +0.05% CAGR | +3.26% CAGR | weak only |
+| Carry + 12m momentum, independent | monthly, 2005-2025 | +1.35% CAGR | +0.26% CAGR | +3.35% CAGR | weak only |
 
 The only strategy positive in every split is **carry + 12-month momentum
-filter**. On independent HistData it is design **+2.63%**, validation
-**+0.26%**, OOS **+3.35%**, recent 2025 **+3.67%**; full-period **+2.13% CAGR**,
-Sharpe **0.24**, max drawdown **-20.73%**. It is still not deployable: the
-validation period is nearly flat, the drawdown is high, and it is a monthly
-portfolio strategy, not the intraday EA. Pure carry has a **-32.10%** max
-drawdown on independent data and fails validation. A VIX throttle cuts the
-carry max drawdown to about **-16.65%** but also cuts OOS CAGR to **+1.47%**;
-Sharpe stays 0.24, so it is not a clear improvement. The carry max drawdown is
-concentrated in 2012 (-20.7%, euro crisis); 2016 and 2018 were also negative
-years. This is not a smooth, stress-free return stream. Yearly returns:
-2011 +2.97%, 2012 -2.82%, 2013 +6.90%, 2014 +6.00%, 2015 +5.84%, 2016
--4.82%, 2017 +3.55%, 2018 -6.77%, 2019 +4.14%, 2020 +0.33%, 2021 +1.50%, 2022
-+12.91%, 2023 +1.01%, 2024 +1.23%, 2025 +3.35%.
+filter**. The independent HistData test now covers **2005-2025**, including the
+2007 peak and the 2008-2012 drawdown. It is design **+1.35%**, validation
+**+0.26%**, OOS 2020-2025 **+3.35%**, recent 2025 **+3.67%**; full-period
+**+1.64% CAGR**, Sharpe **0.20**, max drawdown **-26.03%** (peak 2007-06 to
+trough 2012-10). The independent series closely matches the full 2005-2026
+Deriv series (+1.61% CAGR, Sharpe 0.20, -26.30% max DD, same peak/trough), so
+the result is real and not a data artifact. It is still not deployable: a
+5.3-year drawdown, a nearly flat validation period, and a monthly portfolio
+strategy that is separate from the intraday EA. Yearly returns: 2005 0.00%
+(momentum warm-up), 2006 +7.49%, 2007 +13.34%, 2008 -1.67%, 2009 -4.11%,
+2010 -4.76%, 2011 -5.34%, 2012 -2.75%, 2013 +6.90%, 2014 +6.00%, 2015 +5.84%,
+2016 -4.82%, 2017 +3.55%, 2018 -6.77%, 2019 +4.14%, 2020 +0.33%, 2021 +1.50%,
+2022 +12.91%, 2023 +1.01%, 2024 +1.23%, 2025 +3.35%. The 2008 year is mild for
+the base because the momentum filter and the residual dollar bet act as a
+partial hedge; the drawdown is the slow 2009-2012 unwind after the 2007 peak.
+Pure carry has a **-34.25%** max drawdown on 2005-2025 and fails validation
+(-4.05%).
 
 A **dollar-neutral** version of the momentum filter (stand aside when the
-momentum filter removes every name on one side) looked stronger on the
-2010-2025 independent slice: full-period **+3.15% CAGR**, Sharpe **0.41**, max
-DD **-18.64%**; design +1.82%, validation **+0.19%**, OOS 2020-2025 **+6.90%**,
-recent 2025 **+13.68%**. It is invested in only 96 of 190 months, so the return
-is episodic, and the validation period is still nearly flat. **It does not
-survive the full 2005-2026 Deriv history**: design +0.33%, validation -0.07%,
-max DD **-38.37%**. The difference is the 2008 Global Financial Crisis, which
-the independent 2010-2025 slice does not cover. The neutral variant is therefore
-a period artifact, not a deployable improvement. The base `carry_mom` survives
-the full Deriv design+validation only barely (design +1.32%, validation +0.05%)
-and has a **-26.30%** max DD there; on independent 2010-2025 it is +2.13% CAGR,
-Sharpe 0.24, -20.73% DD. The missing test is 2008 on independent data.
-VIX overlays reduce the neutral variant's full-period DD to -33.80% at best,
-which is still not acceptable.
+momentum filter removes every name on one side) is a cleaner carry
+implementation but not an improvement. On 2005-2025 it is full **+2.06% CAGR**,
+Sharpe **0.26**, max DD **-39.02%** (peak 2007-06 to trough 2010-06); design
+**+0.21%**, validation **+0.19%**, OOS **+6.90%**, recent 2025 **+13.68%**.
+It has no dollar spot exposure, so it loses **-14.49%** in 2008 and **-14.89%**
+in 2010; the base's residual dollar bet is what keeps its 2008 loss to -1.67%.
+The 2010-2025 slice alone showed +3.15% CAGR / -18.64% DD because it missed the
+2007-2010 crash; that slice overstates the neutral variant. VIX overlays:
+neutral + VIX20/30 is full **+2.08% CAGR**, Sharpe **0.28**, max DD **-33.32%**;
+the improvement is small and the drawdown is still unacceptable. The base VIX
+overlays are worse than the base (e.g. VIX18/28 +1.13% CAGR, -27.86% DD).
+
+Risk overlays that scale the base return do not fix it. A 12-month trend filter
+on the strategy's own return is full **-1.64%** on 2005-2025 and **-0.93%** on
+Deriv, with max DD **-49.33%** / **-45.24%**; faster 3-month and 6-month
+volatility targets are +0.81% / +0.22% with max DD -45.51% / -42.32%. All were
+tested in `research/carry_overlays.py`; do not use them.
+
+`research/carry_decompose.py` decomposes the return into interest carry, dollar
+spot, cross-sectional spot, and cost. On independent 2005-2025 the base
+`carry_mom` total of **+1.63%/yr** is almost entirely interest carry
+(**+2.72%/yr**); the spot components are **-1.09%/yr** from the residual dollar
+bet and **+0.14%/yr** from the cross-sectional carry basket, with **-0.13%/yr**
+cost. The regression alpha versus a simple USD factor is **+2.22%/yr** with
+R-squared **0.000**. On Deriv 2005-2026 the same decomposition is +1.60%/yr =
++2.77% carry -0.98% dollar spot -0.04% cross-sectional spot -0.13% cost, with
+alpha +2.21%/yr and R-squared 0.000. In the 2015-2019 validation the
+cross-sectional spot component is **-3.72%/yr** (independent) / **-3.85%/yr**
+(Deriv), offset by **+1.78%/yr** / **+1.74%/yr** of dollar spot, which is why
+validation is flat. The neutral variant has no dollar spot; its full-period
+**+2.04%/yr** (independent) is also almost entirely interest carry (+2.18%/yr)
+with cross-sectional spot **+0.03%/yr**. This is not a durable spot FX edge: it
+is harvesting the interest differential and bearing crash risk. The base
+variant's residual dollar exposure acts as a partial crash hedge, not as alpha.
 
 **Root cause:** the problem is not the EA, risk code, exits, or the Deriv-Demo
 feed. The H1/D1 entry signals have no durable edge, and the independent HistData
@@ -239,7 +265,8 @@ check reproduces those failures. The EA's own M5 setup also fails independent
 history: full 2011-2025 **-355.79R**, PF **0.75**, with design, validation, and
 OOS all negative. The in-sample 2026 result was a regime artifact. More
 parameter tuning on the same families will produce false positives, not a
-solution. The only survivor is a weak monthly carry premium, which is
+solution. The only survivor is a weak monthly carry premium; the decomposition
+shows it is almost entirely interest carry with no durable spot edge, and it is
 structurally different from the intraday EA.
 
 **Do not run this EA live on the strength of the current results.**
@@ -248,11 +275,15 @@ structurally different from the intraday EA.
 
 To rule out a Deriv-Demo data artifact, the same rules were rerun on
 HistData.com M1 data for EURUSD, GBPUSD, USDJPY, AUDUSD, USDCAD, USDCHF, and
-NZDUSD, 2010-2025. The M1 data is converted from New York time to UTC,
+NZDUSD, now 2005-2025. The M1 data is converted from New York time to UTC,
 aggregated to H1/D1, and partial Sunday D1 bars are dropped. HistData does not
 yet publish a 2026 yearly archive, so the H1 design year is 2024, validation is
 2024 H2, and OOS is 2025. The D1 tests use 2010-2014 design, 2015-2019
-validation, and 2020-2025 OOS.
+validation, and 2020-2025 OOS; the extended carry test uses the full 2005-2025
+range. The original 2010-2025 suite is preserved in `research/results/histdata/`;
+the extended carry run is in `research/results/histdata_2005/`. NZDUSD 2005
+starts on 2005-08-12 (HistData archive limit), which only affects the 2005
+warm-up year.
 
 Scripts:
 - `research/download_histdata.py` - download and aggregate
@@ -260,12 +291,15 @@ Scripts:
 - `research/run_independent_validation.py` - rerun the whole suite
 - `research/compare_data.py` - compare Deriv and HistData D1 returns
 - `research/check_histdata.py` - check rows, duplicates, bad OHLC, NaNs
-- `research/carry_overlays.py` - VIX exposure overlays on carry
+- `research/carry_overlays.py` - VIX, strategy-trend, and faster-vol overlays on carry
+- `research/carry_decompose.py` - split carry returns into interest, dollar, cross-sectional, and cost
 - `research/build_histdata_m5.py` - build EURUSD M5 from HistData M1
 - `research/m5_independent.py` - mode-1 breakout independent test
 - `research/m5_meanrev_independent.py` - mode-0 metrics from the saved candidates
 
-Results go to `research/results/histdata/`, never over the original results.
+Results go to `research/results/histdata/` for the original suite and
+`research/results/histdata_2005/` for the extended carry run, never over the
+original results.
 
 | Family | Independent data result | Verdict |
 |---|---|---|
@@ -275,13 +309,13 @@ Results go to `research/results/histdata/`, never over the original results.
 | D1 Donchian trend, 7 pairs | no config positive in design and validation; 2020-2025 OOS mixed or negative | fail |
 | D1 time-series / cross-sectional momentum | design negative; validation and OOS negative. Best full-period `tsmom_252_v10` only **+1.07% CAGR**, design -0.45%, validation +0.19%, OOS +2.77% | fail |
 | CFTC COT positioning | `follow_z2.0_w156` positive in design and validation, but OOS 2021-2025 **-3.36% CAGR**, recent 2025 **-7.86%** | fail |
-| Carry + 12m momentum | design 2010-2014 **+2.63%**, validation 2015-2019 **+0.26%**, OOS 2020-2025 **+3.35%**, recent 2025 **+3.67%**; full **+2.13% CAGR**, Sharpe **0.24**, max DD **-20.73%** | **only survivor; weak** |
+| Carry + 12m momentum | design 2005-2014 **+1.35%**, validation 2015-2019 **+0.26%**, OOS 2020-2025 **+3.35%**, recent 2025 **+3.67%**; full 2005-2025 **+1.64% CAGR**, Sharpe **0.20**, max DD **-26.03%** (2007-06 to 2012-10) | **only survivor; weak, not deployable** |
 | M5 Donchian breakout, EURUSD, hour 7 | design 2011-2014 **-61.65R**, validation 2015-2019 **-191.58R**, OOS 2020-2025 **-102.56R**, full 2011-2025 **-355.79R** (PF **0.75**); every hour negative; only 2014/2015 positive | fail |
 | M5 mean reversion, EURUSD, 07:00-16:59 UTC | design 2011-2014 **-1,029.81R**, validation 2015-2019 **-1,557.03R**, OOS 2020-2025 **-1,491.53R**, full 2011-2025 **-4,078.37R** (PF **0.75**); no positive year; every hour negative | fail |
 
-Data quality: the HistData D1 files have 4,167 weekday bars per pair
-(2010-2025), 260-262 bars per year, no duplicate timestamps, no bad OHLC rows,
-and no missing values. Against Deriv-Demo D1, the matched-day daily-return
+Data quality: the extended HistData D1 files have 5,462 weekday bars per pair
+(2005-2025; NZDUSD 5,304 because its 2005 archive starts in August), 257-262
+bars per year, no duplicate timestamps, no bad OHLC rows, and no missing values. Against Deriv-Demo D1, the matched-day daily-return
 correlation is **0.984-0.994**, with a mean absolute close difference of
 21-30 points. The sources are broadly consistent; the negative results are not
 caused by an obviously broken independent feed. HistData 2023 H1 has some
@@ -291,7 +325,8 @@ missing intraday bars, but the D1 bars remain complete; the H1 tests use
 The independent check therefore **confirms the negative verdict** for every
 intraday and D1 price-only family, including the EA's own M5 hour-7 setup.
 Carry + momentum is the only family that survives, and it is a weak, crash-prone
-monthly premium, not a standalone 100-year system.
+monthly interest-carry harvest with no durable spot edge, not a standalone
+100-year system.
 
 #### Independent M5 check (completed, negative)
 
@@ -479,24 +514,25 @@ Get-Content <agent>\Agent-127.0.0.1-3000\logs\<date>.log -Tail 100
    design / validation / OOS discipline and write results to a separate
    `SOVEREIGN_RESULTS_DIR`.
 3. **Choose the next path deliberately:**
-   - Build a **separate monthly carry sleeve** around the validated
-     carry + 12-month momentum signal. It must be multi-symbol,
-     volatility-targeted, and include a causal crash filter that is positive in
-     design, validation, and OOS. The current +2.1% CAGR / -20.7% DD is not
-     enough for the stated goal. Do not force this into the M5 EA.
-   - Or pivot to a genuinely different edge/data source (options skew, order
-     flow, policy surprises, real macro). More price-only FX indicator mining
-     is low-probability.
-   - Or freeze the trading project and keep the EA as infrastructure only.
-4. If the carry sleeve is pursued, **first download HistData 2005-2009** and
-   rerun carry on 2005-2025. The current independent slice starts in 2010 and
-   misses the 2008 GFC, which is the worst carry crash. On the full 2005-2026
-   Deriv history the dollar-neutral variant already fails validation (-0.07%)
-   with a -38.37% max DD, and the base variant has a -26.30% max DD. Require a
-   causal crash filter validated in design, validation, and OOS. The VIX
-   throttle is not sufficient; it only moves the base max DD from -20.7% to
-   -16.7% while cutting OOS CAGR from +3.35% to +1.47%. Do not call the current
-   result profitable enough to deploy.
+   - **Freeze the trading project** (recommended). The evidence is now complete:
+     H1/D1/COT/M5 fail, and the only survivor (monthly carry + momentum) is a
+     weak interest-carry harvest, not a durable spot edge. Keep the EA as
+     infrastructure and the research as a documented negative result.
+   - Or build a **separate multi-factor / multi-asset carry sleeve** only if it
+     adds genuinely new data (cross-asset carry, value, options skew, order
+     flow). A single FX carry sleeve is not enough: +1.64% CAGR, Sharpe 0.20,
+     -26.03% DD, and the return is almost entirely interest carry. Do not force
+     this into the M5 EA.
+   - Or deploy a small carry sleeve anyway, accepting the +1.64% CAGR /
+     -26.03% DD. Not recommended for the stated "stress-free" goal.
+4. **2005-2025 independent carry test is complete.** Design +1.35%, validation
+   +0.26%, OOS +3.35%, full +1.64% CAGR, Sharpe 0.20, max DD -26.03% (2007-06
+   to 2012-10). The independent series matches Deriv (+1.61%, -26.30%, same
+   dates). The neutral variant is +2.06% / Sharpe 0.26 / -39.02% DD; neutral +
+   VIX20/30 is +2.08% / Sharpe 0.28 / -33.32% DD. Strategy trend, faster vol
+   targets, and VIX overlays on the base do not improve the risk-adjusted
+   result. The decomposition shows the return is interest carry (+2.72%/yr)
+   with ~zero cross-sectional spot. Do not call this deployable.
 5. Keep all research scripts and result CSVs under `research/` so negative
    results are reproducible. Never delete a failed test; it prevents repeat
    work.
@@ -505,7 +541,8 @@ Get-Content <agent>\Agent-127.0.0.1-3000\logs\<date>.log -Tail 100
 7. Update `scripts/install_ea.ps1` stale warning.
 8. Write `docs/DEPLOYMENT.md` only after a deployable edge exists. It should
    cover VPS, firewall, demo incubation, and a migration checklist.
-9. `git init` and commit the research baseline, including the negative results.
+9. Commit the 2005-2025 carry results, overlays, and decomposition. The
+   repository is initialized; baseline commits are `da53b8c` and `947c9b2`.
 
 ---
 
@@ -601,9 +638,10 @@ Get-Content <agent>\Agent-127.0.0.1-3000\logs\<date>.log -Tail 100
   dollar-neutral momentum variant looked better on the 2010-2025 independent
   slice (+3.15% CAGR, Sharpe 0.41, -18.64% DD) but **fails on the full
   2005-2026 Deriv history**: design +0.33%, validation -0.07%, max DD -38.37%.
-  The 2010-2025 independent slice misses the 2008 GFC, so the neutral variant is
-  not a deployable improvement. The base carry survives full Deriv
-  design+validation only barely (+1.32% / +0.05%) with a -26.30% max DD.
+  The 2010-2025 independent slice misses the 2007-06 peak and the 2008-2010 leg
+  of the drawdown (neutral trough 2010-06), so the neutral variant is not a
+  deployable improvement. The base carry survives full Deriv design+validation
+  only barely (+1.32% / +0.05%) with a -26.30% max DD (trough 2012-10).
 - Added `research/build_histdata_m5.py` to build EURUSD M5 from HistData M1,
   and `research/m5_independent.py` to test the EA's hour-7 breakout on
   2010-2025 independent data. Built 1,184,265 M5 bars (2023 has a known
@@ -618,3 +656,28 @@ Get-Content <agent>\Agent-127.0.0.1-3000\logs\<date>.log -Tail 100
 - `requirements.txt` now includes `requests`, `scikit-learn`, and the
   Windows-only `MetaTrader5` package; `scripts/install_ea.ps1` no longer prints
   the obsolete ZMQ warning.
+- Downloaded HistData 2005-2009 for all seven pairs and cleaned/checked the
+  extended 2005-2025 D1/H1 files. NZDUSD 2005 starts on 2005-08-12 because that
+  is the limit of the HistData archive; the 2005 year is a momentum warm-up.
+- Extended independent carry + 12-month momentum to 2005-2025: design +1.35%,
+  validation +0.26%, OOS +3.35%, recent 2025 +3.67%, full **+1.64% CAGR**,
+  Sharpe **0.20**, max DD **-26.03%** (peak 2007-06 to trough 2012-10). This
+  matches the full 2005-2026 Deriv result (+1.61%, -26.30%, same dates), so
+  the weak premium and its drawdown are real, not a data artifact.
+- Independent neutral carry 2005-2025: +2.06% CAGR, Sharpe 0.26, -39.02% DD;
+  neutral + VIX20/30: +2.08% CAGR, Sharpe 0.28, -33.32% DD. Still not
+  deployable.
+- Added strategy-trend (12m) and faster (3m/6m) volatility-target diagnostics
+  to `research/carry_overlays.py`. Both are worse: trend12 full -1.64% /
+  -49.33% DD (independent) and -0.93% / -45.24% DD (Deriv); vol3/vol6 full
+  +0.81%/+0.22% with -45.51%/-42.32% DD. Do not use.
+- Added `research/carry_decompose.py`. The base carry return is almost entirely
+  interest carry: +1.63%/yr total = +2.72% carry -1.09% dollar spot +0.14%
+  cross-sectional spot -0.13% cost on independent 2005-2025 (Deriv +1.60% =
+  +2.77% carry -0.98% dollar -0.04% cross-sectional -0.13% cost). Regression
+  alpha vs a USD factor is +2.2%/yr with R-squared 0.000. There is no durable
+  spot edge; the base's residual dollar exposure is a partial crash hedge.
+- Verdict: **no deployable edge**. The intraday EA stays frozen; a single FX
+  carry sleeve is not enough for the stated goal. Results are in
+  `research/results/histdata_2005/`, with the original 2010-2025 suite retained
+  in `research/results/histdata/`.

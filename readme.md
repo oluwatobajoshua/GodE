@@ -1,20 +1,25 @@
 # Project Sovereign: God's Eye Institutional Hybrid Algorithmic Trading Ecosystem
 
 > **2026-10-27 status: no deployable edge. Do not deploy live.**
-> Independent HistData 2010-2025 validation confirms that H1 trend, H1 mean
+> Independent HistData 2005-2025 validation confirms that H1 trend, H1 mean
 > reversion, D1 trend, D1 momentum, CFTC COT positioning, and the EA's own M5
 > breakout and mean-reversion engines all fail a chronological out-of-sample
 > check. The M5 breakout is negative in design, validation, and OOS
 > (**-355.79R full 2011-2025, PF 0.75**); the M5 mean-reversion engine is also
 > negative (**-4,078.37R, PF 0.75**, no positive year). The 2025 holdout was
-> +0.67% and the 2026 in-sample result was a regime artifact. The only survivor is monthly **carry + 12-month momentum**: +2.13%
-> CAGR, Sharpe 0.24, -20.73% max drawdown on independent 2010-2025 data. A
-> dollar-neutral variant looked better on that slice (+3.15% CAGR, Sharpe 0.41,
-> -18.64% DD) but fails on the full 2005-2026 history (validation -0.07%, max DD
-> -38.37%) because the independent slice misses the 2008 GFC. Carry is not an
-> intraday EA strategy, is still crash-prone, and is not enough for the stated
-> goal. See `docs/HANDOFF.md` sections 6.3-6.4 before changing any parameter or
-> running the EA on a live account.
+> +0.67% and the 2026 in-sample result was a regime artifact. The only survivor
+> is monthly **carry + 12-month momentum**: +1.64% CAGR, Sharpe 0.20, -26.03%
+> max drawdown on independent 2005-2025 data (peak 2007-06 to trough 2012-10).
+> The independent series matches the full Deriv 2005-2026 result (+1.61% CAGR,
+> -26.30% DD, same dates), so the weak premium and its drawdown are real. A
+> dollar-neutral variant is +2.06% CAGR / -39.02% DD; adding a VIX overlay gives
+> +2.08% CAGR / -33.32% DD. Strategy-trend, faster-vol, and VIX overlays do not
+> improve the risk-adjusted result enough. A return decomposition shows the
+> carry return is almost entirely interest carry, not a durable spot edge. Carry
+> is not an intraday EA strategy, is still crash-prone, and is not enough for the
+> stated goal. **Freeze the intraday EA**; do not deploy the carry sleeve. See
+> `docs/HANDOFF.md` sections 6.3-6.4 before changing any parameter or running the
+> EA on a live account.
 
 Welcome to the official technical documentation and deployment guide for **Project Sovereign**, an institutional-grade, hybrid algorithmic trading engine that bridges high-performance MQL5 execution with external Python-driven machine learning and volume profile analytics.
 

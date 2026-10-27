@@ -4,8 +4,9 @@
 The independent HistData check confirmed that carry + 12-month momentum is the
 only strategy family that stays positive in design, validation and out-of-sample
 periods.  This script tests simple, pre-specified risk overlays on that
-strategy.  It does not change the signal; it only scales exposure when the
-prior month's VIX close is elevated.
+strategy.  It does not change the signal; it scales exposure when the prior
+month's VIX close is elevated, when the strategy's own 12-month return is
+negative, or when a faster 3/6-month realised volatility target is breached.
 
 Run:
     .\\.venv\\Scripts\\python.exe research/carry_overlays.py
@@ -22,6 +23,7 @@ import pandas as pd
 from carry import (
     CURRENCIES,
     RATES,
+    TARGET_VOL,
     carry_weights,
     load_monthly_prices,
     load_rates,
@@ -94,6 +96,22 @@ def main() -> int:
     curves = {}
     for name, w in variants.items():
         r = run(w, spot, diff, price)
+        curves[name] = r
+        for split, part in split_returns(r).items():
+            rows.append({"name": name, "split": split, **metrics(part, name)})
+
+    # Diagnostic risk overlays applied to the base strategy's return series.
+    # These do not change the signal; they test whether a faster volatility
+    # target or a trend filter on the strategy itself improves the risk path.
+    base_r = curves["carry_mom"]
+    trend = ((1 + base_r).rolling(12).apply(np.prod, raw=True) - 1).shift(1)
+    overlay_returns = {"carry_mom_trend12": base_r.where(trend.gt(0), 0.0)}
+    for window in (3, 6):
+        vol = base_r.rolling(window).std() * np.sqrt(12)
+        scalar = (TARGET_VOL / vol).clip(upper=2.0).shift(1).fillna(1.0)
+        overlay_returns[f"carry_mom_vol{window}"] = base_r * scalar
+
+    for name, r in overlay_returns.items():
         curves[name] = r
         for split, part in split_returns(r).items():
             rows.append({"name": name, "split": split, **metrics(part, name)})

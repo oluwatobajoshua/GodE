@@ -3,7 +3,9 @@
 
 The Deriv-Demo data may be a B-book feed with synthetic spread.  This runner
 points every research script at `research/data/histdata/` and writes results to
-`research/results/histdata/` so the original results are preserved.
+`research/results/histdata_current/`.  The published 2010-2025 baseline is kept
+in `research/results/histdata/`; the data directory now extends to 2005-2025, so
+this runner deliberately does not overwrite that baseline.
 
 Usage:
     .\\.venv\\Scripts\\python.exe research/run_independent_validation.py
@@ -18,7 +20,7 @@ from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
 DATA = HERE / "data" / "histdata"
-OUT = HERE / "results" / "histdata"
+OUT = HERE / "results" / "histdata_current"
 
 SCRIPTS = [
     "h1_trend.py",
@@ -28,6 +30,8 @@ SCRIPTS = [
     "d1_momentum.py",
     "cot_sentiment.py",
     "carry.py",
+    "carry_overlays.py",
+    "carry_decompose.py",
 ]
 
 
