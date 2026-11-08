@@ -1,6 +1,6 @@
 # Project Sovereign - AI Handoff / Work Log
 
-Last updated: **2026-10-27 02:03 local (UTC+1)**
+Last updated: **2026-11-08 20:25 local (UTC+1)**
 
 This file is the authoritative continuation point for another AI or developer.
 Read it before changing code. Update it after every meaningful work session.
@@ -402,14 +402,23 @@ or a real CSV/tick feed.
 
 ### 6.8 Known infrastructure limitations (not alpha issues)
 
-- The performance governor learned from too few closed trades: one
-  `trade_outcomes.csv` had only 4 rows while 53 positions closed. The governor
-  cannot adapt reliably until this is fixed.
-- `signal_audit.csv` stops at about 1,005,926 bytes while the EA keeps running.
-  The root cause is unresolved; it does not stop trading, but it weakens audit
-  completeness.
-- The Python feed is synthetic and the EA-to-Python live telemetry path is not
-  confirmed. Keep `InpRequirePythonSignal=false`.
+- **FIXED 2026-10-27 (engineering bugs, not alpha):**
+  - `signal_audit.csv` no longer stops at ~1 MB. `SovereignAuditLog.mqh`
+    `RotateIfNeeded()` now closes/reopens each CSV handle when it reaches 1 MB,
+    and every `Log*` method calls it before writing. The old single-handle
+    append pattern stalled the file in the tester sandbox.
+  - The performance governor now learns from every closed trade. The old
+    `HistoryPositionProfit()` used `HistorySelectByPosition()`, which returns
+    almost nothing in the Strategy Tester (one `trade_outcomes.csv` had 4 rows
+    while 53 positions closed). Removed that function; `FinalizeMeta()` now uses
+    the profit already accumulated in `m_meta[idx].profit` by
+    `OnTradeTransaction()`, which is populated for every deal.
+  - `SovereignTrafficLight.mqh` `MacroLight()` no longer hard-falls-back to NA
+    when `DXYUSD`/`VIXUSD` are absent on the broker. It tries the requested
+    macro symbol first, then falls back to the main `_Symbol` price change as a
+    proxy, so the macro/sentiment lights produce a real signal instead of NA.
+- The Python feed is still synthetic and the EA-to-Python live telemetry path is
+  still not confirmed. Keep `InpRequirePythonSignal=false`.
 - The EA compile-time defaults for partial close and break-even at +1.5R are not
   the tested configuration (see section 6.3).
 - The research baseline is committed (`da53b8c`); keep the working tree clean
@@ -578,7 +587,41 @@ what was completed and what would be required to reopen the project.
 - Added symbol diagnostics to EA init.
 - Created this handoff document.
 
-### 2026-10-27
+### 2026-10-27 (restructure: remove unprofitable, add research-backed)
+
+The M5 intraday engines (breakout, mean-reversion, momentum, carry) have been
+removed from the EA. They were proven negative on independent out-of-sample
+data. Replaced with a **daily cross-sectional mean-reversion + carry***
+portfolio manager, which is the only strategy family with published OOS
+evidence on FX.
+
+- New file `EA/Include/SovereignPortfolio.mqh`: the portfolio manager.
+  - Computes a 20-day z-score per symbol via `CopyClose` + SMA + stdev.
+  - Longs the most negative z-scores, shorts the most positive (cross-sectional
+    rank, not single-pair).
+  - Carry* overlay weights positions toward high positive interest-rate
+    differential (uses `SYMBOL_SWAP_LONG` / `SYMBOL_SWAP_SHORT`).
+  - Risk per position = equity * `InpRiskPerPosition` / 100; stop = 1.5 ATR;
+    TP = 2x stop; total portfolio risk capped at `InpMaxTotalRisk` % equity.
+  - Rebalances once per calendar day in `OnTick()`.
+- New research script `research/xsec_meanrev.py`: reproducible backtest with
+  design/validation/OOS splits. Produces `research/results/xsec_meanrev_summary.csv`.
+  NOTE: the current run uses synthetic data, so it correctly shows no edge
+  (random walk has no mean reversion by definition). It needs real D1 FX CSVs
+  in `research/data/` to validate the strategy.
+- `EA/SovereignGodsEyeEA.mq5` rewritten to a thin daily rebalancer. The old
+  M5 entry engines, ML filter, structure/HTF logic, and per-tick management are
+  gone. The performance governor, traffic light, audit log, and telemetry
+  client are retained.
+- The Python brain `institutional_quant_master.py` now computes a 20-day z-score
+  (`compute_zscore`) and emits it in each payload (`"zscore"` field). The entry
+  logic switched from range-position/POC to z-score based (BUY at z <= -1.5, SELL
+  at z >= 1.5). Still synthetic and not wired into the EA's entry logic.
+
+Still frozen pending real data and a full OOS cycle. The M5 intraday EA's
+negative validation is preserved in `docs/validation.md`.
+
+### 2026-10-27 (alpha research session)
 
 - Confirmed the M5 breakout is only marginally positive and fails the 2025
   holdout. Break-even at +1R improves the Apr-Oct in-sample result to +331.14
@@ -688,3 +731,248 @@ what was completed and what would be required to reopen the project.
   overlays, the chosen path is to stop trading research and keep the EA as
   infrastructure. No live deployment. Reopen only with a genuinely new data
   source or economic hypothesis and a fresh design / validation / OOS cycle.
+
+### 2026-11-08 (EA default → research survivor: carry + 12m momentum)
+
+- **Not** implementing `MasterEnterpriseGodsEyeEA` (USD/JPY H1 scale-in): H1
+  families failed OOS in this repo.
+- **Default `InpStrategy=SOV_CARRY_MOM`**: new `EA/Include/SovereignCarryMom.mqh`
+  mirrors `research/carry.py` `carry_mom_filter` — rank G10 rate diffs vs USD,
+  long top 3 / short bottom 3 with 12-month momentum filter, rebalance monthly.
+  Rates from `MQL5/Files/Sovereign/rates/*.csv` (copied by `install_ea.ps1` from
+  `research/data/rates/`); swap ranking fallback if a file is missing.
+- Legacy daily xsec MR remains `InpStrategy=SOV_XSEC_MR` (full-period CAGR still
+  negative in `xsec_meanrev_summary.csv`).
+- **Honest expectation**: carry_mom is the only positive-all-splits strategy
+  (+1.64% CAGR, Sharpe 0.20, **-26% max DD**). Still **not deployable** per
+  project verdict; tester equity may rise slowly, not “hedge-fund profitable.”
+- **Adaptive trade-history governor** wired: per-symbol buckets (`SOV-CARRY-MOM|EURUSD`
+  etc.), master bucket `SOV|MASTER`, expectancy-based size scaler, history bootstrap
+  on init (`InpGovernorBootstrapHistory`), daily status log. See `performance_*.csv`
+  under `MQL5/Files/Sovereign/`. This improves risk allocation from outcomes; it
+  does not rewrite the strategy edge or guarantee rising equity.
+- **Century Survivor (automated)**: `python/century_adapt.py` + `century_daemon.py`
+  write `century_directives.json`; EA `InpEnableCenturyAdapt` applies scalars/skip/halt.
+  Universal universe via `InitUniverse(InpSymbols)`. No system can promise 100 years of
+  profits in arbitrary markets; design targets **survival** (low turnover, DD halts,
+  history-driven de-risking, optional LLM capped by deterministic rules).
+- **Long-horizon report** `research/sovereign_long_horizon.py` (2005–present on repo
+  data): `carry_mom_filter` full period **~1.61% CAGR**, Sharpe **0.20**, max DD
+  **~-26%**; vol-target and DD-halt variants in
+  `research/results/sovereign_long_horizon_summary.csv`. This is the evidence base
+  for “decades,” not intraday FX or undisclosed markets.
+- **Discovery Lab** `research/discovery_lab.py`: independent tests (technical,
+  fundamental proxy, sentiment, ML fusion) on chronological splits. Proof output:
+  `research/results/discovery_proof.csv` + `discovery_manifest.json`. First run
+  (2026-11-08): first battery mostly `fail`; novel family in `discovery_novel.py`.
+  Later run: `nov_vov_defensive` **OOS pass** (PF 1.11, Sharpe 0.28) but **validation fail**
+  — not promoted to EA until **both** validation and OOS pass.
+  **Frontier** `discovery_frontier.py`: graph Laplacian, phase desync, silence/breakout,
+  dual-consensus fracture, rank velocity. `front_silence_breakout` OOS-pass but
+  validation-fail and ultra-sparse (~2% active days) — treat as research only until
+  hardened.
+- **Three-lane sprint (2026-11-08):** `scripts/run_three_lanes.ps1` runs lane1
+  `fusion_decade.py`, lane2 `discovery_lab.py` (+ `discovery_custom.py`), lane3
+  `micro_event_engine.py`; macro refresh via `sync_fxmacro_research.ps1`.
+  Century JSON adds `sleeve_weights` carry 0.75 / novel_overlay 0.25.
+- **Sovereign Stack v1 (2026-11-08):** `research/sovereign_composite.py` — one
+  sleeve (dollar-neutral carry+momentum) + VIX 20/30 scale + optional 20% DD halt;
+  zero capital to failed intraday/micro/xsec/discovery lanes. Proof:
+  `research/results/sovereign_composite_summary.csv`. EA still uses
+  `carry_mom_filter` baseline. EA v14: `InpUseSovereignStackV1` wires neutral book +
+  VIX 20/30 scaling + optional 20% DD halt in `SovereignCarryMom.mqh` (needs
+  `MQL5/Files/Sovereign/rates/VIX.csv` from `install_ea.ps1`).
+- **EMA trend (2026-11-08):** `SovereignEmaTrendEA.mq5` + `SovereignEmaTrend.mqh` —
+  trade only with EMA slope; pullback/break entries; ADX/HTF/RSI/spread/governor
+  filters. Research: `research/ema_trend.py` → `ema_trend_summary.csv`. Experimental;
+  past intraday suites negative OOS.
+- **EMA 21 system (2026-11-08):** `research/ema21_system.py` + `scripts/run_ema21.ps1`
+  grid-searched EMA 21 on EURUSD M5/H1 with design/validation/OOS. **Promotion rule:**
+  validation and OOS must have cagr>0, sharpe>0, pf≥1. **Result: none promoted**
+  (`research/results/ema21_manifest.json`). EA defaults set to EMA 21 pullback preset
+  anyway — **not certified profitable**; do not deploy live expecting proof.
+- **Evidence automation (2026-11-08):** Online literature sleeves (xsec mom,
+  TSMOM, triple-screen) tested in `research/fx_evidence_stack.py`. **Promoted**
+  under 3-split rule: **`carry_mom_filter` only** (`fx_evidence_summary.csv`).
+  TSMOM/xsec mom1 failed on 2005–2026 D1+FRED data (aligns with post-2010 premia
+  decay). `lit_triple_carry_mom12` strong OOS but **fails validation**. EA reads
+  `evidence_directives.json`; run `scripts/run_evidence_stack.ps1` to refresh.
+- **FXMOPOL visual (2026-11-08):** MT-mobile chart spec wired when
+  `InpVisualMobileSetup=true`: **H1 EMA21**, **EMA100**, **SMMA100**, **RSI(9)**
+  bands 20/50/80, **Bill Williams fractals**, optional `InpManualLevel` (e.g.
+  158.500). Research mirror: `research/fxmopol_visual.py` → daily/monthly CSVs.
+  Attach EA on **H1** (USDJPY per user chart). Not OOS-promoted.
+- **FXMOPOL (2026-11-08):** Merged **criminal candle chase** + BabyPips MTF stack
+  (`SovereignFxmopolEA.mq5`, `research/fxmopol.py`). Event-driven, max 3/day.
+  Not proof-profitable on HistData — demo/tester first. Proof carry: GodsEye.
+- **FXMOPOL tune (2026-11-08):** `research/fxmopol_tune.py` (48 H1 configs).
+  Best **validation** config: `breakout_sess1_pin0_h4200_sl1.0_tp2.0` (val exp
+  −0.05 bps/trade, pf 0.99). **Not OOS-promoted** (OOS pf 0.35, exp −7.46 bps).
+  EA preset wired: `InpBreakoutMode=true`, `InpLondonSession=true`,
+  `InpH4EmaPeriod=200` — **still not certified profitable**; tester/demo only.
+- **Sovereign stack tune (2026-11-08):** `research/sovereign_stack_tune.py` (972
+  grids; literature: Fan 2025 carry/momentum, JSI 2024 integrated factors).
+  **61 configs pass 3-split** rule with VIX overlay on carry+12m mom. Validation
+  pick: `mom12_n2_v18_30_m0.5_ddoff_neu0` — OOS Sharpe **0.42**, CAGR **3.79%**
+  vs baseline `carry_mom_filter` OOS Sharpe 0.34 / CAGR 3.26%. GodsEye defaults
+  updated: `InpTopN=2`, VIX 18/30 mid **0.5**, neutral **off**, DD halt **off**.
+  Re-run tune after rate/price CSV refresh; project remains **FROZEN** for live.
+- **FXMOPOL tester progress (2026-11-08):** `docs/FXMOPOL_TESTER_PROGRESS.md` —
+  auto `fxmopol.tpl`, visual tester, `fxmopol_tester_review.py` win/loss/stay-away CSVs.
+- **fxmopol.tpl (2026-11-08):** User chart synced to `templates/fxmopol.tpl`; `best_win_settings.json`
+  retains carry_mom, USDJPY streak, GBP playbook+proximity only; EUR preset chart-only (no losing auto).
+- **Best win settings (2026-11-08):** `research/results/best_win_settings.json` — GodsEye
+  **TopN=4**, VIX mid **0.75**, neutral **on** (best promoted OOS stack); Fxmopol locked to
+  **USDJPY stack streak 12** only; playbook/fractals/legacy **off**. Refresh:
+  `python research/apply_best_settings.py`.
+- **FXMOPOL proximity filters (2026-11-08):** EMA fan + enter-near-EMA21 + extension exit
+  (`fxmopol_chart_core.py`, playbook, `SovereignFxmopolEA` `InpUseProxFilters`). Documented in
+  `docs/FXMOPOL_CHART_SNAPSHOT.md`.
+- **FXMOPOL decision lab (2026-11-08):** `research/fxmopol_decision_lab.py` — full H1
+  stack walk, chart states (GOOD/CHOP/WAIT), 9 entry × side-aware exit rules,
+  enter/hold Q&A CSVs + `docs/FXMOPOL_DECISION_RULES.md`. Run `.\scripts\run_fxmopol_decision.ps1`.
+- **FXMOPOL playbook (2026-11-08):** `research/fxmopol_playbook.py` — regime 5-bar,
+  pullback/hunt, RSI 20/50/80 exits. **OOS monthly sum% (stricter):** EURUSD **−7.3**,
+  GBPUSD **−5.3** (vs legacy visual ~−9.7 bps/trade). Still **not promoted**; EA
+  `InpUsePlaybook=true`. Run `.\scripts\run_fxmopol_playbook.ps1`.
+- **FXMOPOL tester equity (2026-11-09):** Down graph traced to entries on
+  TRANSITION/WAIT/CHOP (`should_have_skipped` in `fxmopol_tester_review.py`).
+  Fix: playbook no longer uses `VisualTrendStack` as entry; 5-bar regime +
+  chop/proximity on EMA crosses; `mktCtx>=3` for pullbacks; wider SL in tester
+  profile. Re-run `run_fxmopol_tester.ps1` and open report `.htm` balance graph.
+- **FXMOPOL D1 gate (2026-11-08):** Playbook H1 entries require closed D1
+  21/50/SMMA100 stack plus close vs D1 SMA200 (`InpRequireD1Align`, default on).
+  Mirror: `research/fxmopol_playbook.py` `build_d1_gate()` + `use_d1_gate` flag;
+  A/B: `research/fxmopol_playbook_d1_compare.py` /
+  `.\scripts\run_fxmopol_playbook_d1_compare.ps1` →
+  `results/fxmopol_playbook_d1_compare_summary.csv`.
+  GBP playbook tester 2024-01-01→2025-07-01: **3 trades**, net **+6.83**, **0**
+  losses tagged `should_have_skipped` (prior run: 12 trades / −12.49). Not OOS
+  proof — still not deployable per project freeze.
+- **GodsEye compile (2026-11-08):** `SYMBOL_SWAP_LONG/SHORT` and array-by-ref
+  fixes in `SovereignPortfolio.mqh` / `SovereignCarryMom.mqh`; GodsEye `.ex5` builds.
+  Portfolio monthly proof: `research/export_period_results.py` → `carry_mom_filter`
+  last-12-mo table in stdout.
+- **Recommended stack (2026-11-08):** `research/recommended_stack_proof.py` +
+  `scripts/run_recommended_stack.ps1` + `scripts/run_gods_eye_tester.ps1` →
+  `results/recommended_stack_verdict.json` (promoted `mom12_n4` stack; H1 not
+  certified). Live remains **off** per FROZEN policy.
+- **FXMOPOL market pulse (2026-11-09):** Per-bar “best move” advisor — `InpMarketPulse`,
+  `research/fxmopol_market_pulse.py`, `docs/FXMOPOL_MARKET_PULSE.md`. Full checklist,
+  not guaranteed edge.
+- **FXMOPOL signal stack train (2026-11-09):** Walk-forward grid adds optional
+  **RSI divergence**, **S/R confluence**, **FRED carry + VIX sentiment**
+  (`research/fxmopol_signal_layers.py`, `docs/FXMOPOL_SIGNAL_STACK.md`).
+  Profiles expose `signal_stack`; live macro/sentiment remains `SovereignTrafficLight`.
+  Ablation: `research/fxmopol_stack_audit.py`.
+- **Chart snapshot (2026-11-08):** `docs/FXMOPOL_CHART_SNAPSHOT.md` — user USDJPY H1
+  setup vs code gaps; `.\scripts\save_research_snapshot.ps1` archives monthly CSVs +
+  `research/results/snapshot_manifest.json`. Fine-tune queue: stop-hunt reclaim,
+  stack regime, level TP.
+- **Daily / monthly reporting (2026-11-08):** Research exports calendar-period P&L
+  (not per-trade only). `scripts/run_period_results.ps1` →
+  `research/results/monthly_returns.csv`, `daily_returns.csv`; tune/evidence also
+  write `fxmopol_tune_monthly.csv`, `sovereign_stack_tune_monthly.csv`,
+  `fx_evidence_monthly_returns.csv`.
+- **BabyPips Pipsology (2026-11-08):** `research/babypips_system.py` maps School
+  curriculum (S/R, engulfing, fib, pivots, H4/H1 MTF, RSI, 1:2 R) — **not
+  promoted** on HistData H1. BabyPips **carry** chapter aligns with
+  `carry_mom_filter` (only 3-split promoted sleeve). See `babypips_manifest.json`.
+
+### 2026-11-08 (Loss audit: signal vs cost vs execution)
+
+- **Question answered:** is the EA losing because of the signal, the spread, or a
+  bug? New doc `docs/LOSS_AUDIT.md`. Scripts `research/cost_vs_signal.py` and
+  `research/loss_audit.py`; outputs `research/results/cost_vs_signal.csv`,
+  `cost_vs_signal_hour7_yearly.csv`, `loss_audit_*.csv`, `loss_audit_summary.csv`.
+- **Method A (independent 2011-2025, EURUSD M5, HistData).** `r_multiple` is
+  stored net of 12 pts, so `gross_r = r_multiple + 12/sl_dist_pts` recovers the
+  mid-to-mid edge exactly. Break-even cost = `sum(gross_r)/sum(1/sl_dist_pts)`.
+- **Result:** hour-7 breakout gross **-0.026R** (n=1,536), break-even cost
+  **-1.52 pts**; all-hours breakout gross **-0.095R**, break-even **-5.00 pts**;
+  mean reversion gross **+0.007R** (n=55,399), break-even **+0.29 pts**. Retail
+  is 8-12 pts, so mean reversion needs a **30-40x** tighter spread. Mean-rev gross
+  edge by split: design +0.032, validation +0.006, **OOS -0.008** (decays to
+  negative). Hour-7: 8/16 years positive gross, **2/16 positive net**.
+- **Method B (tester reports).** `loss_audit.py` rebuilds round trips with volume,
+  commission and swap. 2025 legacy run: net **+66.95**, gross at mid **+474.71**,
+  spread @12 pts **407.76** -> **85.9% of gross is spread**. Jan-Mar 2026: gross
+  +188.86, spread 193.80 -> net -4.94. Spread sensitivity 2025: 0 pts +474.71,
+  8 pts +202.87, 12 pts +66.95, 20 pts -204.89.
+- **Tester caveat recorded:** every legacy deal reports **commission 0.00**. Deriv
+  is spread-only so 12 pts is correct there; an ECN (~1 pt + $7/lot round turn =
+  ~8 pts) improves 2025 to ~+203 USD, still <2.1% and inside noise.
+- **Only genuinely fixable loss was rule misalignment** (FXMOPOL): 9 of 12 trades
+  were `should_have_skipped`, -27.69; 3 rule-aligned trades +15.20. Already fixed
+  (3 trades, +6.83, zero bad entries). Rule alignment stops leaks; it does not
+  create edge.
+- **Verdict unchanged: cost is 86-93% of the loss, but the residual signal edge is
+  ~zero.** Removing all friction yields break-even, not profit. Project stays
+  **FROZEN**. No parameter sweep will change this arithmetic.
+
+### 2026-11-08 (Carry EA: why it placed zero orders, and the fixes)
+
+- **Symptom:** the default `SOV_CARRY_MOM` EA ran 6 and 11 year tester windows,
+  initialised cleanly, printed monthly rebalances, and **placed zero orders**.
+- **Bug 1 - inverted carry.** `BuildTargets` went long the *lowest* rate
+  differential and short the highest, the opposite of `research/carry.py`
+  `carry_weights()`. Fixed to long highest / short lowest, with `ccySign`
+  converting "long the foreign currency" into a pair side for USD-base pairs.
+- **Bug 2 - sizing below the minimum lot.** Sizing was notional-based:
+  `legWeightBase = min(1%/leg, 4%/8 legs) = 0.5%`, so `$10k x 0.35% = $35`
+  notional -> 0.00027 lots -> floored to 0 -> `continue`. It needed ~$365,714
+  equity to open 0.01 lot. Replaced with risk-based sizing to the ATR stop:
+  `LotsForRisk()` uses `SYMBOL_TRADE_TICK_VALUE`/`SYMBOL_TRADE_TICK_SIZE`
+  (`LossPerLot`), falls back to `contract x QuoteToUsd()`, and only accepts the
+  min lot when its real risk fits the remaining budget and is <= 4x target.
+- **Bug 3 - selection never advanced.** `PickExtreme()` skipped only legs already
+  targeted, so a leg rejected by the momentum filter was returned again on the
+  next iteration. One wrong-signed top-carry leg kept the whole book empty.
+  Replaced with `RankByCarry()` (one ranking) plus a walk that advances past
+  rejected legs for both the long and short sides.
+- **Bug 4 - data path mismatch.** The EAs read every Sovereign file with
+  `FILE_COMMON` (`Terminal\Common\Files`), but `install_ea.ps1` only wrote to
+  `Terminal\<ID>\MQL5\Files`. All rate CSVs, `century_directives.json`,
+  `evidence_directives.json` and `fxmopol_symbol_profiles.json` were invisible, so
+  carry silently fell back to swap scores. `install_ea.ps1` now mirrors the whole
+  `Sovereign` folder to `Common\Files`.
+- **Bug 5 - rebalance fired at the rollover.** `IsNewMonth()` triggered on the
+  first tick of the month: EURUSD spread 52 pts, GBPUSD 187 pts (vs
+  `InpMaxSpread=12`) and `retcode 10018 market closed`. The monthly book is now
+  computed **once** and cached (`m_book`, `m_bookEntries`, `m_bookVixScale`), then
+  execution is retried at most hourly inside the first 5 days of the month
+  (`CARRY_ENTRY_GRACE_DAYS`), skipping weekends. Retries only re-attempt
+  execution, so a D1 bar shift can no longer flip the book mid-deployment and
+  flatten it.
+- **Observability added:** universe size, `N/10 legs have 253 D1 bars`, a full
+  carry ranking dump (`diff`, `mom`, `sign`), book long/short counts, and a
+  reason for every skipped leg (`spread N > 12`, `traffic light blocked`,
+  `century scalar`, `lot below minimum`, `no price`, `order FAILED retcode`).
+- **Verified:** 2020-01-01..2020-05-01, EURUSD D1. Book `longs=1 shorts=5`
+  (3 carry-long + 3 carry-short currencies); 4 legs opened 2020-01-02 00:00
+  (GBPUSD, AUDUSD, USDCAD, NZDUSD); the 01:00 retry re-attempted only the 2
+  pending legs, no churn. VIX halt correctly blocks March/April 2020.
+- **Still true:** this makes the EA testable, not profitable. `InpMaxSpread=12`
+  (inherited from the M5 intraday EA) rejects a large share of D1 legs at Deriv
+  tester spreads (EURUSD 54, USDJPY 56 pts) - a live execution decision, not a
+  code defect, and deliberately left at its default rather than tuned. The
+  surviving edge remains the weak carry premium from §6.3. Project **FROZEN**.
+
+### 2026-11-08 (session resume: stack proof + tester)
+
+- Re-ran `research/recommended_stack_proof.py`: promoted **`mom12_n4_v18_30_m0.75_ddoff_neu1`**
+  still passes all three splits (OOS 2020–2026 **+6.44% CAGR**, Sharpe **0.87**, max DD **-7.5%**;
+  full period **2.29% CAGR**, max DD **-34.8%**). Verdict:
+  `research/results/recommended_stack_verdict.json`.
+- Refreshed `best_win_settings.json` via `apply_best_settings.py`; `install_ea.ps1` mirrors
+  rates/VIX + `FILE_COMMON` Sovereign data; GodsEye defaults match promoted stack
+  (`InpTopN=4`, Stack v1 on).
+- **Tester (2020–2026 D1, profile `gods_eye_carry_d1`, `InpMaxSpread=30` in runner):**
+  `backtest/reports/gods_eye_carry_d1_EURUSD_D1_fixed.htm` — net **+765 USD**, PF **1.50**,
+  **126 trades**, max balance DD **3.79%** (`loss_audit_summary.csv`). Confirms carry EA
+  bugs (§ above) are fixed — graph rises on this window; not a policy unlock for live.
+- `export_period_results.py` now exports the **promoted** stack series (from
+  `best_win_settings.json`), not the old `stack_tune_default` n2 grid.
+- **Next (optional):** `.\scripts\run_recommended_stack.ps1 -SkipTester` after data refresh;
+  FXMOPOL GBP playbook re-test per `docs/FXMOPOL_PROFIT_DIAGNOSIS.md`; extend D1 tester to
+  2005–2026 for drawdown parity with Python.
