@@ -1,0 +1,315 @@
+{
+  "config": "C:\\xampp\\htdocs\\GodE\\configs\\strategy_quality_bar.json",
+  "generated_from": {
+    "carry": "C:\\xampp\\htdocs\\GodE\\research\\results\\carry_promotion_verdict.json",
+    "scalp": "C:\\xampp\\htdocs\\GodE\\research\\results\\scalp_promotion_verdict.json",
+    "h1": "C:\\xampp\\htdocs\\GodE\\research\\results\\h1_promotion_verdict.json",
+    "discovery": "C:\\xampp\\htdocs\\GodE\\research\\results\\discovery_proof.csv"
+  },
+  "tiers": {
+    "research_good": "Passes all mandatory gates for its sleeve family; may still be FROZEN for live.",
+    "desk_good": "research_good plus desk min Sharpe/CAGR and OOS drawdown floor.",
+    "live_good": "desk_good plus forward demo or live manifest (not implemented by default; FROZEN policy)."
+  },
+  "sleeves": [
+    {
+      "sleeve_id": "carry_mom_filter",
+      "family": "d1_carry",
+      "ea": "SovereignGodsEyeEA.mq5",
+      "chart": "D1",
+      "research_good": true,
+      "desk_good": true,
+      "live_good": true,
+      "reasons": [],
+      "gates_passed": {
+        "split_design_2005_2014": true,
+        "split_validation_2015_2019": true,
+        "split_OOS_2020_2026": true,
+        "promoted_3split": true,
+        "desk_oos_sharpe_cagr_dd": true
+      },
+      "evidence": {
+        "carry_promotion_verdict": "C:\\xampp\\htdocs\\GodE\\research\\results\\carry_promotion_verdict.json",
+        "splits": {
+          "design_2005_2014": {
+            "n": 119,
+            "cagr": 1.32,
+            "sharpe": 0.17,
+            "max_dd": -26.3,
+            "pf": 1.15,
+            "sum_pct": 19.26
+          },
+          "validation_2015_2019": {
+            "n": 60,
+            "cagr": 0.05,
+            "sharpe": 0.06,
+            "max_dd": -14.08,
+            "pf": 1.04,
+            "sum_pct": 2.86
+          },
+          "OOS_2020_2026": {
+            "n": 80,
+            "cagr": 3.26,
+            "sharpe": 0.34,
+            "max_dd": -17.46,
+            "pf": 1.29,
+            "sum_pct": 25.62
+          }
+        }
+      }
+    },
+    {
+      "sleeve_id": "EURUSD:london_orb",
+      "family": "m5_scalp",
+      "research_good": false,
+      "desk_good": false,
+      "live_good": false,
+      "reasons": [
+        "bar source mt5 != mt5_only",
+        "OOS PF 0.83 < 1.05",
+        "OOS total -1.92% <= 0",
+        "MT5 net -302.28 <= 0",
+        "MT5 PF 0.94 < 1.05",
+        "UTC sweep pinned in london_orb_utc_pick.json; promotion requires require_mt5_parity."
+      ],
+      "gates_passed": {
+        "bar_mt5_only": false,
+        "min_trades": true,
+        "min_pf": false,
+        "min_total_pct": false,
+        "mt5_parity": false,
+        "mt5_pf": false,
+        "mt5_net": false,
+        "trades_per_month": true
+      },
+      "evidence": {
+        "scalp_promotion_candidate": {
+          "symbol": "EURUSD",
+          "strategy": "london_orb",
+          "promoted": false,
+          "role": "research_only",
+          "oos_n": 250,
+          "oos_total_pct": -1.92,
+          "oos_pf": 0.83,
+          "reasons": [
+            "london_orb gross kill: no_gross_edge_stop_orb (see london_orb_gross_net.json)",
+            "OOS total -1.92% <= 0",
+            "OOS PF 0.83 < 1.05",
+            "MT5 net -302.28 <= 0",
+            "MT5 PF 0.94 < 1.05",
+            "UTC sweep pinned in london_orb_utc_pick.json; promotion requires require_mt5_parity."
+          ],
+          "mt5_parity": {
+            "required": true,
+            "manifest": "C:\\xampp\\htdocs\\GodE\\research\\results\\london_orb_tester_manifest.json",
+            "parity_ok": false,
+            "mt5_pf": 0.94,
+            "mt5_net": -302.28,
+            "mt5_trades": 742,
+            "utc_offset_pinned": 0,
+            "reasons": [
+              "MT5 net -302.28 <= 0",
+              "MT5 PF 0.94 < 1.05",
+              "UTC sweep pinned in london_orb_utc_pick.json; promotion requires require_mt5_parity."
+            ]
+          },
+          "ea": "SovereignLondonOrbEA.mq5"
+        }
+      }
+    },
+    {
+      "sleeve_id": "EURUSD:ema21_pullback",
+      "family": "m5_scalp",
+      "research_good": false,
+      "desk_good": false,
+      "live_good": false,
+      "reasons": [
+        "bar source mt5 != mt5_only",
+        "scalp MT5 certify wired only for EURUSD london_orb"
+      ],
+      "gates_passed": {
+        "bar_mt5_only": false,
+        "min_trades": true,
+        "min_pf": true,
+        "min_total_pct": true,
+        "mt5_parity": true,
+        "trades_per_month": true
+      },
+      "evidence": {
+        "scalp_promotion_candidate": {
+          "symbol": "EURUSD",
+          "strategy": "ema21_pullback",
+          "promoted": false,
+          "role": "research_only",
+          "oos_n": 707,
+          "oos_total_pct": 1.0,
+          "oos_pf": 1.06,
+          "reasons": [
+            "no MT5 Strategy Tester certify path (wired: london_orb EURUSD only)"
+          ],
+          "mt5_parity": {
+            "required": false,
+            "manifest": "C:\\xampp\\htdocs\\GodE\\research\\results\\london_orb_tester_manifest.json",
+            "parity_ok": true,
+            "mt5_pf": null,
+            "mt5_net": null,
+            "mt5_trades": null,
+            "utc_offset_pinned": null,
+            "reasons": []
+          },
+          "ea": "SovereignEmaTrendEA.mq5"
+        }
+      }
+    },
+    {
+      "sleeve_id": "GBPUSD:london_orb",
+      "family": "m5_scalp",
+      "research_good": false,
+      "desk_good": false,
+      "live_good": false,
+      "reasons": [
+        "bar source mt5 != mt5_only",
+        "OOS PF 0.73 < 1.05",
+        "OOS total -3.72% <= 0",
+        "scalp MT5 certify wired only for EURUSD london_orb"
+      ],
+      "gates_passed": {
+        "bar_mt5_only": false,
+        "min_trades": true,
+        "min_pf": false,
+        "min_total_pct": false,
+        "mt5_parity": true,
+        "trades_per_month": true
+      },
+      "evidence": {
+        "scalp_promotion_candidate": {
+          "symbol": "GBPUSD",
+          "strategy": "london_orb",
+          "promoted": false,
+          "role": "research_only",
+          "oos_n": 247,
+          "oos_total_pct": -3.72,
+          "oos_pf": 0.73,
+          "reasons": [
+            "no MT5 Strategy Tester certify path (wired: london_orb EURUSD only)",
+            "london_orb gross kill: no_gross_edge_stop_orb (see london_orb_gross_net.json)",
+            "OOS total -3.72% <= 0",
+            "OOS PF 0.73 < 1.05"
+          ],
+          "mt5_parity": {
+            "required": false,
+            "manifest": "C:\\xampp\\htdocs\\GodE\\research\\results\\london_orb_tester_manifest.json",
+            "parity_ok": true,
+            "mt5_pf": null,
+            "mt5_net": null,
+            "mt5_trades": null,
+            "utc_offset_pinned": null,
+            "reasons": []
+          },
+          "ea": "SovereignLondonOrbEA.mq5"
+        }
+      }
+    },
+    {
+      "sleeve_id": "GBPUSD:ema21_pullback",
+      "family": "m5_scalp",
+      "research_good": false,
+      "desk_good": false,
+      "live_good": false,
+      "reasons": [
+        "bar source mt5 != mt5_only",
+        "OOS PF 0.97 < 1.05",
+        "OOS total -0.49% <= 0",
+        "scalp MT5 certify wired only for EURUSD london_orb"
+      ],
+      "gates_passed": {
+        "bar_mt5_only": false,
+        "min_trades": true,
+        "min_pf": false,
+        "min_total_pct": false,
+        "mt5_parity": true,
+        "trades_per_month": true
+      },
+      "evidence": {
+        "scalp_promotion_candidate": {
+          "symbol": "GBPUSD",
+          "strategy": "ema21_pullback",
+          "promoted": false,
+          "role": "research_only",
+          "oos_n": 709,
+          "oos_total_pct": -0.49,
+          "oos_pf": 0.97,
+          "reasons": [
+            "no MT5 Strategy Tester certify path (wired: london_orb EURUSD only)",
+            "OOS total -0.49% <= 0",
+            "OOS PF 0.97 < 1.05"
+          ],
+          "mt5_parity": {
+            "required": false,
+            "manifest": "C:\\xampp\\htdocs\\GodE\\research\\results\\london_orb_tester_manifest.json",
+            "parity_ok": true,
+            "mt5_pf": null,
+            "mt5_net": null,
+            "mt5_trades": null,
+            "utc_offset_pinned": null,
+            "reasons": []
+          },
+          "ea": "SovereignEmaTrendEA.mq5"
+        }
+      }
+    },
+    {
+      "sleeve_id": "GBPUSD:h1_fxmopol",
+      "family": "h1_satellite",
+      "research_good": false,
+      "desk_good": false,
+      "live_good": false,
+      "reasons": [
+        "role overlay_only not promoted"
+      ],
+      "gates_passed": {
+        "promoted": false,
+        "min_trades": false,
+        "min_pf": false
+      },
+      "evidence": {
+        "symbol": "GBPUSD",
+        "mode": "professor_governor",
+        "rule": {
+          "min_oos_trades": 30,
+          "min_oos_pf": 1.05,
+          "oos_total_pct_gt": 0
+        },
+        "promoted": false,
+        "role": "overlay_only",
+        "oos_n": 5,
+        "oos_total_pct": 0.0,
+        "oos_pf": 0.0,
+        "reasons": [
+          "OOS trades 5 < 30",
+          "OOS total_pct 0.0 <= 0"
+        ]
+      }
+    }
+  ],
+  "summary": {
+    "schema_version": 1,
+    "definition": "Held-out broker-aligned proof, enough samples, PF and return after costs, MT5 parity when intraday, drawdown within bound.",
+    "frozen_live_policy": true,
+    "research_good": [
+      "carry_mom_filter"
+    ],
+    "desk_good": [
+      "carry_mom_filter"
+    ],
+    "live_good": [
+      "carry_mom_filter"
+    ],
+    "trade_in_mt5_default": "carry_mom_filter",
+    "tiers_explained": {
+      "research_good": "Validated premia / structure \u2014 size only in tester or paper.",
+      "desk_good": "Would present to a risk partner \u2014 still not live unless policy changes.",
+      "live_good": "Forward demo matches thesis \u2014 only tier that justifies live capital."
+    }
+  }
+}

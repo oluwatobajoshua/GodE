@@ -141,6 +141,7 @@ def run(
     diff: pd.DataFrame,
     price: pd.DataFrame,
     vol_target: float = TARGET_VOL,
+    cost_pts: float = COST_PTS,
 ) -> pd.Series:
     # Weights are already based on the prior month's rate differential, so they
     # apply to the current month directly.
@@ -151,7 +152,7 @@ def run(
     scalar = (vol_target / pvol).clip(upper=2.0).shift(1).fillna(1.0)
     w = w.mul(scalar, axis=0)
     points = pd.Series({ccy: meta[2] for ccy, meta in CURRENCIES.items()})
-    per_unit = (COST_PTS * points) / price.shift(1)
+    per_unit = (cost_pts * points) / price.shift(1)
     cost = (w.diff().abs() * per_unit).sum(axis=1, min_count=1).fillna(0.0)
     return ((w * (spot + carry)).sum(axis=1, min_count=1) - cost).dropna()
 

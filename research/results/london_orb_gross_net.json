@@ -1,0 +1,30 @@
+{
+  "window": {
+    "from": "2024-07-01",
+    "to": "2026-01-01"
+  },
+  "bar_source": "mt5_only",
+  "rows": [
+    {
+      "sym": "EURUSD",
+      "mode": "net",
+      "n": 250,
+      "total_pct": -1.92,
+      "pf": 0.83,
+      "winrate": 46.0
+    },
+    {
+      "sym": "EURUSD",
+      "mode": "gross",
+      "n": 250,
+      "total_pct": -1.27,
+      "pf": 0.89,
+      "winrate": 46.0
+    }
+  ],
+  "gross_viable": false,
+  "net_viable": false,
+  "diagnosis": "no_gross_edge_stop_orb",
+  "external_reference": "docs/FX_EXTERNAL_INSIGHTS.md",
+  "action": "discontinue_london_orb_primary"
+}

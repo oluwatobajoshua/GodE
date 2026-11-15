@@ -97,6 +97,23 @@ class TcpSignalBridge:
         with self._lock:
             return len(self._queues)
 
+    def broadcast_command(self, cmd: str, value: float = 0.0) -> None:
+        """Send a command payload to all connected EAs (PAUSE, RESUME, FLAT_ALL, RISK_SCALE, RESET)."""
+        payload = {"t": "command", "cmd": cmd, "v": value}
+        line = (json.dumps(payload, separators=(",", ":")) + "\n").encode("utf-8")
+        with self._lock:
+            targets = list(self._queues)
+
+        for client_queue in targets:
+            try:
+                client_queue.put_nowait(line)
+            except queue.Full:
+                try:
+                    client_queue.get_nowait()
+                    client_queue.put_nowait(line)
+                except (queue.Empty, queue.Full):
+                    pass
+
     def broadcast(self, payload: dict) -> None:
         line = (json.dumps(payload, separators=(",", ":")) + "\n").encode("utf-8")
         with self._lock:
@@ -200,6 +217,17 @@ class SovereignQuantEngine:
             return float(df["close"].iloc[-1])
         return float(volume_profile.idxmax().mid)
 
+    def compute_zscore(self, df: pd.DataFrame, window: int = 20) -> float:
+        """20-day z-score: (close - SMA20) / stdev20."""
+        if len(df) < window + 2:
+            return 0.0
+        close = df["close"].astype(float)
+        sma = close.rolling(window=window).mean().iloc[-1]
+        sd = close.rolling(window=window).std().iloc[-1]
+        if not np.isfinite(sma) or not np.isfinite(sd) or sd <= 0.0:
+            return 0.0
+        return float((close.iloc[-1] - sma) / sd)
+
     def evaluate_institutional_features(
         self, df: pd.DataFrame
     ) -> tuple[str, float, float, float, float]:
@@ -221,15 +249,16 @@ class SovereignQuantEngine:
         range_pos = (current_price - rolling_low) / total_range if total_range > 0 else 0.5
 
         poc = self.calculate_volume_profile_poc(df)
+        zscore = self.compute_zscore(df, 20)
 
         action = "HOLD"
         confidence = 0.0
-        if range_pos <= 0.20 and current_price >= poc:
+        if zscore <= -1.5:
             action = "BUY"
-            confidence = 0.94
-        elif range_pos >= 0.80 and current_price <= poc:
+            confidence = min(0.95, 0.5 + abs(zscore) * 0.15)
+        elif zscore >= 1.5:
             action = "SELL"
-            confidence = 0.94
+            confidence = min(0.95, 0.5 + abs(zscore) * 0.15)
 
         return action, confidence, float(range_pos), volatility_ratio, poc
 
@@ -252,6 +281,7 @@ class SovereignQuantEngine:
             "range_position": round(pos, 4),
             "volatility_ratio": round(vol_ratio, 3),
             "poc": round(poc, 5),
+            "zscore": round(self.compute_zscore(df, 20), 4),
             "heartbeat": True,
             "source": "synthetic",
         }
@@ -288,6 +318,38 @@ def _install_signal_handlers(engine: SovereignQuantEngine) -> None:
         signal.signal(signal.SIGTERM, _stop)
 
 
+def _command_loop(engine: SovereignQuantEngine) -> None:
+    """Read commands from stdin and broadcast to connected EAs."""
+    print("\n[CLI] Commands: PAUSE, RESUME, FLAT_ALL, RISK_SCALE <0-10>, RESET, quit\n")
+    while True:
+        try:
+            line = input("> ").strip()
+        except (EOFError, KeyboardInterrupt):
+            break
+        if not line:
+            continue
+        parts = line.split()
+        cmd = parts[0].upper()
+        if cmd in ("QUIT", "EXIT", "Q"):
+            break
+        elif cmd == "PAUSE":
+            engine.bridge.broadcast_command("PAUSE", 0.0)
+        elif cmd == "RESUME":
+            engine.bridge.broadcast_command("RESUME", 0.0)
+        elif cmd == "FLAT_ALL":
+            engine.bridge.broadcast_command("FLAT_ALL", 0.0)
+        elif cmd == "RESET":
+            engine.bridge.broadcast_command("RESET", 0.0)
+        elif cmd == "RISK_SCALE" and len(parts) >= 2:
+            try:
+                val = float(parts[1])
+                engine.bridge.broadcast_command("RISK_SCALE", val)
+            except ValueError:
+                print("[CLI] Invalid RISK_SCALE value")
+        else:
+            print("[CLI] Unknown command. Try: PAUSE, RESUME, FLAT_ALL, RISK_SCALE <n>, RESET, quit")
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description="Project Sovereign Python analytics brain")
     parser.add_argument("--port", type=int, default=5555, help="ZeroMQ PUB port (default: 5555)")
@@ -309,6 +371,10 @@ def main() -> int:
         duration=args.duration,
     )
     _install_signal_handlers(engine)
+
+    # Start CLI command thread for Python -> EA influence
+    cli_thread = threading.Thread(target=_command_loop, args=(engine,), name="cli", daemon=True)
+    cli_thread.start()
 
     try:
         engine.run_sovereign_loop()

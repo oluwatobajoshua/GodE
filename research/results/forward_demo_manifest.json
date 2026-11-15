@@ -1,0 +1,39 @@
+{
+  "schema_version": 1,
+  "source": "MT5 broker tester (D1, EURUSD, 2024.01.01-2026.01.01)",
+  "carry_mom_filter": {
+    "forward_pass": true,
+    "ea": "SovereignGodsEyeEA.mq5",
+    "timeframe": "D1",
+    "inputs": "InpStrategy=SOV_CARRY_MOM",
+    "period": "2024-08 to 2025-11 (last 16 months)",
+    "net_pct": 362.46,
+    "pf": 1.93,
+    "trades": 37,
+    "max_dd_pct": -2.32,
+    "months_profitable": 8,
+    "months_total": 17,
+    "manifest": "research/results/carry_mt5_book_manifest.json",
+    "monthly_csv": "research/results/carry_mt5_book_monthly.csv",
+    "python_mt5_compare_csv": "research/results/carry_mt5_python_mt5_monthly_compare.csv"
+  },
+  "rsi_band_GBPUSD_H1": {
+    "forward_pass": true,
+    "method": "python backtest on broker H1 tape (no MT5 tester required per AGENTS.md)",
+    "symbol": "GBPUSD",
+    "timeframe": "H1",
+    "inputs": "rsi_period=9 mid=45 hi=65 lo=35 deadband=0.2 min_hold=12 margin=3",
+    "period_forward": "2025-12 to 2026-11 (last 12 months)",
+    "net_pct_forward": 1.40,
+    "sharpe_forward": 1.14,
+    "max_dd_pct_forward": -0.1,
+    "months_profitable_forward": 8,
+    "months_total_forward": 12,
+    "trades_forward": 5841,
+    "period_oos": "2024-01 onwards (35 months)",
+    "net_pct_oos": 2.52,
+    "monthly_csv": "research/results/rsi_band_ens_GBPUSD_H1_monthly.csv"
+  },
+  "generated_by": "scripts/run_carry_book.ps1 (SkipTester)",
+  "generated_utc": "2026-11-12T12:09:00Z"
+}

@@ -1,0 +1,47 @@
+{
+  "python_chart_prime_oos_trades": 5,
+  "python_oos_net_pct": 0.31739999999999996,
+  "tester_trades_csv": "C:\\xampp\\htdocs\\GodE\\research\\results\\tester_trades_fxmopol_gbp_playbook_GBPUSD_H1.csv",
+  "tester_review_json": "C:\\xampp\\htdocs\\GodE\\research\\results\\tester_review_fxmopol_gbp_playbook_GBPUSD_H1.json",
+  "tester_n": 3,
+  "tester_net_profit": 6.93,
+  "tester_bad_entries_n": 2,
+  "tester_bad_net": 4.609999999999999,
+  "tester_aligned_n": 1,
+  "tester_aligned_net": 2.32,
+  "stored_review": {
+    "report": "C:\\xampp\\htdocs\\GodE\\backtest\\reports\\fxmopol_gbp_playbook_GBPUSD_H1.htm",
+    "n_trades": 3,
+    "win_rate": 100.0,
+    "net_profit": 6.93,
+    "avg_win": 2.31,
+    "avg_loss": 0,
+    "losses_from_bad_entries": 0,
+    "profit_given_back_after_3_wins": 0,
+    "by_exit": [
+      {
+        "exit_reason": "signal_exit",
+        "n": 3,
+        "net": 6.93,
+        "wr": 1.0
+      }
+    ],
+    "by_chart_state": [
+      {
+        "chart_state": "STACK_LONG",
+        "n": 2,
+        "net": 6.92
+      },
+      {
+        "chart_state": "TRANSITION_BULL",
+        "n": 1,
+        "net": 0.01
+      }
+    ]
+  },
+  "parity_ok": false,
+  "data_plane": {
+    "go": true,
+    "canonical_bar_source": "mt5"
+  }
+}

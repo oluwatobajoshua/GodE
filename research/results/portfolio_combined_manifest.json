@@ -1,0 +1,167 @@
+{
+  "main_book": {
+    "label": "main book",
+    "months": 104,
+    "weights": {
+      "carry_mom_filter": 0.2175,
+      "rsi_band_GBPUSD_H1": 0.7825
+    },
+    "sleeves": {
+      "carry_mom_filter": {
+        "design": -3.78,
+        "validation": 13.11,
+        "OOS": 10.22
+      },
+      "rsi_band_GBPUSD_H1": {
+        "design": 2.01,
+        "validation": 3.12,
+        "OOS": 2.01
+      }
+    },
+    "combined": {
+      "design": {
+        "months": 47,
+        "total": 1.1082,
+        "cagr": 0.2818,
+        "sharpe": 0.123,
+        "dd": -3.1568
+      },
+      "validation": {
+        "months": 24,
+        "total": 5.4144,
+        "cagr": 2.6715,
+        "sharpe": 0.7745,
+        "dd": -3.6214
+      },
+      "OOS": {
+        "months": 33,
+        "total": 4.0605,
+        "cagr": 1.4579,
+        "sharpe": 0.7439,
+        "dd": -2.6431
+      },
+      "full": {
+        "months": 104,
+        "total": 10.9104,
+        "cagr": 1.202,
+        "sharpe": 0.4685,
+        "dd": -3.6214
+      }
+    },
+    "passes_all_splits": true
+  },
+  "eurusd_sleeve": {
+    "label": "EURUSD sleeve (broker tape only)",
+    "months": 107,
+    "weights": {
+      "rsi_band_EURUSD_H1": 1.0
+    },
+    "sleeves": {
+      "rsi_band_EURUSD_H1": {
+        "design": 5.92,
+        "validation": -0.09,
+        "OOS": 1.03
+      }
+    },
+    "combined": {
+      "design": {
+        "months": 48,
+        "total": 5.9193,
+        "cagr": 1.4481,
+        "sharpe": 0.6491,
+        "dd": -2.9537
+      },
+      "validation": {
+        "months": 24,
+        "total": -0.0901,
+        "cagr": -0.0451,
+        "sharpe": 0.0034,
+        "dd": -6.3717
+      },
+      "OOS": {
+        "months": 35,
+        "total": 1.0344,
+        "cagr": 0.3534,
+        "sharpe": 0.1519,
+        "dd": -3.3017
+      },
+      "full": {
+        "months": 107,
+        "total": 6.9185,
+        "cagr": 0.7531,
+        "sharpe": 0.2985,
+        "dd": -6.3717
+      }
+    },
+    "passes_all_splits": false
+  },
+  "main_plus_m15": {
+    "label": "main + M15",
+    "months": 47,
+    "weights": {
+      "carry_mom_filter": 0.1164,
+      "rsi_band_GBPUSD_H1": 0.5748,
+      "rsi_band_USDJPY_M15": 0.3088
+    },
+    "sleeves": {
+      "carry_mom_filter": {
+        "design": 0.0,
+        "validation": -10.07,
+        "OOS": 10.22
+      },
+      "rsi_band_GBPUSD_H1": {
+        "design": 0.0,
+        "validation": 1.01,
+        "OOS": 2.01
+      },
+      "rsi_band_USDJPY_M15": {
+        "design": 0.0,
+        "validation": -0.11,
+        "OOS": 9.55
+      }
+    },
+    "combined": {
+      "design": {
+        "months": 0,
+        "total": 0.0,
+        "cagr": 0.0,
+        "sharpe": 0.0,
+        "dd": 0.0
+      },
+      "validation": {
+        "months": 14,
+        "total": -0.583,
+        "cagr": -0.4999,
+        "sharpe": -0.1924,
+        "dd": -0.8006
+      },
+      "OOS": {
+        "months": 33,
+        "total": 5.5093,
+        "cagr": 1.9693,
+        "sharpe": 1.2913,
+        "dd": -1.1615
+      },
+      "full": {
+        "months": 47,
+        "total": 4.8942,
+        "cagr": 1.2274,
+        "sharpe": 0.669,
+        "dd": -1.1615
+      }
+    },
+    "passes_all_splits": false
+  },
+  "correlation_dv": {
+    "carry_mom_filter": {
+      "carry_mom_filter": 1.0,
+      "rsi_band_GBPUSD_H1": 0.15
+    },
+    "rsi_band_GBPUSD_H1": {
+      "carry_mom_filter": 0.15,
+      "rsi_band_GBPUSD_H1": 1.0
+    }
+  },
+  "weight_rule": "inverse-vol on design+validation, cap 50%, OOS never used",
+  "csv": "research\\results\\portfolio_combined_monthly.csv"
+}

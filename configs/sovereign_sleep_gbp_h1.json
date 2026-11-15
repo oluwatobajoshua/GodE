@@ -1,0 +1,27 @@
+{
+  "profile_id": "sovereign_sleep_gbp_h1",
+  "research_only": true,
+  "symbol": "GBPUSD",
+  "chart_period": "H1",
+  "ea": {
+    "file": "SovereignFxmopolEA.mq5",
+    "preset": "PRESET_GBP_PLAYBOOK",
+    "inputs_note": "Playbook + proximity + D1 gate; see best_win_settings.json GBP_PLAYBOOK_PROXIMITY"
+  },
+  "brain": {
+    "ecosystem_professor": true,
+    "prophet_forecasts": true,
+    "century_daemon": "scripts/start_century_stack.ps1",
+    "ingest": "scripts/run_market_ingest.ps1"
+  },
+  "chart": {
+    "template": "templates/fxmopol.tpl",
+    "mt5_templates_path": "MQL5/Profiles/Templates/fxmopol.tpl"
+  },
+  "commands": {
+    "before_bed": ".\\scripts\\run_sleep_gbp_h1.ps1 -Prepare",
+    "morning": ".\\scripts\\run_sleep_gbp_h1.ps1 -Morning",
+    "weekly_research": ".\\scripts\\run_fxmopol_autonomous.ps1",
+    "tester_proof": ".\\scripts\\run_fxmopol_tester.ps1 -Profile fxmopol_gbp_playbook -NoVisual"
+  }
+}

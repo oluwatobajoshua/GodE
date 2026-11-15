@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "updated_from": "docs/FX_EXTERNAL_INSIGHTS.md",
+  "primary_live_candidate_frozen": {
+    "sleeve": "rsi_band_GBPUSD_H1",
+    "ea": "SovereignGodsEyeEA.mq5",
+    "timeframe": "H1",
+    "tester": "scripts/run_lane1_mt5_truth.ps1",
+    "ecn_profile": "gods_eye_carry_d1_ecn"
+  },
+  "discontinued_until_proof": {
+    "sleeve": "london_orb",
+    "ea": "SovereignLondonOrbEA.mq5",
+    "reason": "External audits: gross often negative; when gross positive, spread > edge",
+    "unblock_when": "research/results/london_orb_gross_net.json gross_viable=true AND MT5 parity"
+  },
+  "research_queue": [
+    "swing_h1_lane.py",
+    "carry_train_grid.py",
+    "discovery_lab.py"
+  ],
+  "run_command": ".\\scripts\\run_carry_book.ps1",
+  "attach_checklist": [
+    "Chart any timeframe (H1 recommended for RSI band)",
+    "EA SovereignGodsEyeEA",
+    "InpStrategy = SOV_RSI_BAND (default)",
+    "InpRsiBandEnabled = true (default)",
+    "InpRequirePythonSignal = false (default)",
+    "Rates under MQL5/Files/Sovereign/rates/ (install_ea.ps1 -SkipIngest)"
+  ],
+  "ai_overlay": {
+    "institutional_quant_master": "synthetic — not entry signal",
+    "century_adapt": "risk scaling from history only",
+    "rule": "No LLM promotes a sleeve without strategy_certification.py"
+  }
+}

@@ -1,0 +1,45 @@
+{
+  "symbols": {
+    "EURUSD": {
+      "trades": 9937,
+      "splits": {
+        "tester_oos": {
+          "n": 1871,
+          "total_pct": -8.93,
+          "pf": 0.94
+        },
+        "design": {
+          "n": 5593,
+          "total_pct": -24.18,
+          "pf": 0.95
+        }
+      },
+      "full": {
+        "n": 9937,
+        "total_pct": -44.38,
+        "pf": 0.94
+      }
+    },
+    "GBPUSD": {
+      "trades": 9938,
+      "splits": {
+        "tester_oos": {
+          "n": 1872,
+          "total_pct": -2.37,
+          "pf": 0.98
+        },
+        "design": {
+          "n": 5593,
+          "total_pct": -35.59,
+          "pf": 0.94
+        }
+      },
+      "full": {
+        "n": 9938,
+        "total_pct": -53.84,
+        "pf": 0.94
+      }
+    }
+  },
+  "note": "Research successor to M5 ORB \u2014 not EA-wired yet"
+}

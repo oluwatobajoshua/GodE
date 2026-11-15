@@ -31,6 +31,143 @@ BACKTEST_DIR = ROOT / "backtest"
 REPORT_DIR = BACKTEST_DIR / "reports"
 IS_WINDOWS = os.name == "nt"
 
+FXMOPOL_EUR_CHART: dict[str, str] = {
+    "InpPreset": "0",
+    "InpEmaPeriod": "21",
+    "InpSlowEma": "50",
+    "InpSmmaPeriod": "100",
+    "InpRsiPeriod": "9",
+    "InpUsePlaybook": "false",
+    "InpStreakRide": "false",
+    "InpUseProxFilters": "true",
+    "InpMaxPerDay": "2",
+    "InpGoodSessionsOnly": "true",
+}
+
+FXMOPOL_GBP_PLAYBOOK: dict[str, str] = {
+    "InpPreset": "2",
+    "InpUsePlaybook": "true",
+    "InpEnforceSymbolProfile": "false",
+    "InpPlaybookSignalExitOnly": "true",
+    "InpUseProxFilters": "true",
+    "InpStrictStayAway": "true",
+    "InpUseRegimeFilter": "true",
+    "InpRequireD1Align": "true",
+    "InpUseFullPriceAction": "true",
+    "InpUseLevelTp": "true",
+    "InpStackRegimeBars": "5",
+    "InpRsiCoverLevel": "30.0",
+    "InpMaxLossesPerDay": "1",
+    "InpMaxPerDay": "2",
+    "InpGoodSessionsOnly": "true",
+    "InpWeekdayMask": "14",
+    "InpSlAtr": "3.5",
+    "InpTpAtr": "2.0",
+    "InpRiskPct": "0.25",
+    "InpEcosystemProfessor": "true",
+    "InpEcoReloadSec": "120",
+    "InpMarketPulse": "true",
+}
+
+LONDON_ORB_EURUSD: dict[str, str] = {
+    "InpBoxHour0": "5",
+    "InpBoxHour1": "6",
+    "InpTradeHourStart": "7",
+    "InpTradeHourEnd": "11",
+    "InpBrokerUtcOffset": "0",
+    "InpBufAtr": "0.15",
+    "InpTpRMultiple": "1.2",
+    "InpMaxHoldBars": "24",
+    "InpMaxTradesPerDay": "2",
+    "InpRiskPct": "0.25",
+    "InpMaxSpread": "25",
+    "InpMaxPositions": "1",
+    "InpMaxDailyDD": "4.0",
+    "InpEnablePerformanceGovernor": "false",
+}
+
+FXMOPOL_USDJPY_STREAK: dict[str, str] = {
+    "InpPreset": "1",
+    "InpUseProxFilters": "true",
+    "InpMaxPerDay": "2",
+    "InpGoodSessionsOnly": "true",
+}
+
+GODS_EYE_CARRY: dict[str, str] = {
+    "InpStrategy": "0",
+    "InpTopN": "4",
+    "InpUseSovereignStackV1": "true",
+    "InpStackRequireNeutral": "true",
+    "InpStackVixLo": "16.0",
+    "InpStackVixHi": "28.0",
+    "InpStackVixMidScale": "0.45",
+    "InpStackDdHaltEnable": "false",
+    "InpRequirePythonSignal": "false",
+    "InpEnableTelemetry": "false",
+}
+
+GODS_EYE_HEDGE_BLEND_D1: dict[str, str] = {
+    "InpStrategy": "4",
+    "InpTopN": "4",
+    "InpUseSovereignStackV1": "true",
+    "InpStackRequireNeutral": "true",
+    "InpStackVixLo": "16.0",
+    "InpStackVixHi": "28.0",
+    "InpStackVixMidScale": "0.45",
+    "InpStackDdHaltEnable": "false",
+    "InpRequirePythonSignal": "false",
+    "InpEnableTelemetry": "false",
+    "InpHedgeBlendEnabled": "true",
+    "InpHedgeBlendCarryWeight": "50",
+    "InpHedgeBlendMomLookback": "3",
+    "InpStructRideEnabled": "false",
+    "InpRsiBandEnabled": "false",
+}
+
+GODS_EYE_RSI_BAND_H1_EURUSD: dict[str, str] = {
+    "InpStrategy": "3",
+    "InpTopN": "4",
+    "InpUseSovereignStackV1": "false",
+    "InpRequirePythonSignal": "false",
+    "InpEnableTelemetry": "false",
+    "InpRsiBandEnabled": "true",
+    "InpRsiBandSymbols": "EURUSD",
+    "InpRsiBandRiskPct": "0.5",
+    "InpRsiBandMinHoldBars": "12",
+    "InpRsiBandMargin": "3",
+    "InpRsiBandSpreadGatePct": "90",
+    "InpStructRideEnabled": "false",
+    "InpHedgeBlendEnabled": "false",
+}
+
+GODS_EYE_CARRY_ECN: dict[str, str] = {
+    **GODS_EYE_CARRY,
+    "InpMaxSpread": "8",
+}
+
+GODS_EYE_CARRY_HIGH_RISK: dict[str, str] = {
+    **GODS_EYE_CARRY,
+    "InpRiskPerPosition": "2.0",
+    "InpMaxTotalRisk": "8.0",
+    "InpStackVixLo": "50.0",
+    "InpStackVixHi": "80.0",
+    "InpStackVixMidScale": "1.0",
+    "InpMaxSpread": "8",
+}
+
+PROFILES: dict[str, dict[str, str]] = {
+    "gods_eye_legacy_m5": {},  # filled below with BASE_INPUTS
+    "gods_eye_carry_d1": GODS_EYE_CARRY,
+    "gods_eye_carry_d1_ecn": GODS_EYE_CARRY_ECN,
+    "gods_eye_carry_high_risk": GODS_EYE_CARRY_HIGH_RISK,
+    "gods_eye_hedge_blend_d1": GODS_EYE_HEDGE_BLEND_D1,
+    "gods_eye_rsi_band_h1_eurusd": GODS_EYE_RSI_BAND_H1_EURUSD,
+    "fxmopol_eur_chart": FXMOPOL_EUR_CHART,
+    "fxmopol_gbp_playbook": FXMOPOL_GBP_PLAYBOOK,
+    "fxmopol_usdjpy_streak": FXMOPOL_USDJPY_STREAK,
+    "london_orb_eurusd_m5": LONDON_ORB_EURUSD,
+}
+
 BASE_INPUTS: dict[str, str] = {
     "InpBaseRiskPercent": "1.0",
     "InpMaxDailyDD": "5.0",
@@ -59,6 +196,14 @@ BASE_INPUTS: dict[str, str] = {
     "InpMinSignalConfidence": "0.6",
     "InpHeartbeatTimeoutSec": "3",
     "InpEnableAuditLog": "true",
+}
+
+PROFILES["gods_eye_legacy_m5"] = dict(BASE_INPUTS)
+
+EXPERTS: dict[str, str] = {
+    "gods_eye": r"Sovereign\SovereignGodsEyeEA.ex5",
+    "fxmopol": r"Sovereign\SovereignFxmopolEA.ex5",
+    "london_orb": r"Sovereign\SovereignLondonOrbEA.ex5",
 }
 
 
@@ -136,6 +281,8 @@ def write_ini(
     currency: str,
     leverage: str,
     report_relative: str,
+    visual: bool = False,
+    chart_template: str = "",
 ) -> None:
     lines = [
         "; Project Sovereign - generated tester config",
@@ -152,12 +299,14 @@ def write_ini(
         f"Deposit={deposit:g}",
         f"Currency={currency}",
         f"Leverage={leverage}",
-        "Visual=0",
+        f"Visual={1 if visual else 0}",
         "ProfitInPips=0",
         f"Report={report_relative}",
         "ReplaceReport=1",
         "ShutdownTerminal=1",
     ]
+    if chart_template:
+        lines.append(f"Template={chart_template}")
     write_utf16(path, "\n".join(lines) + "\n")
     log(f"wrote tester config: {path}")
 
@@ -258,6 +407,47 @@ def strip_html(value: str) -> str:
     return re.sub(r"\s+", " ", value).strip()
 
 
+def report_is_complete(
+    html: str,
+    *,
+    symbol: str,
+    period: str,
+    deposit: float,
+) -> bool:
+    """Reject placeholder reports MT5 writes before a run (empty expert, M0, 0 bars)."""
+    if re.search(r"Period:.*?<b>\s*M0\s*\(", html, re.IGNORECASE | re.DOTALL):
+        return False
+    if re.search(r"1970\.01\.01\s*-\s*1970\.01\.01", html):
+        return False
+    expert = re.search(
+        r"Expert:</td>.*?<td[^>]*>\s*<b>(.*?)</b>",
+        html,
+        re.IGNORECASE | re.DOTALL,
+    )
+    if expert is None or not strip_html(expert.group(1)):
+        return False
+    dep = re.search(
+        r"Initial Deposit:</td>.*?<td[^>]*>\s*<b>(.*?)</b>",
+        html,
+        re.IGNORECASE | re.DOTALL,
+    )
+    if dep is not None:
+        dep_txt = strip_html(dep.group(1)).replace(",", "").replace(" ", "")
+        try:
+            if float(dep_txt) <= 0 and deposit > 0:
+                return False
+        except ValueError:
+            pass
+    bars = re.search(r"Bars:</td>\s*<td[^>]*>\s*<b>(\d+)</b>", html, re.IGNORECASE)
+    if bars is None or int(bars.group(1)) <= 0:
+        return False
+    if symbol and symbol not in html:
+        return False
+    if period and period not in html:
+        return False
+    return True
+
+
 def extract_metrics(html: str) -> dict[str, str]:
     """Best-effort extraction from the MT5 HTML report."""
     metrics: dict[str, str] = {}
@@ -294,6 +484,37 @@ def extract_metrics(html: str) -> dict[str, str]:
     return metrics
 
 
+def poll_outcome_pnl(data_dir: Path, since: float) -> tuple[int, float]:
+    """Sum Sovereign trade_outcomes.csv rows written during this tester run."""
+    try:
+        import pandas as pd
+    except ImportError:
+        return 0, 0.0
+    n, pnl = 0, 0.0
+    roots: list[Path] = []
+    agent_root = tester_root(data_dir)
+    if agent_root is not None:
+        roots.append(agent_root)
+    roots.extend((data_dir / "Tester", data_dir / "MQL5" / "Files"))
+    seen: set[Path] = set()
+    for root in roots:
+        if not root.exists():
+            continue
+        for path in root.rglob("trade_outcomes.csv"):
+            try:
+                if path in seen or path.stat().st_mtime < since:
+                    continue
+                seen.add(path)
+                df = pd.read_csv(path)
+                if "profit" not in df.columns:
+                    continue
+                n += len(df)
+                pnl += float(df["profit"].sum())
+            except OSError:
+                continue
+    return n, pnl
+
+
 def find_audit_files(data_dir: Path, since: float) -> list[Path]:
     roots = [data_dir / "Tester", data_dir / "MQL5" / "Files"]
     agent_root = tester_root(data_dir)
@@ -322,7 +543,52 @@ def main() -> int:
     parser.add_argument("--currency", default="USD")
     parser.add_argument("--leverage", default="1:100")
     parser.add_argument("--name", default="baseline_eurusd_m5_202601")
+    parser.add_argument(
+        "--profile",
+        choices=sorted(PROFILES.keys()),
+        default="gods_eye_legacy_m5",
+        help="EA input preset (fxmopol_* / gods_eye_carry_d1)",
+    )
+    parser.add_argument(
+        "--expert",
+        choices=sorted(EXPERTS.keys()),
+        default="gods_eye",
+        help="Expert under MQL5/Experts/",
+    )
+    parser.add_argument("--visual", action="store_true", help="Strategy Tester visual mode (slower)")
+    parser.add_argument(
+        "--chart-template",
+        default="",
+        help="Apply MT5 chart template in tester (e.g. fxmopol.tpl); auto for fxmopol_* profiles",
+    )
+    parser.add_argument(
+        "--allow-running",
+        action="store_true",
+        help="Launch tester even if terminal64.exe is already open",
+    )
     parser.add_argument("--timeout", type=int, default=1800, help="Seconds before aborting")
+    parser.add_argument(
+        "--early-fail",
+        action="store_true",
+        help="Abort fxmopol tester when early outcomes stay negative (graph failing)",
+    )
+    parser.add_argument(
+        "--no-early-fail",
+        action="store_true",
+        help="Disable default early-fail on fxmopol_* profiles",
+    )
+    parser.add_argument(
+        "--early-fail-trades",
+        type=int,
+        default=4,
+        help="Min closed outcomes before early-fail check",
+    )
+    parser.add_argument(
+        "--early-fail-max-net",
+        type=float,
+        default=-15.0,
+        help="Net profit threshold (account currency); at or below = fail",
+    )
     parser.add_argument("--prepare-only", action="store_true")
     parser.add_argument("--no-brain", action="store_true", help="Do not start the Python brain")
     parser.add_argument("--no-telemetry", action="store_true", help="Set InpEnableTelemetry=false")
@@ -354,7 +620,29 @@ def main() -> int:
     set_name = f"Sovereign_{args.name}.set"
     set_path = set_dir / set_name
 
-    inputs = dict(BASE_INPUTS)
+    profile = dict(PROFILES.get(args.profile, {}))
+    chart_tpl = args.chart_template
+    use_visual = args.visual
+    early_fail = args.early_fail or (
+        args.profile.startswith("fxmopol_") and not args.no_early_fail
+    )
+
+    if args.profile.startswith("fxmopol_"):
+        expert_rel = EXPERTS["fxmopol"]
+        inputs = profile
+        if not chart_tpl:
+            chart_tpl = "fxmopol.tpl"
+        # Visual mode is slow; use --visual when you need the chart (not forced).
+    elif args.profile in ("gods_eye_carry_d1", "gods_eye_carry_d1_ecn", "gods_eye_carry_high_risk", "gods_eye_hedge_blend_d1", "gods_eye_rsi_band_h1_eurusd"):
+        expert_rel = EXPERTS["gods_eye"]
+        inputs = profile
+    elif args.profile.startswith("london_orb_"):
+        expert_rel = EXPERTS["london_orb"]
+        inputs = profile
+    else:
+        expert_rel = EXPERTS[args.expert]
+        inputs = dict(BASE_INPUTS)
+        inputs.update(profile)
     if args.no_telemetry:
         inputs["InpEnableTelemetry"] = "false"
     for override in args.overrides:
@@ -367,6 +655,19 @@ def main() -> int:
         inputs[key] = value.strip()
         log(f"input override: {key}={value.strip()}")
     write_set(set_path, inputs)
+
+    if args.profile.startswith("fxmopol_"):
+        sov_files = data_dir / "MQL5" / "Files" / "Sovereign"
+        sov_files.mkdir(parents=True, exist_ok=True)
+        for fn in ("performance_buckets.csv", "trade_outcomes.csv"):
+            perf_path = sov_files / fn
+            if perf_path.exists():
+                import shutil
+
+                archive = REPORT_DIR / f"{args.name}_pre_{fn}"
+                shutil.copy2(perf_path, archive)
+                perf_path.unlink()
+                log(f"archived stale {fn} for isolated tester run -> {archive}")
 
     REPORT_DIR.mkdir(parents=True, exist_ok=True)
     report_base = REPORT_DIR / args.name
@@ -388,7 +689,7 @@ def main() -> int:
     ini_path = BACKTEST_DIR / f"{args.name}.ini"
     write_ini(
         ini_path,
-        expert=r"Sovereign\SovereignGodsEyeEA.ex5",
+        expert=expert_rel,
         parameters_name=set_name,
         symbol=args.symbol,
         period=args.period,
@@ -399,7 +700,25 @@ def main() -> int:
         currency=args.currency,
         leverage=args.leverage,
         report_relative=report_relative,
+        visual=use_visual,
+        chart_template=chart_tpl,
     )
+
+    import shutil
+
+    ini_launch = data_dir / f"Sovereign_{args.name}.ini"
+    shutil.copy2(ini_path, ini_launch)
+    log(f"staged tester config for launch: {ini_launch}")
+
+    tpl_src = ROOT / "templates" / chart_tpl if chart_tpl else None
+    if tpl_src and tpl_src.exists():
+        for sub in ("Profiles/Templates", "Profiles/Charts"):
+            dest = data_dir / "MQL5" / sub
+            dest.mkdir(parents=True, exist_ok=True)
+            import shutil
+
+            shutil.copy2(tpl_src, dest / chart_tpl)
+            log(f"staged chart template: {dest / chart_tpl}")
 
     if args.prepare_only:
         log("prepare-only requested; not launching MetaTrader")
@@ -415,8 +734,11 @@ def main() -> int:
         text=True,
         check=False,
     )
-    if "terminal64.exe" in running.stdout.lower():
-        die("terminal64.exe is already running; close it before an automated test")
+    if "terminal64.exe" in running.stdout.lower() and not args.allow_running:
+        die(
+            "terminal64.exe is already running; close it or pass --allow-running "
+            "(or run Strategy Tester manually with the generated .ini / .set)"
+        )
 
     brain = None if args.no_brain else start_brain(python, BACKTEST_DIR / "brain_run.log")
     started = time.time()
@@ -424,32 +746,70 @@ def main() -> int:
     try:
         log(f"launching {terminal}")
         process = subprocess.Popen(
-            [str(terminal), f"/config:{ini_path}"],
+            [str(terminal), f"/config:{ini_launch}"],
             cwd=str(terminal.parent),
         )
 
         report: Path | None = None
+        early_failed = False
         deadline = started + args.timeout
+        last_size = -1
+        stable_since: float | None = None
+        report_candidates = (
+            report_expected,
+            data_report_dir / f"{args.name}.html",
+            terminal.parent / "reports" / report_name,
+        )
+
+        def pick_complete_report() -> Path | None:
+            nonlocal last_size, stable_since
+            for candidate in report_candidates:
+                if not candidate.exists() or candidate.stat().st_size == 0:
+                    continue
+                try:
+                    html_probe = read_text(candidate)
+                except OSError:
+                    continue
+                if not report_is_complete(
+                    html_probe,
+                    symbol=args.symbol,
+                    period=args.period,
+                    deposit=args.deposit,
+                ):
+                    continue
+                size = candidate.stat().st_size
+                if size == last_size:
+                    if stable_since is None:
+                        stable_since = time.time()
+                    elif time.time() - stable_since >= 2.0:
+                        return candidate
+                else:
+                    last_size = size
+                    stable_since = None
+            return None
+
         while time.time() < deadline:
-            for candidate in (
-                report_expected,
-                data_report_dir / f"{args.name}.html",
-                terminal.parent / "reports" / report_name,
-            ):
-                if candidate.exists() and candidate.stat().st_size > 0:
-                    report = candidate
+            if early_fail and expert_rel == EXPERTS["fxmopol"]:
+                oc_n, oc_pnl = poll_outcome_pnl(data_dir, started)
+                if oc_n >= args.early_fail_trades and oc_pnl <= args.early_fail_max_net:
+                    log(
+                        f"early-fail: {oc_n} outcomes, net {oc_pnl:.2f} "
+                        f"(<= {args.early_fail_max_net}); aborting tester"
+                    )
+                    early_failed = True
+                    if process.poll() is None:
+                        process.terminate()
                     break
+            report = pick_complete_report()
             if report is not None:
                 break
             if process.poll() is not None:
-                time.sleep(1.0)
-                for candidate in (
-                    report_expected,
-                    data_report_dir / f"{args.name}.html",
-                    terminal.parent / "reports" / report_name,
-                ):
-                    if candidate.exists() and candidate.stat().st_size > 0:
-                        report = candidate
+                # MT5 may flush the report shortly after the process exits.
+                for _ in range(30):
+                    time.sleep(1.0)
+                    report = pick_complete_report()
+                    if report is not None:
+                        break
                 break
             time.sleep(2.0)
 
@@ -458,7 +818,14 @@ def main() -> int:
             if latest:
                 print(f"--- tester log tail: {latest} ---")
                 print("\n".join(read_text(latest).splitlines()[-60:]))
-            die("backtest finished without producing an HTML report")
+            hint = ""
+            if args.allow_running:
+                hint = (
+                    " (MT5 was already running with --allow-running; close all "
+                    "terminal64.exe windows and retry — a second instance often "
+                    "writes an empty stub report and never runs the test.)"
+                )
+            die("backtest finished without a complete HTML report" + hint)
 
         #--- Keep a repository copy next to the JSON summary.
         repo_report = REPORT_DIR / report.name
@@ -473,6 +840,7 @@ def main() -> int:
         metrics = extract_metrics(html)
         summary = {
             "name": args.name,
+            "early_failed": early_failed,
             "generated_at": datetime.now(timezone.utc).isoformat(),
             "symbol": args.symbol,
             "period": args.period,
@@ -517,6 +885,18 @@ def main() -> int:
             print("Audit CSVs:")
             for path in audits:
                 print(f"  {path}")
+
+        if expert_rel == EXPERTS["fxmopol"] and report is not None:
+            review = subprocess.run(
+                [str(python), str(ROOT / "research" / "fxmopol_tester_review.py"), str(repo_report)],
+                cwd=str(ROOT / "research"),
+                capture_output=True,
+                text=True,
+            )
+            if review.stdout:
+                print(review.stdout)
+            if review.returncode != 0 and review.stderr:
+                log(review.stderr[:500])
 
         return 0
     finally:

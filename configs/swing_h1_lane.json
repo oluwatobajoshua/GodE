@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "symbols": ["EURUSD", "GBPUSD"],
+  "hold_bars_h1": 5,
+  "cost_pips_rt": 1.0,
+  "role": "successor_to_discontinued_m5_orb",
+  "ea_status": "research_only"
+}

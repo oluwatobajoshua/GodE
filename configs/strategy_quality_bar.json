@@ -1,0 +1,60 @@
+{
+  "schema_version": 1,
+  "definition_one_liner": "Held-out broker-aligned proof, enough samples, PF and return after costs, MT5 parity when intraday, drawdown within bound.",
+  "tiers": {
+    "research_good": "Passes all mandatory gates for its sleeve family; may still be FROZEN for live.",
+    "desk_good": "research_good plus desk min Sharpe/CAGR and OOS drawdown floor.",
+    "live_good": "desk_good plus forward demo or live manifest (not implemented by default; FROZEN policy)."
+  },
+  "gates": {
+    "carry_monthly": {
+      "family": "d1_carry",
+      "splits_required": ["design_2005_2014", "validation_2015_2019", "OOS_2020_2026"],
+      "min_pf_per_split": 1.0,
+      "min_sum_pct_per_split": 0.0,
+      "research_good_requires_all_splits": true,
+      "desk_good": {
+        "min_oos_sharpe": 0.15,
+        "min_oos_cagr_pct": 0.0,
+        "max_oos_dd_pct": -30.0
+      },
+      "mt5_tester_required": true,
+      "mt5_tester_script": "scripts/run_lane1_mt5_truth.ps1"
+    },
+    "scalp_intraday": {
+      "family": "m5_scalp",
+      "bar_source": "mt5_only",
+      "oos_split_key": "tester_oos",
+      "min_oos_trades": 150,
+      "min_oos_pf": 1.05,
+      "min_oos_total_pct": 0.0,
+      "min_mt5_pf": 1.05,
+      "min_mt5_net": 0.0,
+      "max_trade_count_delta_pct": 15,
+      "require_mt5_parity": true,
+      "desk_good_extra": {
+        "min_trades_per_month_oos": 8
+      }
+    },
+    "h1_overlay": {
+      "family": "h1_satellite",
+      "min_oos_trades": 30,
+      "min_oos_pf": 1.05,
+      "promoted_role": "promoted_h1_sleeve"
+    },
+    "discovery_daily": {
+      "family": "discovery",
+      "splits_required": ["design", "validation", "OOS"],
+      "min_pf": 1.05,
+      "min_sharpe": 0.15,
+      "max_dd_pct": -30.0,
+      "status_must_be_pass": true
+    }
+  },
+  "labels": {
+    "research_good": "Validated premia / structure — size only in tester or paper.",
+    "desk_good": "Would present to a risk partner — still not live unless policy changes.",
+    "live_good": "Forward demo matches thesis — only tier that justifies live capital."
+  },
+  "frozen_live_policy": true
+}

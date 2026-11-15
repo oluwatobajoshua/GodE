@@ -1,0 +1,58 @@
+{
+  "honest": {
+    "design+validation": {
+      "CAGR": 2.1504124990790574,
+      "Sharpe": 0.5098618331420145,
+      "maxDD": -7.507673133475034,
+      "total": 14.424965430611492
+    },
+    "OOS": {
+      "CAGR": 0.41321491863384185,
+      "Sharpe": 0.10569603869260581,
+      "maxDD": -5.531272755582906,
+      "total": 0.6550450197684521
+    },
+    "full": {
+      "CAGR": 1.8005851157500086,
+      "Sharpe": 0.4206324515877236,
+      "maxDD": -7.507673133475034,
+      "total": 15.174500468036477
+    }
+  },
+  "leaky": {
+    "design+validation": {
+      "CAGR": 7.49568156156708,
+      "Sharpe": 1.890897278635348,
+      "maxDD": -2.4018499999999943,
+      "total": 58.055560179603006
+    },
+    "OOS": {
+      "CAGR": 6.114825908086963,
+      "Sharpe": 1.4657548875256772,
+      "maxDD": -2.9807567022000048,
+      "total": 9.85304620853762
+    },
+    "full": {
+      "CAGR": 7.2180803514779734,
+      "Sharpe": 1.8101893168820105,
+      "maxDD": -2.9807567022000048,
+      "total": 73.62884755926223
+    }
+  },
+  "baselines": {
+    "carry": {
+      "CAGR": 1.5915831183253237,
+      "Sharpe": 0.2012583014705181,
+      "maxDD": -17.775640099214364,
+      "total": 13.315768147458119
+    },
+    "rsi_band": {
+      "CAGR": 1.8430750383813033,
+      "Sharpe": 0.5815511978586468,
+      "maxDD": -5.516589476574896,
+      "total": 15.555620090597122
+    }
+  },
+  "verdict": "weight uses carry[t] itself -> lookahead; lagged one month the blend is worse than RSI band alone in every split",
+  "source": "research/hedge_blend_test.py -> edge_combine_monthly.csv"
+}

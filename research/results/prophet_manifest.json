@@ -1,0 +1,283 @@
+{
+  "schema_version": 1,
+  "symbols": {
+    "GBPUSD|H1": {
+      "promoted": true,
+      "splits": [
+        {
+          "split": "design",
+          "symbol": "GBPUSD",
+          "timeframe": "H1",
+          "n": 24863,
+          "acc": 0.5145,
+          "brier": 0.2496,
+          "mean_fwd_bps": 0.065
+        },
+        {
+          "split": "validation",
+          "symbol": "GBPUSD",
+          "timeframe": "H1",
+          "n": 14721,
+          "acc": 0.5233,
+          "brier": 0.2494,
+          "mean_fwd_bps": 0.077
+        },
+        {
+          "split": "OOS",
+          "symbol": "GBPUSD",
+          "timeframe": "H1",
+          "n": 9345,
+          "acc": 0.5131,
+          "brier": 0.2499,
+          "mean_fwd_bps": 0.027
+        }
+      ]
+    },
+    "GBPUSD|D1": {
+      "promoted": true,
+      "splits": [
+        {
+          "split": "design",
+          "symbol": "GBPUSD",
+          "timeframe": "D1",
+          "n": 1044,
+          "acc": 0.5335,
+          "brier": 0.249,
+          "mean_fwd_bps": 1.072
+        },
+        {
+          "split": "validation",
+          "symbol": "GBPUSD",
+          "timeframe": "D1",
+          "n": 649,
+          "acc": 0.5516,
+          "brier": 0.2485,
+          "mean_fwd_bps": 1.386
+        },
+        {
+          "split": "OOS",
+          "symbol": "GBPUSD",
+          "timeframe": "D1",
+          "n": 389,
+          "acc": 0.5116,
+          "brier": 0.2504,
+          "mean_fwd_bps": 0.205
+        }
+      ]
+    },
+    "EURUSD|H1": {
+      "promoted": true,
+      "splits": [
+        {
+          "split": "design",
+          "symbol": "EURUSD",
+          "timeframe": "H1",
+          "n": 24865,
+          "acc": 0.5121,
+          "brier": 0.2498,
+          "mean_fwd_bps": 0.018
+        },
+        {
+          "split": "validation",
+          "symbol": "EURUSD",
+          "timeframe": "H1",
+          "n": 14721,
+          "acc": 0.5214,
+          "brier": 0.2494,
+          "mean_fwd_bps": 0.052
+        },
+        {
+          "split": "OOS",
+          "symbol": "EURUSD",
+          "timeframe": "H1",
+          "n": 9363,
+          "acc": 0.5193,
+          "brier": 0.2498,
+          "mean_fwd_bps": 0.03
+        }
+      ]
+    },
+    "EURUSD|D1": {
+      "promoted": false,
+      "splits": [
+        {
+          "split": "design",
+          "symbol": "EURUSD",
+          "timeframe": "D1",
+          "n": 1043,
+          "acc": 0.5235,
+          "brier": 0.2497,
+          "mean_fwd_bps": 0.214
+        },
+        {
+          "split": "validation",
+          "symbol": "EURUSD",
+          "timeframe": "D1",
+          "n": 649,
+          "acc": 0.5408,
+          "brier": 0.2475,
+          "mean_fwd_bps": 0.503
+        },
+        {
+          "split": "OOS",
+          "symbol": "EURUSD",
+          "timeframe": "D1",
+          "n": 390,
+          "acc": 0.5205,
+          "brier": 0.25,
+          "mean_fwd_bps": -0.219
+        }
+      ]
+    },
+    "USDJPY|H1": {
+      "promoted": false,
+      "splits": [
+        {
+          "split": "design",
+          "symbol": "USDJPY",
+          "timeframe": "H1",
+          "n": 24867,
+          "acc": 0.5223,
+          "brier": 0.2495,
+          "mean_fwd_bps": 0.08
+        },
+        {
+          "split": "validation",
+          "symbol": "USDJPY",
+          "timeframe": "H1",
+          "n": 14717,
+          "acc": 0.5174,
+          "brier": 0.2497,
+          "mean_fwd_bps": -0.005
+        },
+        {
+          "split": "OOS",
+          "symbol": "USDJPY",
+          "timeframe": "H1",
+          "n": 9335,
+          "acc": 0.4969,
+          "brier": 0.2511,
+          "mean_fwd_bps": 0.057
+        }
+      ]
+    },
+    "USDJPY|D1": {
+      "promoted": false,
+      "splits": [
+        {
+          "split": "design",
+          "symbol": "USDJPY",
+          "timeframe": "D1",
+          "n": 1044,
+          "acc": 0.5278,
+          "brier": 0.2486,
+          "mean_fwd_bps": 0.602
+        },
+        {
+          "split": "validation",
+          "symbol": "USDJPY",
+          "timeframe": "D1",
+          "n": 644,
+          "acc": 0.5761,
+          "brier": 0.2449,
+          "mean_fwd_bps": 4.283
+        },
+        {
+          "split": "OOS",
+          "symbol": "USDJPY",
+          "timeframe": "D1",
+          "n": 391,
+          "acc": 0.5524,
+          "brier": 0.2488,
+          "mean_fwd_bps": -0.044
+        }
+      ]
+    }
+  },
+  "inventory": {
+    "pillars_on_disk": {
+      "technical_multi_tf": true,
+      "fundamental_policy_rates": true,
+      "fundamental_rate_momentum": true,
+      "sentiment_vix": true,
+      "sentiment_cot_positioning": true,
+      "sentiment_fxmacro_risk": true,
+      "events_usd_calendar": true,
+      "intermarket_dxy": true,
+      "intermarket_gold": true,
+      "cross_section_g10_momentum": true,
+      "volatility_realized": true,
+      "liquidity_spread_ticks": true,
+      "options_fx_skew": false,
+      "em_credit_spreads": false,
+      "bank_fx_flows": false,
+      "central_bank_speakers_nlp": false
+    },
+    "coverage_pct": 75.0,
+    "ahead_of_retail": true,
+    "gaps_to_close": [
+      "options_fx_skew",
+      "em_credit_spreads",
+      "bank_fx_flows",
+      "central_bank_speakers_nlp"
+    ]
+  },
+  "live_forecasts": {
+    "GBPUSD": {
+      "H1": {
+        "p_up": 0.4841,
+        "p_down": 0.5159,
+        "next_move": "down",
+        "confidence": 0.0318,
+        "bar_time": "2025-12-31 18:00:00"
+      },
+      "D1": {
+        "p_up": 0.466,
+        "p_down": 0.534,
+        "next_move": "down",
+        "confidence": 0.0679,
+        "bar_time": "2025-12-26 00:00:00"
+      }
+    },
+    "EURUSD": {
+      "H1": {
+        "p_up": 0.4956,
+        "p_down": 0.5044,
+        "next_move": "down",
+        "confidence": 0.0087,
+        "bar_time": "2025-12-31 18:00:00"
+      },
+      "D1": {
+        "p_up": 0.5413,
+        "p_down": 0.4587,
+        "next_move": "up",
+        "confidence": 0.0827,
+        "bar_time": "2025-12-26 00:00:00"
+      }
+    },
+    "USDJPY": {
+      "H1": {
+        "p_up": 0.4731,
+        "p_down": 0.5269,
+        "next_move": "down",
+        "confidence": 0.0539,
+        "bar_time": "2025-12-31 18:00:00"
+      },
+      "D1": {
+        "p_up": 0.4911,
+        "p_down": 0.5089,
+        "next_move": "down",
+        "confidence": 0.0179,
+        "bar_time": "2025-12-26 00:00:00"
+      }
+    }
+  },
+  "models": [
+    "GBPUSD|H1",
+    "GBPUSD|D1",
+    "EURUSD|H1",
+    "EURUSD|D1",
+    "USDJPY|H1",
+    "USDJPY|D1"
+  ]
+}

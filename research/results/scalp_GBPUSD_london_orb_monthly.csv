@@ -1,0 +1,7 @@
+strategy,period,date,return_pct,trades,equity,win_period
+scalp_GBPUSD_london_orb,month,2025-07-31,-1.0569,36,0.989431,False
+scalp_GBPUSD_london_orb,month,2025-08-31,-0.3872,39,0.985601,False
+scalp_GBPUSD_london_orb,month,2025-09-30,-0.7074,42,0.978629,False
+scalp_GBPUSD_london_orb,month,2025-10-31,-1.0008,46,0.968835,False
+scalp_GBPUSD_london_orb,month,2025-11-30,-0.4308,40,0.964661,False
+scalp_GBPUSD_london_orb,month,2025-12-31,-0.1419,44,0.963292,False

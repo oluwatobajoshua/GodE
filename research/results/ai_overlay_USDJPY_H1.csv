@@ -1,0 +1,24 @@
+#SOVEREIGN_AI_OVERLAY=1
+SYMBOL,USDJPY
+TF,H1
+ASOF,2026-11-12 09:00:00
+READ,long,0.55,0
+SOURCE,deterministic
+NARR,Price 159.69500. EMA21 slope is +0.17 ATR up and RSI9 is 52.5 inside the 25-75 band. Structure reads uptrend (HH/HL); so nothing contradicts the direction. That is the regime the RSI band rule is built for: buy the pullback toward 50; leave above 75.
+VETO,
+PRICE,159.69500
+EMA21,159.61759
+EMA50,159.23577
+RSI,52.5
+ATR,0.15639
+SLOPE,+0.170
+STRUCT,uptrend (HH/HL)
+SPREAD,3.0,0
+RISK,no structural risk flagged
+LEVEL,159.63800,support,S/R
+LEVEL,159.83700,resistance,S/R
+LEVEL,159.48000,support,S/R
+LEVEL,159.93800,resistance,S/R
+LEVEL,159.94600,resistance,S/R
+ARROW,-152,down,RSI band
+ARROW,-135,up,RSI band

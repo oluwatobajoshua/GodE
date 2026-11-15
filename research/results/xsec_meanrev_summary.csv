@@ -1,0 +1,6 @@
+split,strategy,start,end,years,cagr,sharpe,maxdd,winrate,profitfactor,n
+design_2010_2017,xsec_meanrev_carry,2010-01-03,2017-12-29,8.0,-1.57,-0.16,-21.67,49.02,0.97,2493
+validation_2018_2020,xsec_meanrev_carry,2018-01-01,2020-12-31,3.0,-0.86,-0.09,-11.93,48.29,0.98,936
+OOS_2021_2026,xsec_meanrev_carry,2021-01-03,2026-10-26,5.8,2.01,0.29,-15.25,49.56,1.05,1816
+recent_2024_2026,xsec_meanrev_carry,2024-01-01,2026-10-26,2.8,6.37,0.88,-6.8,50.28,1.17,883
+full,xsec_meanrev_carry,2005-01-02,2026-10-26,21.8,-0.75,-0.05,-33.68,48.77,0.99,6809

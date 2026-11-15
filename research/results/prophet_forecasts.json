@@ -1,0 +1,50 @@
+{
+  "GBPUSD": {
+    "H1": {
+      "p_up": 0.4841,
+      "p_down": 0.5159,
+      "next_move": "down",
+      "confidence": 0.0318,
+      "bar_time": "2025-12-31 18:00:00"
+    },
+    "D1": {
+      "p_up": 0.466,
+      "p_down": 0.534,
+      "next_move": "down",
+      "confidence": 0.0679,
+      "bar_time": "2025-12-26 00:00:00"
+    }
+  },
+  "EURUSD": {
+    "H1": {
+      "p_up": 0.4956,
+      "p_down": 0.5044,
+      "next_move": "down",
+      "confidence": 0.0087,
+      "bar_time": "2025-12-31 18:00:00"
+    },
+    "D1": {
+      "p_up": 0.5413,
+      "p_down": 0.4587,
+      "next_move": "up",
+      "confidence": 0.0827,
+      "bar_time": "2025-12-26 00:00:00"
+    }
+  },
+  "USDJPY": {
+    "H1": {
+      "p_up": 0.4731,
+      "p_down": 0.5269,
+      "next_move": "down",
+      "confidence": 0.0539,
+      "bar_time": "2025-12-31 18:00:00"
+    },
+    "D1": {
+      "p_up": 0.4911,
+      "p_down": 0.5089,
+      "next_move": "down",
+      "confidence": 0.0179,
+      "bar_time": "2025-12-26 00:00:00"
+    }
+  }
+}

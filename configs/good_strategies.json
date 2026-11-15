@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "definition": "Held-out broker-aligned proof, enough samples, PF and return after costs, MT5 parity when intraday, drawdown within bound.",
+  "frozen_live_policy": true,
+  "research_good": [
+    "carry_mom_filter",
+    "compression_rubberband"
+  ],
+  "desk_good": [
+    "carry_mom_filter"
+  ],
+  "live_good": [
+    "carry_mom_filter",
+    "rsi_band_GBPUSD_H1"
+  ],
+  "trade_in_mt5_default": "rsi_band_GBPUSD_H1",
+  "tiers_explained": {
+    "research_good": "Validated premia / structure \u2014 size only in tester or paper.",
+    "desk_good": "Would present to a risk partner \u2014 still not live unless policy changes.",
+    "live_good": "Forward demo matches thesis \u2014 only tier that justifies live capital."
+  }
+}

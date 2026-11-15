@@ -1,0 +1,755 @@
+{
+  "schema_version": 2,
+  "role": "sovereign_ecosystem_professor",
+  "generated_at": "2026-11-12T09:31:44.733456+00:00",
+  "expires_at": "2026-11-12T13:31:44.733456+00:00",
+  "source": "python/ecosystem_professor.py",
+  "knowledge_coverage": {
+    "pillars_on_disk": {
+      "technical_multi_tf": true,
+      "fundamental_policy_rates": true,
+      "fundamental_rate_momentum": true,
+      "sentiment_vix": true,
+      "sentiment_cot_positioning": true,
+      "sentiment_fxmacro_risk": true,
+      "events_usd_calendar": true,
+      "intermarket_dxy": true,
+      "intermarket_gold": true,
+      "cross_section_g10_momentum": true,
+      "volatility_realized": true,
+      "liquidity_spread_ticks": true,
+      "options_fx_skew": false,
+      "em_credit_spreads": false,
+      "bank_fx_flows": false,
+      "central_bank_speakers_nlp": false
+    },
+    "coverage_pct": 75.0,
+    "ahead_of_retail": true,
+    "gaps_to_close": [
+      "options_fx_skew",
+      "em_credit_spreads",
+      "bank_fx_flows",
+      "central_bank_speakers_nlp"
+    ]
+  },
+  "data_plane": {
+    "canonical_bar_source": "mt5",
+    "config": "C:\\xampp\\htdocs\\GodE\\configs\\mt5_data_plane.json",
+    "mt5_export_dir": "C:\\xampp\\htdocs\\GodE\\research\\data\\mt5",
+    "audit_script": "research/mt5_data_plane_audit.py"
+  },
+  "data_ingested": {
+    "h1_bars": "C:\\xampp\\htdocs\\GodE\\research\\data\\mt5\\*_H1.csv (canonical)",
+    "h1_histdata_fallback": "C:\\xampp\\htdocs\\GodE\\research\\data\\histdata\\*_H1.csv",
+    "fred_rates": "C:\\xampp\\htdocs\\GodE\\research\\data\\rates",
+    "vix": "C:\\xampp\\htdocs\\GodE\\research\\data\\rates\\VIX.csv",
+    "cot": "C:\\xampp\\htdocs\\GodE\\research\\data\\cot\\fut_fin_*.csv",
+    "fxmacro": "C:\\xampp\\htdocs\\GodE\\research\\data\\fxmacrodata",
+    "dxy_optional": "C:\\xampp\\htdocs\\GodE\\research\\data\\DXYUSD_M5.csv",
+    "xau_optional": "C:\\xampp\\htdocs\\GodE\\research\\data\\XAUUSD_M5.csv",
+    "learned_manifests": [
+      "fxmopol_learned_filters.json",
+      "fxmopol_trade_learn.json"
+    ]
+  },
+  "global": {
+    "halt_new_risk": false,
+    "global_risk_mult": 1.0,
+    "vix_level": 19.45,
+    "risk_regime": "neutral",
+    "professor_headline": "Professor v2 | VIX=19.45 | risk=neutral | knowledge=75.0% | symbols=3 | Prophet:ON | \u00b5struct:1",
+    "usd_event_risk": {
+      "available": true,
+      "hours_to_next_high_impact_usd": null,
+      "in_usd_event_window_4h": false,
+      "next_event": null,
+      "last_event_hours_ago": 981.0
+    },
+    "fxmacro_risk": {
+      "available": true,
+      "risk_score": 0.021,
+      "risk_z_20d": -0.604,
+      "risk_on": true,
+      "risk_off": false,
+      "pit_safe": false,
+      "note": "provider composite; exploratory not OOS-certified"
+    }
+  },
+  "symbol_gates": {
+    "GBPUSD": {
+      "risk_mult": 0.5,
+      "block_long": true,
+      "block_short": true,
+      "verdict": "STUDY_ONLY \u2014 no clear edge",
+      "professor_line": "TA:FLAT_NEUTRAL | COTz=-0.639 | EV- | Vol:quiet | STUDY_ONLY \u2014 no clear edge | \u00b5struct:m5_synthetic OFI=20.0 tox=0.56",
+      "edge_long": 0.215,
+      "edge_short": 0.295,
+      "microstructure": {
+        "ofi": 20.0,
+        "hawkes_lambda": 0.02,
+        "vpin_proxy": 0.02842384801704222,
+        "alpha_head": -0.0006724109816935774,
+        "toxicity_head": 0.5623466762722562,
+        "throttle_execution": false
+      }
+    },
+    "EURUSD": {
+      "risk_mult": 0.85,
+      "block_long": false,
+      "block_short": false,
+      "verdict": "STUDY_ONLY \u2014 no clear edge",
+      "professor_line": "TA:STACK_SHORT | COTz=-2.152 | EV- | Vol:normal | STUDY_ONLY \u2014 no clear edge",
+      "edge_long": 0.241,
+      "edge_short": 0.421
+    },
+    "USDJPY": {
+      "risk_mult": 0.85,
+      "block_long": false,
+      "block_short": false,
+      "verdict": "STUDY_ONLY \u2014 no clear edge",
+      "professor_line": "TA:STACK_LONG | COTz=0.733 | EV- | Vol:normal | STUDY_ONLY \u2014 no clear edge",
+      "edge_long": 0.391,
+      "edge_short": 0.357
+    }
+  },
+  "symbols": {
+    "GBPUSD": {
+      "symbol": "GBPUSD",
+      "technical": {
+        "bar_time": "2026-11-09 07:00:00",
+        "data_plane": {
+          "symbol": "GBPUSD",
+          "canonical_preference": "mt5",
+          "resolved_source": "mt5",
+          "path": "C:\\xampp\\htdocs\\GodE\\research\\data\\mt5\\GBPUSD_H1.csv",
+          "file_mtime": "2026-11-12T09:31:41.704258919+00:00",
+          "file_bytes": 3849444,
+          "alternates_present": {
+            "mt5": "C:\\xampp\\htdocs\\GodE\\research\\data\\mt5\\GBPUSD_H1.csv",
+            "histdata": "C:\\xampp\\htdocs\\GodE\\research\\data\\histdata\\GBPUSD_H1.csv",
+            "legacy": "C:\\xampp\\htdocs\\GodE\\research\\data\\GBPUSD_H1.csv"
+          }
+        },
+        "chart_state": "FLAT_NEUTRAL",
+        "regime": 0,
+        "rsi": 95.8,
+        "grade_long": "NO_TRADE",
+        "grade_short": "NO_TRADE",
+        "checklist_pct": 40.0,
+        "triggers": [],
+        "best_move": "No clean edge on closed bar",
+        "d1": {
+          "ready": true,
+          "bias": "neutral",
+          "close_above_ema21": false,
+          "stack_long": false,
+          "stack_short": false
+        }
+      },
+      "fundamental": {
+        "base_ccy": "GBP",
+        "quote_ccy": "USD",
+        "base_rate_pct": 3.71,
+        "quote_rate_pct": 3.94,
+        "carry_diff_pct": null,
+        "carry_supports_long": true,
+        "carry_supports_short": true,
+        "layers": {
+          "sr": true,
+          "rates": true,
+          "vix": true,
+          "fund_stack": true
+        },
+        "rate_momentum": {
+          "available": true,
+          "carry_diff_now_pct": 0.08,
+          "carry_diff_chg_3m_pct": 0.13,
+          "carry_momentum": "carry_improving"
+        }
+      },
+      "sentiment": {
+        "vix": 19.45,
+        "vix_chg_20sess": 0.0,
+        "risk_regime": "neutral",
+        "allows_new_long": true,
+        "allows_new_short": true,
+        "fxmacro_risk": {
+          "available": true,
+          "risk_score": 0.021,
+          "risk_z_20d": -0.604,
+          "risk_on": true,
+          "risk_off": false,
+          "pit_safe": false,
+          "note": "provider composite; exploratory not OOS-certified"
+        },
+        "cot": {
+          "available": true,
+          "currency": "GBP",
+          "lev_net_pct_oi": 0.0949,
+          "zscore_3y_weekly": -0.639,
+          "flow_4w_chg": 0.0408,
+          "crowding": "neutral",
+          "contrarian_fade_long": false,
+          "contrarian_fade_short": false
+        }
+      },
+      "intermarket": {
+        "available": true,
+        "dxy_ret_5d": 0.00302,
+        "dxy_z_20d": 0.033,
+        "usd_regime": "usd_strong",
+        "gold": {
+          "available": true,
+          "gold_ret_5d": -0.02358,
+          "safe_haven_bias": "gold_offer"
+        }
+      },
+      "positioning": {
+        "available": true,
+        "currency": "GBP",
+        "lev_net_pct_oi": 0.0949,
+        "zscore_3y_weekly": -0.639,
+        "flow_4w_chg": 0.0408,
+        "crowding": "neutral",
+        "contrarian_fade_long": false,
+        "contrarian_fade_short": false
+      },
+      "events": {
+        "available": true,
+        "hours_to_next_high_impact_usd": null,
+        "in_usd_event_window_4h": false,
+        "next_event": null,
+        "last_event_hours_ago": 906.5
+      },
+      "cross_section": {
+        "available": true,
+        "mom_5d_rank": 3,
+        "mom_5d_of": 7,
+        "mom_leader": "AUDUSD",
+        "mom_laggard": "USDCAD",
+        "mom_5d_return": 0.00404,
+        "corr_eurusd_20d": null
+      },
+      "volatility": {
+        "realized_vol_5d_ann": 0.0543,
+        "realized_vol_21d_ann": 0.0536,
+        "atr_pct_price": 0.00062,
+        "atr_percentile_200h": 0.01,
+        "vol_regime": "quiet"
+      },
+      "liquidity": {
+        "available": true,
+        "spread_last": 3,
+        "spread_median_24h": 3.0,
+        "spread_pctile_168h": 0.4642857142857143,
+        "volume_last": 5981,
+        "volume_pctile_168h": 0.023809523809523808
+      },
+      "session": {
+        "hour_utc": 7,
+        "weekday": 0,
+        "london_morning": true,
+        "london_ny_overlap": false,
+        "ny_afternoon": false,
+        "good_session_fxmopol": true
+      },
+      "gates": {
+        "verdict": "STUDY_ONLY \u2014 no clear edge",
+        "edge_long": 0.215,
+        "edge_short": 0.295,
+        "risk_mult": 0.5,
+        "block_long": true,
+        "block_short": true,
+        "professor_line": "TA:FLAT_NEUTRAL | COTz=-0.639 | EV- | Vol:quiet | STUDY_ONLY \u2014 no clear edge",
+        "action_mirror": "WAIT_FLAT",
+        "pillar_notes": {
+          "cot_crowding": "neutral",
+          "usd_event_hours": null,
+          "g10_mom_rank": 3
+        }
+      }
+    },
+    "EURUSD": {
+      "symbol": "EURUSD",
+      "technical": {
+        "bar_time": "2026-11-12 08:00:00",
+        "data_plane": {
+          "symbol": "EURUSD",
+          "canonical_preference": "mt5",
+          "resolved_source": "mt5",
+          "path": "C:\\xampp\\htdocs\\GodE\\research\\data\\mt5\\EURUSD_H1.csv",
+          "file_mtime": "2026-11-12T09:31:41.950678349+00:00",
+          "file_bytes": 3719778,
+          "alternates_present": {
+            "mt5": "C:\\xampp\\htdocs\\GodE\\research\\data\\mt5\\EURUSD_H1.csv",
+            "histdata": "C:\\xampp\\htdocs\\GodE\\research\\data\\histdata\\EURUSD_H1.csv",
+            "legacy": "C:\\xampp\\htdocs\\GodE\\research\\data\\EURUSD_H1.csv"
+          }
+        },
+        "chart_state": "STACK_SHORT",
+        "regime": -1,
+        "rsi": 49.0,
+        "grade_long": "NO_TRADE",
+        "grade_short": "GOOD",
+        "checklist_pct": 60.0,
+        "triggers": [],
+        "best_move": "Downtrend regime \u2014 wait for playbook trigger",
+        "d1": {
+          "ready": true,
+          "bias": "bear",
+          "close_above_ema21": false,
+          "stack_long": false,
+          "stack_short": true
+        }
+      },
+      "fundamental": {
+        "base_ccy": "EUR",
+        "quote_ccy": "USD",
+        "base_rate_pct": 2.0277272727,
+        "quote_rate_pct": 3.94,
+        "carry_diff_pct": null,
+        "carry_supports_long": true,
+        "carry_supports_short": true,
+        "layers": {
+          "sr": true,
+          "rates": true,
+          "vix": true,
+          "fund_stack": true
+        },
+        "rate_momentum": {
+          "available": true,
+          "carry_diff_now_pct": -1.6023,
+          "carry_diff_chg_3m_pct": 0.3433,
+          "carry_momentum": "carry_improving"
+        }
+      },
+      "sentiment": {
+        "vix": 19.45,
+        "vix_chg_20sess": 0.0,
+        "risk_regime": "neutral",
+        "allows_new_long": true,
+        "allows_new_short": true,
+        "fxmacro_risk": {
+          "available": true,
+          "risk_score": 0.021,
+          "risk_z_20d": -0.604,
+          "risk_on": true,
+          "risk_off": false,
+          "pit_safe": false,
+          "note": "provider composite; exploratory not OOS-certified"
+        },
+        "cot": {
+          "available": true,
+          "currency": "EUR",
+          "lev_net_pct_oi": -0.0784,
+          "zscore_3y_weekly": -2.152,
+          "flow_4w_chg": -0.0459,
+          "crowding": "extreme_short",
+          "contrarian_fade_long": false,
+          "contrarian_fade_short": true
+        }
+      },
+      "intermarket": {
+        "available": true,
+        "dxy_ret_5d": 0.00302,
+        "dxy_z_20d": 0.033,
+        "usd_regime": "usd_strong",
+        "gold": {
+          "available": true,
+          "gold_ret_5d": -0.02358,
+          "safe_haven_bias": "gold_offer"
+        }
+      },
+      "positioning": {
+        "available": true,
+        "currency": "EUR",
+        "lev_net_pct_oi": -0.0784,
+        "zscore_3y_weekly": -2.152,
+        "flow_4w_chg": -0.0459,
+        "crowding": "extreme_short",
+        "contrarian_fade_long": false,
+        "contrarian_fade_short": true
+      },
+      "events": {
+        "available": true,
+        "hours_to_next_high_impact_usd": null,
+        "in_usd_event_window_4h": false,
+        "next_event": null,
+        "last_event_hours_ago": 979.5
+      },
+      "cross_section": {
+        "available": true,
+        "mom_5d_rank": 5,
+        "mom_5d_of": 7,
+        "mom_leader": "AUDUSD",
+        "mom_laggard": "USDCAD",
+        "mom_5d_return": -0.00081,
+        "corr_eurusd_20d": null
+      },
+      "volatility": {
+        "realized_vol_5d_ann": 0.056,
+        "realized_vol_21d_ann": 0.062,
+        "atr_pct_price": 0.00096,
+        "atr_percentile_200h": 0.29,
+        "vol_regime": "normal"
+      },
+      "liquidity": {
+        "available": true,
+        "spread_last": 2,
+        "spread_median_24h": 2.0,
+        "spread_pctile_168h": 0.4732142857142857,
+        "volume_last": 4753,
+        "volume_pctile_168h": 0.30952380952380953
+      },
+      "session": {
+        "hour_utc": 8,
+        "weekday": 3,
+        "london_morning": true,
+        "london_ny_overlap": false,
+        "ny_afternoon": false,
+        "good_session_fxmopol": true
+      },
+      "gates": {
+        "verdict": "STUDY_ONLY \u2014 no clear edge",
+        "edge_long": 0.241,
+        "edge_short": 0.421,
+        "risk_mult": 0.85,
+        "block_long": false,
+        "block_short": false,
+        "professor_line": "TA:STACK_SHORT | COTz=-2.152 | EV- | Vol:normal | STUDY_ONLY \u2014 no clear edge",
+        "action_mirror": "WATCH_SHORT",
+        "pillar_notes": {
+          "cot_crowding": "extreme_short",
+          "usd_event_hours": null,
+          "g10_mom_rank": 5
+        }
+      }
+    },
+    "USDJPY": {
+      "symbol": "USDJPY",
+      "technical": {
+        "bar_time": "2026-11-12 08:00:00",
+        "data_plane": {
+          "symbol": "USDJPY",
+          "canonical_preference": "mt5",
+          "resolved_source": "mt5",
+          "path": "C:\\xampp\\htdocs\\GodE\\research\\data\\mt5\\USDJPY_H1.csv",
+          "file_mtime": "2026-11-12T09:31:42.171597242+00:00",
+          "file_bytes": 3617291,
+          "alternates_present": {
+            "mt5": "C:\\xampp\\htdocs\\GodE\\research\\data\\mt5\\USDJPY_H1.csv",
+            "histdata": "C:\\xampp\\htdocs\\GodE\\research\\data\\histdata\\USDJPY_H1.csv",
+            "legacy": "C:\\xampp\\htdocs\\GodE\\research\\data\\USDJPY_H1.csv"
+          }
+        },
+        "chart_state": "STACK_LONG",
+        "regime": 1,
+        "rsi": 46.8,
+        "grade_long": "GOOD",
+        "grade_short": "NO_TRADE",
+        "checklist_pct": 60.0,
+        "triggers": [],
+        "best_move": "Uptrend regime \u2014 wait for playbook trigger",
+        "d1": {
+          "ready": true,
+          "bias": "bull",
+          "close_above_ema21": true,
+          "stack_long": true,
+          "stack_short": false
+        }
+      },
+      "fundamental": {
+        "base_ccy": "USD",
+        "quote_ccy": "JPY",
+        "base_rate_pct": 3.94,
+        "quote_rate_pct": 1.55991,
+        "carry_diff_pct": null,
+        "carry_supports_long": true,
+        "carry_supports_short": true,
+        "layers": {
+          "sr": true,
+          "rates": true,
+          "vix": true,
+          "fund_stack": true
+        },
+        "rate_momentum": {
+          "available": true,
+          "carry_diff_now_pct": 2.2601,
+          "carry_diff_chg_3m_pct": -0.1858,
+          "carry_momentum": "carry_fading"
+        }
+      },
+      "sentiment": {
+        "vix": 19.45,
+        "vix_chg_20sess": 0.0,
+        "risk_regime": "neutral",
+        "allows_new_long": true,
+        "allows_new_short": true,
+        "fxmacro_risk": {
+          "available": true,
+          "risk_score": 0.021,
+          "risk_z_20d": -0.604,
+          "risk_on": true,
+          "risk_off": false,
+          "pit_safe": false,
+          "note": "provider composite; exploratory not OOS-certified"
+        },
+        "cot": {
+          "available": true,
+          "currency": "JPY",
+          "lev_net_pct_oi": -0.0604,
+          "zscore_3y_weekly": 0.733,
+          "flow_4w_chg": -0.08,
+          "crowding": "neutral",
+          "contrarian_fade_long": false,
+          "contrarian_fade_short": false
+        }
+      },
+      "intermarket": {
+        "available": true,
+        "dxy_ret_5d": 0.00302,
+        "dxy_z_20d": 0.033,
+        "usd_regime": "usd_strong",
+        "gold": {
+          "available": true,
+          "gold_ret_5d": -0.02358,
+          "safe_haven_bias": "gold_offer"
+        }
+      },
+      "positioning": {
+        "available": true,
+        "currency": "JPY",
+        "lev_net_pct_oi": -0.0604,
+        "zscore_3y_weekly": 0.733,
+        "flow_4w_chg": -0.08,
+        "crowding": "neutral",
+        "contrarian_fade_long": false,
+        "contrarian_fade_short": false
+      },
+      "events": {
+        "available": true,
+        "hours_to_next_high_impact_usd": null,
+        "in_usd_event_window_4h": false,
+        "next_event": null,
+        "last_event_hours_ago": 979.5
+      },
+      "cross_section": {
+        "available": true,
+        "mom_5d_rank": 6,
+        "mom_5d_of": 7,
+        "mom_leader": "AUDUSD",
+        "mom_laggard": "USDCAD",
+        "mom_5d_return": -0.00498,
+        "corr_eurusd_20d": null
+      },
+      "volatility": {
+        "realized_vol_5d_ann": 0.0557,
+        "realized_vol_21d_ann": 0.0616,
+        "atr_pct_price": 0.00099,
+        "atr_percentile_200h": 0.385,
+        "vol_regime": "normal"
+      },
+      "liquidity": {
+        "available": true,
+        "spread_last": 3,
+        "spread_median_24h": 3.0,
+        "spread_pctile_168h": 0.49702380952380953,
+        "volume_last": 7995,
+        "volume_pctile_168h": 0.09523809523809523
+      },
+      "session": {
+        "hour_utc": 8,
+        "weekday": 3,
+        "london_morning": true,
+        "london_ny_overlap": false,
+        "ny_afternoon": false,
+        "good_session_fxmopol": true
+      },
+      "gates": {
+        "verdict": "STUDY_ONLY \u2014 no clear edge",
+        "edge_long": 0.391,
+        "edge_short": 0.357,
+        "risk_mult": 0.85,
+        "block_long": false,
+        "block_short": false,
+        "professor_line": "TA:STACK_LONG | COTz=0.733 | EV- | Vol:normal | STUDY_ONLY \u2014 no clear edge",
+        "action_mirror": "WATCH_LONG",
+        "pillar_notes": {
+          "cot_crowding": "neutral",
+          "usd_event_hours": null,
+          "g10_mom_rank": 6
+        }
+      }
+    }
+  },
+  "microstructure": {
+    "GBPUSD": {
+      "book_source": "m5_synthetic",
+      "data_gap": "export_l2_ticks_for_real_bbo",
+      "last": {
+        "ofi": 20.0,
+        "hawkes_lambda": 0.02,
+        "vpin_proxy": 0.02842384801704222,
+        "alpha_head": -0.0006724109816935774,
+        "toxicity_head": 0.5623466762722562,
+        "throttle_execution": false
+      },
+      "rows": 67224
+    }
+  },
+  "prophet_forecasts": {
+    "GBPUSD": {
+      "H1": {
+        "p_up": 0.4841,
+        "p_down": 0.5159,
+        "next_move": "down",
+        "confidence": 0.0318,
+        "bar_time": "2025-12-31 18:00:00"
+      },
+      "D1": {
+        "p_up": 0.466,
+        "p_down": 0.534,
+        "next_move": "down",
+        "confidence": 0.0679,
+        "bar_time": "2025-12-26 00:00:00"
+      }
+    },
+    "EURUSD": {
+      "H1": {
+        "p_up": 0.4956,
+        "p_down": 0.5044,
+        "next_move": "down",
+        "confidence": 0.0087,
+        "bar_time": "2025-12-31 18:00:00"
+      },
+      "D1": {
+        "p_up": 0.5413,
+        "p_down": 0.4587,
+        "next_move": "up",
+        "confidence": 0.0827,
+        "bar_time": "2025-12-26 00:00:00"
+      }
+    },
+    "USDJPY": {
+      "H1": {
+        "p_up": 0.4731,
+        "p_down": 0.5269,
+        "next_move": "down",
+        "confidence": 0.0539,
+        "bar_time": "2025-12-31 18:00:00"
+      },
+      "D1": {
+        "p_up": 0.4911,
+        "p_down": 0.5089,
+        "next_move": "down",
+        "confidence": 0.0179,
+        "bar_time": "2025-12-26 00:00:00"
+      }
+    }
+  },
+  "prophet_note": "next-bar probabilities from research/prophet_multitf.py; promote on OOS monthly",
+  "policy": {
+    "learned_filters": {
+      "method": "design bucket mean>0 & PF>=1",
+      "min_bucket": 4,
+      "baseline": "prime",
+      "symbols": {
+        "GBPUSD": {
+          "weekday_mask": 4,
+          "allowed_hours_utc": [],
+          "allowed_entry_reasons": [
+            "entry_retest_ema21"
+          ],
+          "baseline_kpis": {
+            "n": 59,
+            "loss_rate": 49.2,
+            "payoff_ratio": 0.87,
+            "exp_bps": -0.92,
+            "pf": 0.9
+          },
+          "filtered_kpis_all": {
+            "n": 5,
+            "loss_rate": 60.0,
+            "payoff_ratio": 0.7,
+            "exp_bps": -4.22,
+            "pf": 0.47
+          },
+          "baseline_trades": 59,
+          "filtered_trades": 5
+        },
+        "EURUSD": {
+          "weekday_mask": 0,
+          "allowed_hours_utc": [],
+          "allowed_entry_reasons": [],
+          "baseline_kpis": {
+            "n": 37,
+            "loss_rate": 73.0,
+            "payoff_ratio": 1.25,
+            "exp_bps": -5.52,
+            "pf": 0.46
+          },
+          "filtered_kpis_all": {
+            "n": 37,
+            "loss_rate": 73.0,
+            "payoff_ratio": 1.25,
+            "exp_bps": -5.52,
+            "pf": 0.46
+          },
+          "baseline_trades": 37,
+          "filtered_trades": 37
+        },
+        "USDJPY": {
+          "weekday_mask": 2,
+          "allowed_hours_utc": [
+            8
+          ],
+          "allowed_entry_reasons": [
+            "entry_pullback_ema21"
+          ],
+          "baseline_kpis": {
+            "n": 66,
+            "loss_rate": 75.8,
+            "payoff_ratio": 1.64,
+            "exp_bps": -3.29,
+            "pf": 0.53
+          },
+          "filtered_kpis_all": {
+            "n": 2,
+            "loss_rate": 0.0,
+            "payoff_ratio": 0.0,
+            "exp_bps": 9.98,
+            "pf": 0.0
+          },
+          "baseline_trades": 66,
+          "filtered_trades": 2
+        }
+      }
+    },
+    "trade_learn": {
+      "source": "C:\\xampp\\htdocs\\GodE\\backtest\\mt5_files\\Sovereign",
+      "min_n_eff": 5.0,
+      "block_sum_r_below": -0.5,
+      "symbols": {},
+      "blocked_buckets": [],
+      "promoted_buckets": [],
+      "note": "no performance_buckets.csv \u2014 governor will learn on first live/tester closes"
+    },
+    "century": {
+      "version": 1,
+      "generated_at": "2026-11-08T13:32:11.682255+00:00",
+      "expires_at": "2026-11-09T13:32:11.682255+00:00",
+      "halt_trading": false,
+      "global_risk_scalar": 1.0,
+      "top_n": 3,
+      "strategy": "carry_mom",
+      "sleeve_weights": {
+        "carry": 0.75,
+        "novel_overlay": 0.25
+      },
+      "leg_multipliers": {},
+      "skip_symbols": [],
+      "reason": "deterministic default",
+      "source": "deterministic"
+    }
+  }
+}

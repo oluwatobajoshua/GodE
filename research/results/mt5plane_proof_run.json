@@ -1,0 +1,37 @@
+{
+  "generated_at": "2026-11-09",
+  "bar_source": "mt5",
+  "python_carry": {
+    "sleeve": "carry_mom_filter",
+    "promoted_3split": true,
+    "OOS_2020_2026": {
+      "sum_pct": 25.62,
+      "pf": 1.29,
+      "cagr": 3.26,
+      "max_dd": -17.46
+    },
+    "verdict_file": "research/results/carry_promotion_verdict.json"
+  },
+  "python_gbp_h1_mt5_bars": {
+    "professor_governor": {
+      "full_total_pct": -0.16,
+      "OOS_n": 5,
+      "OOS_total_pct": 0.0,
+      "OOS_pf": 0.0,
+      "promoted": false,
+      "role": "overlay_only"
+    },
+    "chart_loose": {
+      "full_total_pct": -2.22,
+      "OOS_total_pct": 0.62,
+      "OOS_pf": 1.67,
+      "note": "more trades but still weak full sample"
+    },
+    "manifest_file": "research/results/fxmopol_stack_pnl_manifest.json"
+  },
+  "mt5_tester": {
+    "status": "not_run",
+    "reason": "terminal64.exe already running; close MT5 and run: .\\scripts\\run_mt5plane_proof.ps1 -Tester"
+  },
+  "interpretation": "Aligned broker tape does not create H1 edge. Carry remains the only promoted sleeve; H1 stays overlay_only on MT5 bars."
+}

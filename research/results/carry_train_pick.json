@@ -1,0 +1,18 @@
+{
+  "method": "max design Sharpe among PF-pass rows; params frozen for val/OOS",
+  "pick": {
+    "cost_pts": 0.0,
+    "top_n": 3,
+    "design_cagr": 1.42,
+    "design_sharpe": 0.18,
+    "design_pf_pass": true,
+    "validation_2015_2019_cagr": 0.21,
+    "validation_2015_2019_sharpe": 0.07,
+    "validation_2015_2019_pass": true,
+    "OOS_2020_2026_cagr": 3.43,
+    "OOS_2020_2026_sharpe": 0.36,
+    "OOS_2020_2026_pass": true
+  },
+  "val_oos_still_pass": true,
+  "note": "If pick fails val/OOS, keep default cost_pts=12 top_n=3"
+}

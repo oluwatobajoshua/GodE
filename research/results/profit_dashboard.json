@@ -1,0 +1,165 @@
+{
+  "generated_by": "research/profit_dashboard.py",
+  "symbol": "GBPUSD",
+  "carry_last12_sum_pct": 16.365199999999998,
+  "stack_modes": {
+    "chart_loose": {
+      "trades": 211,
+      "splits": {
+        "design": {
+          "n": 53,
+          "exp_bps": -3.01,
+          "pf": 0.56,
+          "winrate": 30.2,
+          "total_pct": -1.59
+        },
+        "validation": {
+          "n": 41,
+          "exp_bps": -5.19,
+          "pf": 0.41,
+          "winrate": 29.3,
+          "total_pct": -2.11
+        },
+        "OOS": {
+          "n": 17,
+          "exp_bps": 3.23,
+          "pf": 1.54,
+          "winrate": 58.8,
+          "total_pct": 0.55
+        }
+      },
+      "full": {
+        "exp_bps": -4.0,
+        "total_pct": -8.13,
+        "pf": 0.56
+      }
+    },
+    "chart_prime": {
+      "trades": 59,
+      "splits": {
+        "design": {
+          "n": 11,
+          "exp_bps": 0.96,
+          "pf": 1.12,
+          "winrate": 45.5,
+          "total_pct": 0.1
+        },
+        "validation": {
+          "n": 9,
+          "exp_bps": -999,
+          "pf": 0,
+          "winrate": 0,
+          "total_pct": 0
+        },
+        "OOS": {
+          "n": 5,
+          "exp_bps": -999,
+          "pf": 0,
+          "winrate": 0,
+          "total_pct": 0
+        }
+      },
+      "full": {
+        "exp_bps": -0.92,
+        "total_pct": -0.56,
+        "pf": 0.9
+      }
+    },
+    "professor_stack": {
+      "trades": 59,
+      "splits": {
+        "design": {
+          "n": 11,
+          "exp_bps": 0.87,
+          "pf": 1.13,
+          "winrate": 45.5,
+          "total_pct": 0.09
+        },
+        "validation": {
+          "n": 9,
+          "exp_bps": -999,
+          "pf": 0,
+          "winrate": 0,
+          "total_pct": 0
+        },
+        "OOS": {
+          "n": 5,
+          "exp_bps": -999,
+          "pf": 0,
+          "winrate": 0,
+          "total_pct": 0
+        }
+      },
+      "full": {
+        "exp_bps": -0.78,
+        "total_pct": -0.47,
+        "pf": 0.9
+      }
+    },
+    "professor_governor": {
+      "trades": 59,
+      "splits": {
+        "design": {
+          "n": 11,
+          "exp_bps": 0.44,
+          "pf": 1.13,
+          "winrate": 45.5,
+          "total_pct": 0.05
+        },
+        "validation": {
+          "n": 9,
+          "exp_bps": -999,
+          "pf": 0,
+          "winrate": 0,
+          "total_pct": 0
+        },
+        "OOS": {
+          "n": 5,
+          "exp_bps": -999,
+          "pf": 0,
+          "winrate": 0,
+          "total_pct": 0
+        }
+      },
+      "full": {
+        "exp_bps": -0.39,
+        "total_pct": -0.23,
+        "pf": 0.9
+      }
+    },
+    "professor_governor_learned": {
+      "trades": 5,
+      "splits": {
+        "design": {
+          "n": 2,
+          "exp_bps": -999,
+          "pf": 0,
+          "winrate": 0,
+          "total_pct": 0
+        },
+        "validation": {
+          "n": 2,
+          "exp_bps": -999,
+          "pf": 0,
+          "winrate": 0,
+          "total_pct": 0
+        },
+        "OOS": {
+          "n": 1,
+          "exp_bps": -999,
+          "pf": 0,
+          "winrate": 0,
+          "total_pct": 0
+        }
+      },
+      "full": {
+        "exp_bps": -1.79,
+        "total_pct": -0.09,
+        "pf": 0
+      }
+    }
+  },
+  "lanes_lane1_note": "8 pts \u2248 ECN round-turn proxy; 12 pts = Deriv retail default in carry.py",
+  "default_h1_metric": "professor_governor",
+  "certified_slow_sleeve": "carry_mom_filter"
+}

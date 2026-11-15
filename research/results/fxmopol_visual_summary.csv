@@ -1,0 +1,10 @@
+symbol,split,n,exp_bps,pf,winrate
+USDJPY,design,1251,-2.96,0.65,34.6
+USDJPY,validation,594,-1.37,0.86,39.1
+USDJPY,OOS,392,-0.79,0.93,39.3
+EURUSD,design,1330,-2.4,0.7,36.2
+EURUSD,validation,650,-2.68,0.72,35.7
+EURUSD,OOS,445,-3.99,0.57,33.9
+GBPUSD,design,1153,-2.14,0.77,37.1
+GBPUSD,validation,674,-2.48,0.77,36.5
+GBPUSD,OOS,460,-2.78,0.69,35.9

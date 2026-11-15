@@ -1,0 +1,8 @@
+# Optional ML stack — RL + TFT (install after requirements.txt)
+#   pip install -r requirements.txt -r requirements-ml.txt
+gymnasium>=1.0,<2
+stable-baselines3>=2.3,<3
+torch>=2.2,<3
+lightning>=2.2,<3
+pytorch-forecasting>=1.0,<2
+pyarrow>=14,<22

@@ -1,0 +1,16 @@
+{
+  "primary_scalp": null,
+  "abandoned_primary": {
+    "symbol": "EURUSD",
+    "strategy": "london_orb",
+    "timeframe": "M5",
+    "ea": "SovereignLondonOrbEA.mq5",
+    "tester_profile": "london_orb_eurusd_m5",
+    "promoted": false,
+    "mt5_certified": false,
+    "demotion_reason": "Python OOS passes (+6.58%, PF 1.17) but MT5 OOS 2024.07-2026.01 fails after UTC sweep 0-3 (best offset 0: net -302, PF 0.94, 742 trades).",
+    "verdict_file": "research/results/scalp_promotion_verdict.json"
+  },
+  "active_book": "configs/profitable_sleeve.json",
+  "gbp_pending": "Build research/data/histdata/GBPUSD_M5.csv then re-run run_scalp_lane.ps1"
+}

@@ -1,0 +1,30 @@
+{
+  "report": "C:\\xampp\\htdocs\\GodE\\backtest\\reports\\fxmopol_gbp_playbook_GBPUSD_H1.htm",
+  "n_trades": 3,
+  "win_rate": 100.0,
+  "net_profit": 6.93,
+  "avg_win": 2.31,
+  "avg_loss": 0,
+  "losses_from_bad_entries": 0,
+  "profit_given_back_after_3_wins": 0,
+  "by_exit": [
+    {
+      "exit_reason": "signal_exit",
+      "n": 3,
+      "net": 6.93,
+      "wr": 1.0
+    }
+  ],
+  "by_chart_state": [
+    {
+      "chart_state": "STACK_LONG",
+      "n": 2,
+      "net": 6.92
+    },
+    {
+      "chart_state": "TRANSITION_BULL",
+      "n": 1,
+      "net": 0.01
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+#SOVEREIGN_AI_OVERLAY=1
+SYMBOL,EURUSD
+TF,H1
+ASOF,2026-11-12 09:00:00
+READ,wait,0.20,1
+SOURCE,deterministic
+NARR,Price 1.10909. No trade: EMA21 points down but structure is uptrend (HH/HL). RSI9 49.0; structure uptrend (HH/HL); spread 2.0 pts. The rule only earns when a direction exists and cost is low; so standing aside is the correct action; not a missed one.
+VETO,momentum down fights a uptrend (HH/HL)
+PRICE,1.10909
+EMA21,1.10961
+EMA50,1.11252
+RSI,49.0
+ATR,0.00108
+SLOPE,-0.194
+STRUCT,uptrend (HH/HL)
+SPREAD,2.0,0
+RISK,momentum down fights a uptrend (HH/HL)
+LEVEL,1.10944,resistance,S/R
+LEVEL,1.10830,support,S/R
+LEVEL,1.10822,support,S/R
+LEVEL,1.11002,resistance,S/R
+LEVEL,1.11044,support,S/R
+LEVEL,1.10707,support,S/R

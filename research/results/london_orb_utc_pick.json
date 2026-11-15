@@ -1,0 +1,56 @@
+{
+  "python_oos_trades": 768,
+  "candidates": [
+    {
+      "utc_offset": 0,
+      "net_profit": -302.28,
+      "pf": 0.94,
+      "trades": 742,
+      "report": "C:\\xampp\\htdocs\\GodE\\backtest\\reports\\london_orb_eurusd_oos_utc0.json",
+      "passes_pf": false,
+      "passes_net": false,
+      "trade_delta": 26
+    },
+    {
+      "utc_offset": 1,
+      "net_profit": -409.71,
+      "pf": 0.89,
+      "trades": 682,
+      "report": "C:\\xampp\\htdocs\\GodE\\backtest\\reports\\london_orb_eurusd_oos_utc1.json",
+      "passes_pf": false,
+      "passes_net": false,
+      "trade_delta": 86
+    },
+    {
+      "utc_offset": 3,
+      "net_profit": -697.87,
+      "pf": 0.84,
+      "trades": 684,
+      "report": "C:\\xampp\\htdocs\\GodE\\backtest\\reports\\london_orb_eurusd_oos_utc3.json",
+      "passes_pf": false,
+      "passes_net": false,
+      "trade_delta": 84
+    },
+    {
+      "utc_offset": 2,
+      "net_profit": -815.49,
+      "pf": 0.77,
+      "trades": 644,
+      "report": "C:\\xampp\\htdocs\\GodE\\backtest\\reports\\london_orb_eurusd_oos_utc2.json",
+      "passes_pf": false,
+      "passes_net": false,
+      "trade_delta": 124
+    }
+  ],
+  "pick": {
+    "utc_offset": 0,
+    "net_profit": -302.28,
+    "pf": 0.94,
+    "trades": 742,
+    "report": "C:\\xampp\\htdocs\\GodE\\backtest\\reports\\london_orb_eurusd_oos_utc0.json",
+    "passes_pf": false,
+    "passes_net": false,
+    "trade_delta": 26
+  },
+  "parity_ok": false
+}

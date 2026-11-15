@@ -1,0 +1,10 @@
+symbol,ema_mid,split,n,exp_bps,pf,winrate,total_pct
+EURUSD,50,design,61,-1.72,0.69,41.0,-1.05
+EURUSD,50,validation,47,-1.59,0.79,27.7,-0.75
+EURUSD,50,OOS,29,2.31,1.41,44.8,0.67
+USDJPY,100,design,84,-1.69,0.55,17.9,-1.41
+USDJPY,100,validation,44,-2.06,0.74,38.6,-0.91
+USDJPY,100,OOS,17,-0.73,0.87,29.4,-0.13
+GBPUSD,50,design,61,-3.87,0.5,32.8,-2.34
+GBPUSD,50,validation,48,-5.34,0.4,29.2,-2.54
+GBPUSD,50,OOS,18,2.59,1.43,55.6,0.46

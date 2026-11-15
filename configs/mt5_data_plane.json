@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "canonical_bar_source": "mt5",
+  "notes": "mt5 = research/data/mt5/{SYM}_H1.csv from terminal export; histdata = research/data/histdata/",
+  "symbols": ["GBPUSD", "EURUSD", "USDJPY"],
+  "export": {
+    "timeframe": "H1",
+    "default_from": "2018-01-01",
+    "default_to": "2026-12-31",
+    "m5_from": "2020-01-01",
+    "m5_to": "2026-12-31",
+    "m5_symbols_from_scalp_lane": true
+  },
+  "audit": {
+    "overlap_from": "2024-01-01",
+    "overlap_to": "2026-01-01",
+    "close_pips_p99_max": 3.0,
+    "chart_state_mismatch_pct_max": 5.0,
+    "require_mt5_export_for_go": true,
+    "fail_on_histdata_divergence": false
+  },
+  "session_utc_windows": {
+    "london_morning": [7, 11],
+    "london_ny_overlap": [13, 16]
+  },
+  "parity": {
+    "symbol": "GBPUSD",
+    "oos_from": "2024-07-01",
+    "oos_to": "2026-01-01"
+  }
+}

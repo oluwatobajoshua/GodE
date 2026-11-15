@@ -1,0 +1,76 @@
+{
+  "method": "design bucket mean>0 & PF>=1",
+  "min_bucket": 4,
+  "baseline": "prime",
+  "symbols": {
+    "GBPUSD": {
+      "weekday_mask": 4,
+      "allowed_hours_utc": [],
+      "allowed_entry_reasons": [
+        "entry_retest_ema21"
+      ],
+      "baseline_kpis": {
+        "n": 59,
+        "loss_rate": 49.2,
+        "payoff_ratio": 0.87,
+        "exp_bps": -0.92,
+        "pf": 0.9
+      },
+      "filtered_kpis_all": {
+        "n": 5,
+        "loss_rate": 60.0,
+        "payoff_ratio": 0.7,
+        "exp_bps": -4.22,
+        "pf": 0.47
+      },
+      "baseline_trades": 59,
+      "filtered_trades": 5
+    },
+    "EURUSD": {
+      "weekday_mask": 0,
+      "allowed_hours_utc": [],
+      "allowed_entry_reasons": [],
+      "baseline_kpis": {
+        "n": 37,
+        "loss_rate": 73.0,
+        "payoff_ratio": 1.25,
+        "exp_bps": -5.52,
+        "pf": 0.46
+      },
+      "filtered_kpis_all": {
+        "n": 37,
+        "loss_rate": 73.0,
+        "payoff_ratio": 1.25,
+        "exp_bps": -5.52,
+        "pf": 0.46
+      },
+      "baseline_trades": 37,
+      "filtered_trades": 37
+    },
+    "USDJPY": {
+      "weekday_mask": 2,
+      "allowed_hours_utc": [
+        8
+      ],
+      "allowed_entry_reasons": [
+        "entry_pullback_ema21"
+      ],
+      "baseline_kpis": {
+        "n": 66,
+        "loss_rate": 75.8,
+        "payoff_ratio": 1.64,
+        "exp_bps": -3.29,
+        "pf": 0.53
+      },
+      "filtered_kpis_all": {
+        "n": 2,
+        "loss_rate": 0.0,
+        "payoff_ratio": 0.0,
+        "exp_bps": 9.98,
+        "pf": 0.0
+      },
+      "baseline_trades": 66,
+      "filtered_trades": 2
+    }
+  }
+}

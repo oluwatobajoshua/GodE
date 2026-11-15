@@ -1,0 +1,57 @@
+{
+  "source": "C:\\xampp\\htdocs\\GodE\\backtest\\reports\\london_orb_eurusd_m5_oos.json",
+  "html": "C:\\xampp\\htdocs\\GodE\\backtest\\reports\\london_orb_eurusd_m5_oos.htm",
+  "window": {
+    "from": "2024.07.01",
+    "to": "2026.01.01",
+    "symbol": "EURUSD",
+    "period": "M5"
+  },
+  "mt5_metrics": {
+    "Total Net Profit": "-302.28",
+    "Gross Profit": "4 785.28",
+    "Gross Loss": "-5 087.56",
+    "Profit Factor": "0.94",
+    "Expected Payoff": "-0.41",
+    "Recovery Factor": "-0.64",
+    "Sharpe Ratio": "-1.42",
+    "Total Trades": "742",
+    "Short Trades (won %)": "369 (43.90%)",
+    "Long Trades (won %)": "373 (49.06%)",
+    "Balance Drawdown Maximal": "449.70 (4.43%)",
+    "Balance Drawdown Relative": "4.43% (449.70)"
+  },
+  "python_scalp_promotion_oos": {
+    "symbol": "EURUSD",
+    "strategy": "london_orb",
+    "promoted": false,
+    "role": "research_only",
+    "oos_n": 768,
+    "oos_total_pct": 6.58,
+    "oos_pf": 1.17,
+    "reasons": [
+      "MT5 net -302.28 <= 0",
+      "MT5 PF 0.94 < 1.05",
+      "Run .\\scripts\\run_london_orb_promote.ps1 for UTC sweep + pin."
+    ],
+    "mt5_parity": {
+      "required": true,
+      "manifest": "C:\\xampp\\htdocs\\GodE\\research\\results\\london_orb_tester_manifest.json",
+      "parity_ok": false,
+      "mt5_pf": 0.94,
+      "mt5_net": -302.28,
+      "mt5_trades": 742,
+      "utc_offset_pinned": null,
+      "reasons": [
+        "MT5 net -302.28 <= 0",
+        "MT5 PF 0.94 < 1.05",
+        "Run .\\scripts\\run_london_orb_promote.ps1 for UTC sweep + pin."
+      ]
+    },
+    "ea": "SovereignLondonOrbEA.mq5"
+  },
+  "parity_ok": false,
+  "inferred_utc_offset": 0,
+  "parity_note": "UTC sweep pinned in london_orb_utc_pick.json; promotion requires require_mt5_parity.",
+  "tester_ran": true
+}

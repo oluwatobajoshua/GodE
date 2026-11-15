@@ -1,0 +1,13 @@
+{
+  "sources": [
+    "Fan (2025) optimized FX factors OOS",
+    "JSI (2024) carry + momentum tilting",
+    "Sovereign Stack v1 VIX + DD halt"
+  ],
+  "configs_tested": 972,
+  "promoted_count": 61,
+  "best_validation_pick": "mom12_n2_v18_32_m0.5_ddoff_neu0",
+  "best_validation_oos_sharpe": 0.39,
+  "best_validation_promoted": true,
+  "note": "Only carry_mom_filter baseline is EA-certified; stack tune guides InpStack* inputs"
+}

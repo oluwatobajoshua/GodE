@@ -1,0 +1,193 @@
+{
+  "canonical_bar_source": "mt5",
+  "config": "C:\\xampp\\htdocs\\GodE\\configs\\mt5_data_plane.json",
+  "snapshot": {
+    "path": "C:\\xampp\\htdocs\\GodE\\research\\results\\market_snapshot.json",
+    "generated_at": "2026-11-08T23:52:47.587626+00:00",
+    "expires_at": "2026-11-09T03:52:47.587626+00:00",
+    "knowledge_pct": 75.0
+  },
+  "symbols": [
+    {
+      "symbol": "GBPUSD",
+      "bar_meta": {
+        "symbol": "GBPUSD",
+        "canonical_preference": "mt5",
+        "resolved_source": "mt5",
+        "path": "C:\\xampp\\htdocs\\GodE\\research\\data\\mt5\\GBPUSD_H1.csv",
+        "file_mtime": "2026-11-08T23:52:47.807070971+00:00",
+        "file_bytes": 3506686,
+        "alternates_present": {
+          "mt5": "C:\\xampp\\htdocs\\GodE\\research\\data\\mt5\\GBPUSD_H1.csv",
+          "histdata": "C:\\xampp\\htdocs\\GodE\\research\\data\\histdata\\GBPUSD_H1.csv",
+          "legacy": "C:\\xampp\\htdocs\\GodE\\research\\data\\GBPUSD_H1.csv"
+        }
+      },
+      "canonical_bars": 49744,
+      "canonical_range": [
+        "2018-01-01 22:00:00",
+        "2025-12-31 21:00:00"
+      ],
+      "session_canonical": {
+        "bars": 49744,
+        "pct_hour_07_11": 0.20846735284657447,
+        "pct_hour_13_16": 0.16685429398520424,
+        "pct_prime_session": 0.3753216468317787,
+        "pct_tue_thu": 0.6009770022515278
+      },
+      "spread": {
+        "available": true,
+        "median_points": 1.0,
+        "median_pips_est": 0.1,
+        "p90_points": 5.0
+      },
+      "last_bar": {
+        "time": "2025-12-31 20:00:00",
+        "close": 1.34802,
+        "hour_utc": 20,
+        "dow": 2
+      },
+      "tape_compare": {
+        "overlap_bars": 12440,
+        "close_diff_pips_mean": 0.8386575562700983,
+        "close_diff_pips_p50": 0.20000000000131024,
+        "close_diff_pips_p99": 12.800000000001699,
+        "close_diff_pips_max": 62.50000000000089,
+        "chart_state_mismatch_pct": 2.8023598820058995,
+        "session_mt5": {
+          "bars": 12440,
+          "pct_hour_07_11": 0.20860128617363344,
+          "pct_hour_13_16": 0.16688102893890674,
+          "pct_prime_session": 0.3754823151125402,
+          "pct_tue_thu": 0.5995176848874598
+        }
+      },
+      "data_plane_ok": true,
+      "histdata_warning": "close_diff_p99_exceeded",
+      "histdata_divergence": true
+    },
+    {
+      "symbol": "EURUSD",
+      "bar_meta": {
+        "symbol": "EURUSD",
+        "canonical_preference": "mt5",
+        "resolved_source": "mt5",
+        "path": "C:\\xampp\\htdocs\\GodE\\research\\data\\mt5\\EURUSD_H1.csv",
+        "file_mtime": "2026-11-08T23:52:38.652812481+00:00",
+        "file_bytes": 3352500,
+        "alternates_present": {
+          "mt5": "C:\\xampp\\htdocs\\GodE\\research\\data\\mt5\\EURUSD_H1.csv",
+          "histdata": "C:\\xampp\\htdocs\\GodE\\research\\data\\histdata\\EURUSD_H1.csv",
+          "legacy": "C:\\xampp\\htdocs\\GodE\\research\\data\\EURUSD_H1.csv"
+        }
+      },
+      "canonical_bars": 49741,
+      "canonical_range": [
+        "2018-01-01 22:00:00",
+        "2025-12-31 21:00:00"
+      ],
+      "session_canonical": {
+        "bars": 49741,
+        "pct_hour_07_11": 0.20847992601676685,
+        "pct_hour_13_16": 0.16686435737118271,
+        "pct_prime_session": 0.37534428338794956,
+        "pct_tue_thu": 0.6009730403490079
+      },
+      "spread": {
+        "available": true,
+        "median_points": 0.0,
+        "median_pips_est": 0.0,
+        "p90_points": 8.0
+      },
+      "last_bar": {
+        "time": "2025-12-31 20:00:00",
+        "close": 1.17521,
+        "hour_utc": 20,
+        "dow": 2
+      },
+      "tape_compare": {
+        "overlap_bars": 12441,
+        "close_diff_pips_mean": 0.6107065348444642,
+        "close_diff_pips_p50": 0.10000000000065512,
+        "close_diff_pips_p99": 11.299999999998533,
+        "close_diff_pips_max": 52.200000000000024,
+        "chart_state_mismatch_pct": 3.5622475211164155,
+        "session_mt5": {
+          "bars": 12441,
+          "pct_hour_07_11": 0.2085845189293465,
+          "pct_hour_13_16": 0.1668676151434772,
+          "pct_prime_session": 0.37545213407282374,
+          "pct_tue_thu": 0.5994694960212201
+        }
+      },
+      "data_plane_ok": true,
+      "histdata_warning": "close_diff_p99_exceeded",
+      "histdata_divergence": true
+    },
+    {
+      "symbol": "USDJPY",
+      "bar_meta": {
+        "symbol": "USDJPY",
+        "canonical_preference": "mt5",
+        "resolved_source": "mt5",
+        "path": "C:\\xampp\\htdocs\\GodE\\research\\data\\mt5\\USDJPY_H1.csv",
+        "file_mtime": "2026-11-08T23:52:39.688107491+00:00",
+        "file_bytes": 3263099,
+        "alternates_present": {
+          "mt5": "C:\\xampp\\htdocs\\GodE\\research\\data\\mt5\\USDJPY_H1.csv",
+          "histdata": "C:\\xampp\\htdocs\\GodE\\research\\data\\histdata\\USDJPY_H1.csv",
+          "legacy": "C:\\xampp\\htdocs\\GodE\\research\\data\\USDJPY_H1.csv"
+        }
+      },
+      "canonical_bars": 49744,
+      "canonical_range": [
+        "2018-01-01 22:00:00",
+        "2025-12-31 21:00:00"
+      ],
+      "session_canonical": {
+        "bars": 49744,
+        "pct_hour_07_11": 0.20846735284657447,
+        "pct_hour_13_16": 0.16685429398520424,
+        "pct_prime_session": 0.3753216468317787,
+        "pct_tue_thu": 0.600997105178514
+      },
+      "spread": {
+        "available": true,
+        "median_points": 1.0,
+        "median_pips_est": 0.01,
+        "p90_points": 4.0
+      },
+      "last_bar": {
+        "time": "2025-12-31 20:00:00",
+        "close": 156.632,
+        "hour_utc": 20,
+        "dow": 2
+      },
+      "tape_compare": {
+        "overlap_bars": 12424,
+        "close_diff_pips_mean": 1.11767546683839,
+        "close_diff_pips_p50": 0.1999999999981128,
+        "close_diff_pips_p99": 21.25399999999991,
+        "close_diff_pips_max": 109.49999999999989,
+        "chart_state_mismatch_pct": 3.9669421487603307,
+        "session_mt5": {
+          "bars": 12424,
+          "pct_hour_07_11": 0.20886992916934966,
+          "pct_hour_13_16": 0.16661300708306503,
+          "pct_prime_session": 0.3754829362524147,
+          "pct_tue_thu": 0.5991629104958146
+        }
+      },
+      "data_plane_ok": true,
+      "histdata_warning": "close_diff_p99_exceeded",
+      "histdata_divergence": true
+    }
+  ],
+  "data_plane_go": true,
+  "guidance": [
+    "Export broker H1: .\\scripts\\sync_mt5_data_plane.ps1 -Export",
+    "Refresh professor: same script runs ingest + copies to MQL5/Files",
+    "Tester should use same symbol history as research/data/mt5/",
+    "If close_diff_p99 > 3 pips, do not trust HistData-vs-tester parity on H1"
+  ]
+}

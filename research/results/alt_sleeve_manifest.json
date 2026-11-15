@@ -1,0 +1,123 @@
+{
+  "lane": 2,
+  "note": "Alt assets are scanned only; carry stack remains default certified sleeve.",
+  "sleeves": [
+    {
+      "symbol": "BTCUSD",
+      "sleeve": "tsmom_12_1",
+      "promoted_3split": false,
+      "wire_to_ea": false,
+      "full": {
+        "strategy": "full",
+        "start": "2015-01-01",
+        "end": "2026-11-01",
+        "years": 11.8,
+        "cagr": 35.98,
+        "vol": 69.34,
+        "sharpe": 0.78,
+        "maxdd": -86.77,
+        "total": 3697.2
+      },
+      "splits": [
+        {
+          "split": "design",
+          "n": 36,
+          "cagr": -29.47,
+          "sharpe": 0.02,
+          "maxdd": -82.25,
+          "ok": false
+        },
+        {
+          "split": "validation",
+          "n": 30,
+          "cagr": 7.75,
+          "sharpe": 0.45,
+          "maxdd": -57.89,
+          "ok": true
+        },
+        {
+          "split": "OOS",
+          "n": 41,
+          "cagr": 37.0,
+          "sharpe": 0.87,
+          "maxdd": -35.09,
+          "ok": true
+        }
+      ]
+    },
+    {
+      "symbol": "XAUUSD",
+      "sleeve": "tsmom_12_1",
+      "promoted_3split": false,
+      "wire_to_ea": false,
+      "full": {
+        "strategy": "full",
+        "start": "2025-12-01",
+        "end": "2026-10-01",
+        "years": 0.8,
+        "cagr": -1.57,
+        "vol": 0.0,
+        "sharpe": 0,
+        "maxdd": -1.19,
+        "total": -1.31
+      },
+      "splits": [
+        {
+          "split": "design",
+          "n": 0,
+          "ok": false
+        },
+        {
+          "split": "validation",
+          "n": 0,
+          "ok": false
+        },
+        {
+          "split": "OOS",
+          "n": 11,
+          "cagr": -1.57,
+          "sharpe": 0,
+          "maxdd": -1.19,
+          "ok": false
+        }
+      ]
+    },
+    {
+      "symbol": "DXYUSD",
+      "sleeve": "tsmom_12_1",
+      "promoted_3split": false,
+      "wire_to_ea": false,
+      "full": {
+        "strategy": "full",
+        "start": "2025-12-01",
+        "end": "2026-10-01",
+        "years": 0.8,
+        "cagr": -1.57,
+        "vol": 0.0,
+        "sharpe": 0,
+        "maxdd": -1.19,
+        "total": -1.31
+      },
+      "splits": [
+        {
+          "split": "design",
+          "n": 0,
+          "ok": false
+        },
+        {
+          "split": "validation",
+          "n": 0,
+          "ok": false
+        },
+        {
+          "split": "OOS",
+          "n": 11,
+          "cagr": -1.57,
+          "sharpe": 0,
+          "maxdd": -1.19,
+          "ok": false
+        }
+      ]
+    }
+  ]
+}

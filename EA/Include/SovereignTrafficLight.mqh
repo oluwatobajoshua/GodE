@@ -11,6 +11,8 @@
 #ifndef __SOVEREIGN_TRAFFIC_LIGHT_MQH__
 #define __SOVEREIGN_TRAFFIC_LIGHT_MQH__
 
+#include <Sovereign\SovereignError.mqh>
+
 #define TL_RED    0
 #define TL_YELLOW 1
 #define TL_GREEN  2
@@ -59,6 +61,9 @@ private:
    int    m_killEnd;
    double m_extremeThreshold;
 
+   string m_lastVetoReason;
+   datetime m_lastVetoTime;
+
    int    m_file;
    int    m_h1Adx;
    int    m_d1Sma200;
@@ -94,9 +99,17 @@ private:
    {
       change = 0.0;
       if(!SymbolSelect(symbol, true)) return false;
-      if(iBars(symbol, PERIOD_M5) < shift + 3) return false;
+      SovResetLastError();
+      int bars = iBars(symbol, PERIOD_M5);
+      if(bars < shift + 3)
+      {
+         SovLogWarn("SymbolChange: iBars(" + symbol + ")=" + IntegerToString(bars) + " < need " + IntegerToString(shift + 3));
+         return false;
+      }
 
+      SovResetLastError();
       double newest = iClose(symbol, PERIOD_M5, 1);
+      SovResetLastError();
       double oldest = iClose(symbol, PERIOD_M5, 1 + shift);
       if(newest <= 0.0 || oldest <= 0.0) return false;
 
@@ -106,8 +119,14 @@ private:
 
    int MacroLight(const int side, const int mode, const string symbol) const
    {
-      double change = 0.0;
-      if(!SymbolChange(symbol, 6, change)) return TL_NA;
+       double change = 0.0;
+       string sym = symbol;
+       if(!SymbolChange(sym, 6, change))
+       {
+          //--- Macro symbols (DXY/VIX) are unavailable on most brokers;
+          //--- fall back to the main symbol's price change as a proxy.
+          if(!SymbolChange(m_symbol, 6, change)) return TL_NA;
+       }
 
       // For a long, a falling dollar / VIX is supportive.  For a short,
       // a rising dollar / VIX is supportive.  Mean reversion deliberately
@@ -122,7 +141,13 @@ private:
    {
       if(m_m5Atr == INVALID_HANDLE) return TL_NA;
       double buffer[];
+      SovResetLastError();
       int copied = CopyBuffer(m_m5Atr, 0, 1, 120, buffer);
+      if(copied <= 0)
+      {
+         SovLogWarn("VolatilityLight: CopyBuffer ATR failed err=" + IntegerToString(GetLastError()));
+         return TL_NA;
+      }
       if(copied < 50) return TL_NA;
 
       double current = buffer[0];
@@ -144,8 +169,10 @@ private:
       if(m_d1Sma200 != INVALID_HANDLE)
       {
          double sma[1];
+         SovResetLastError();
          if(CopyBuffer(m_d1Sma200, 0, 0, 1, sma) >= 1)
          {
+            SovResetLastError();
             double d1Close = iClose(m_symbol, PERIOD_D1, 0);
             if(d1Close > 0.0)
                d1Aligned = (side > 0) ? (d1Close > sma[0]) : (d1Close < sma[0]);
@@ -177,9 +204,9 @@ private:
       if(m_h1Adx == INVALID_HANDLE) return TL_NA;
 
       double adx[1], plusDi[1], minusDi[1];
-      bool adxReady = (CopyBuffer(m_h1Adx, 0, 1, 1, adx) >= 1 &&
-                       CopyBuffer(m_h1Adx, 1, 1, 1, plusDi) >= 1 &&
-                       CopyBuffer(m_h1Adx, 2, 1, 1, minusDi) >= 1);
+      bool adxReady = (SovCopyBuffer(m_h1Adx, 0, 1, 1, adx, "ADX0") &&
+                       SovCopyBuffer(m_h1Adx, 1, 1, 1, plusDi, "ADX1") &&
+                       SovCopyBuffer(m_h1Adx, 2, 1, 1, minusDi, "ADX2"));
       bool diAligned = adxReady &&
                        ((side > 0 && plusDi[0] > minusDi[0]) ||
                         (side < 0 && minusDi[0] > plusDi[0]));
@@ -198,7 +225,7 @@ private:
 
       double rsi[1];
       bool rsiReady = (m_m5Rsi2 != INVALID_HANDLE &&
-                       CopyBuffer(m_m5Rsi2, 0, 1, 1, rsi) >= 1);
+                       SovCopyBuffer(m_m5Rsi2, 0, 1, 1, rsi, "RSI2"));
       bool stretched = rsiReady &&
                        ((side > 0 && rsi[0] <= 15.0) ||
                         (side < 0 && rsi[0] >= 85.0));
@@ -211,8 +238,9 @@ private:
    int RoomLight(const int side, const double atr) const
    {
       if(atr <= 0.0) return TL_NA;
-      double price = (side > 0) ? SymbolInfoDouble(m_symbol, SYMBOL_ASK)
-                                : SymbolInfoDouble(m_symbol, SYMBOL_BID);
+      SovResetLastError();
+      double price = (side > 0) ? SovSymbolDouble(m_symbol, SYMBOL_ASK, 0.0, "RoomLight price")
+                                : SovSymbolDouble(m_symbol, SYMBOL_BID, 0.0, "RoomLight price");
       if(price <= 0.0) return TL_NA;
 
       double nearest = 0.0;
@@ -238,7 +266,6 @@ private:
          }
       }
 
-      // No opposing level inside the lookback means open space.
       if(nearest == 0.0) return TL_GREEN;
 
       double roomAtr = nearest / atr;
@@ -250,8 +277,9 @@ private:
    int OpposingLight(const int side, const double atr) const
    {
       if(atr <= 0.0) return TL_NA;
-      double price = (side > 0) ? SymbolInfoDouble(m_symbol, SYMBOL_ASK)
-                                : SymbolInfoDouble(m_symbol, SYMBOL_BID);
+      SovResetLastError();
+      double price = (side > 0) ? SovSymbolDouble(m_symbol, SYMBOL_ASK, 0.0, "OpposingLight price")
+                                : SovSymbolDouble(m_symbol, SYMBOL_BID, 0.0, "OpposingLight price");
       if(price <= 0.0) return TL_NA;
 
       double level = 0.0;
@@ -360,9 +388,11 @@ public:
       m_d1Sma200 = INVALID_HANDLE;
       m_m5Atr = INVALID_HANDLE;
       m_m5Rsi2 = INVALID_HANDLE;
+      m_lastVetoReason = "";
+      m_lastVetoTime = 0;
    }
 
-   bool Init(const bool enabled, const string symbol, const bool logEnabled)
+    bool Init(const bool enabled, const string symbol, const bool logEnabled)
    {
       m_enabled = enabled;
       m_log = logEnabled;
@@ -371,40 +401,54 @@ public:
 
       if(!enabled) return true;
 
+      SovResetLastError();
       m_h1Adx    = iADX(symbol, PERIOD_H1, 14);
+      SovResetLastError();
       m_d1Sma200 = iMA(symbol, PERIOD_D1, 200, 0, MODE_SMA, PRICE_CLOSE);
+      SovResetLastError();
       m_m5Atr    = iATR(symbol, PERIOD_CURRENT, 14);
+      SovResetLastError();
       m_m5Rsi2   = iRSI(symbol, PERIOD_CURRENT, 2, PRICE_CLOSE);
 
       if(m_h1Adx == INVALID_HANDLE || m_d1Sma200 == INVALID_HANDLE ||
          m_m5Atr == INVALID_HANDLE || m_m5Rsi2 == INVALID_HANDLE)
       {
-         Print("Sovereign traffic light: one or more indicator handles failed; "
-               "affected lights will report NA.");
+         SovLogWarn("TrafficLight: one or more indicator handles failed; affected lights will report NA.");
       }
 
       if(logEnabled)
       {
-         FolderCreate("Sovereign");
+         SovResetLastError();
+         if(!FolderCreate("Sovereign"))
+            SovLogWarn("TrafficLight: FolderCreate(Sovereign) failed err=" + IntegerToString(GetLastError()));
          string path = "Sovereign\\traffic_light.csv";
          bool existed = FileIsExist(path);
+         SovResetLastError();
          m_file = FileOpen(path,
                            FILE_READ | FILE_WRITE | FILE_TXT | FILE_ANSI |
                            FILE_SHARE_READ | FILE_SHARE_WRITE);
          if(m_file == INVALID_HANDLE)
          {
-            PrintFormat("Sovereign traffic light: cannot open %s (error %d)",
-                        path, GetLastError());
+            SovLogWarn("TrafficLight: cannot open " + path + " err=" + IntegerToString(GetLastError()));
          }
          else
          {
             FileSeek(m_file, 0, SEEK_END);
             if(!existed || FileSize(m_file) == 0)
-               FileWriteString(m_file,
+            {
+               SovResetLastError();
+               if(FileWriteString(m_file,
                   "server_time,symbol,mode,side,decision,hard_veto,green,yellow,red,na,"
                   "total,risk_mult,trend,structure,momentum,volatility,macro,sentiment,"
-                  "session,spread,room,opposing,pattern,note\r\n");
+                  "session,spread,room,opposing,pattern,note\r\n") <= 0)
+               {
+                  SovLogWarn("TrafficLight: write header failed err=" + IntegerToString(GetLastError()));
+               }
+            }
+            SovResetLastError();
             FileFlush(m_file);
+            if(GetLastError() != 0)
+               SovLogWarn("TrafficLight: FileFlush failed err=" + IntegerToString(GetLastError()));
          }
       }
 
@@ -435,16 +479,22 @@ public:
       m_killEnd = endHour;
    }
 
-   void Deinit()
+    void Deinit()
    {
-      if(m_file != INVALID_HANDLE) { FileClose(m_file); m_file = INVALID_HANDLE; }
-      if(m_h1Adx != INVALID_HANDLE)    { IndicatorRelease(m_h1Adx);    m_h1Adx = INVALID_HANDLE; }
-      if(m_d1Sma200 != INVALID_HANDLE) { IndicatorRelease(m_d1Sma200); m_d1Sma200 = INVALID_HANDLE; }
-      if(m_m5Atr != INVALID_HANDLE)    { IndicatorRelease(m_m5Atr);    m_m5Atr = INVALID_HANDLE; }
-      if(m_m5Rsi2 != INVALID_HANDLE)   { IndicatorRelease(m_m5Rsi2);   m_m5Rsi2 = INVALID_HANDLE; }
+      if(m_file != INVALID_HANDLE) { SovResetLastError(); FileClose(m_file); m_file = INVALID_HANDLE; }
+      if(m_h1Adx != INVALID_HANDLE)    { SovResetLastError(); IndicatorRelease(m_h1Adx);    m_h1Adx = INVALID_HANDLE; }
+      if(m_d1Sma200 != INVALID_HANDLE) { SovResetLastError(); IndicatorRelease(m_d1Sma200); m_d1Sma200 = INVALID_HANDLE; }
+      if(m_m5Atr != INVALID_HANDLE)    { SovResetLastError(); IndicatorRelease(m_m5Atr);    m_m5Atr = INVALID_HANDLE; }
+      if(m_m5Rsi2 != INVALID_HANDLE)   { SovResetLastError(); IndicatorRelease(m_m5Rsi2);   m_m5Rsi2 = INVALID_HANDLE; }
    }
 
    bool Enabled() const { return m_enabled; }
+
+   //--- Spread veto threshold. The EA sets this per bar to a symbol-scaled cap
+   //--- (max(configured, 2 x recent median spread)) - a fixed 10-point cap is
+   //--- FX-calibrated and hard-vetoes every crypto/vol-index tick forever.
+   void SetMaxSpread(const int pts) { if(pts > 0) m_maxSpread = pts; }
+   int  MaxSpread() const { return m_maxSpread; }
 
    TrafficLightResult Evaluate(const int side, const int mode, const double atr,
                                const double rangePosition, const int htfTrend,
@@ -547,6 +597,14 @@ public:
 
       r.summary = StringFormat("G%d/Y%d/R%d/NA%d risk=%.2f",
                                r.green, r.yellow, r.red, r.na, r.riskMultiplier);
+
+      //--- persist last veto reason for the status panel
+      if(r.reason != "" && (r.hardVeto || (m_gateMode > 1 && !r.allowed)))
+      {
+         m_lastVetoReason = r.reason;
+         m_lastVetoTime = TimeCurrent();
+      }
+
       return r;
    }
 
@@ -582,9 +640,17 @@ public:
          StateText(r.pattern),
          Csv(note));
 
-      FileWriteString(m_file, line + "\r\n");
+      SovResetLastError();
+      if(FileWriteString(m_file, line + "\r\n") <= 0)
+         SovLogWarn("TrafficLight: FileWriteString failed err=" + IntegerToString(GetLastError()));
+      SovResetLastError();
       FileFlush(m_file);
+      if(GetLastError() != 0)
+         SovLogWarn("TrafficLight: FileFlush failed err=" + IntegerToString(GetLastError()));
    }
+
+   string LastVetoReason() const { return m_lastVetoReason; }
+   datetime LastVetoTime() const { return m_lastVetoTime; }
 };
 
 #endif // __SOVEREIGN_TRAFFIC_LIGHT_MQH__

@@ -1,0 +1,18 @@
+{
+  "sources": [
+    "Sarno et al. (2012) cross-sectional FX momentum",
+    "Moskowitz, Ooi & Pedersen (2012) time-series momentum",
+    "Carry + momentum triple-screen (literature combo)",
+    "Sovereign Stack v1 (neutral carry + VIX + DD halt)"
+  ],
+  "promoted": [
+    "carry_mom_filter"
+  ],
+  "automated_default": "carry_mom_filter",
+  "promotion_rule": "cagr>0, sharpe>0, pf>=1 on design, validation, OOS",
+  "ea_mapping": {
+    "carry_mom_filter": "SovereignGodsEyeEA InpStrategy=SOV_CARRY_MOM",
+    "sov_stack_v1": "SovereignGodsEyeEA InpUseSovereignStackV1=true",
+    "lit_*": "research only until EA sleeve wired"
+  }
+}

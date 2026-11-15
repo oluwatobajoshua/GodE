@@ -1,0 +1,37 @@
+{
+  "name": "sovereign_ecosystem_professor",
+  "schema_version": 2,
+  "snapshot_file": "market_snapshot.json",
+  "pillars": [
+    "technical",
+    "fundamental",
+    "sentiment",
+    "positioning",
+    "events",
+    "intermarket",
+    "cross_section",
+    "volatility",
+    "liquidity",
+    "session",
+    "policy"
+  ],
+  "hedge_fund_gaps_planned": [
+    "options_fx_skew",
+    "em_credit_spreads",
+    "bank_fx_flows",
+    "central_bank_speakers_nlp"
+  ],
+  "ingest_script": "python/market_ingest.py",
+  "test_script": "python/test_ecosystem_snapshot.py",
+  "default_symbols": ["GBPUSD", "EURUSD", "USDJPY"],
+  "data_paths": {
+    "h1_glob": "research/data/*_H1.csv",
+    "fred_rates": "research/data/rates",
+    "vix": "research/data/rates/VIX.csv",
+    "dxy_optional": "research/data/DXYUSD_M5.csv"
+  },
+  "ea": {
+    "include": "EA/Include/SovereignMarketSnapshot.mqh",
+    "input_flag": "InpEcosystemProfessor"
+  }
+}

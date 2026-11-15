@@ -1,0 +1,7 @@
+strategy,period,date,return_pct,trades,equity,win_period
+scalp_EURUSD_ema21_pullback,month,2025-07-31,0.2614,99,1.002614,True
+scalp_EURUSD_ema21_pullback,month,2025-08-31,-0.0087,117,1.002526,False
+scalp_EURUSD_ema21_pullback,month,2025-09-30,0.8392,133,1.010939,True
+scalp_EURUSD_ema21_pullback,month,2025-10-31,-0.2939,132,1.007968,False
+scalp_EURUSD_ema21_pullback,month,2025-11-30,-0.0707,111,1.007255,False
+scalp_EURUSD_ema21_pullback,month,2025-12-31,0.2712,115,1.009987,True

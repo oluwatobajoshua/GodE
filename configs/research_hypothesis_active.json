@@ -1,0 +1,24 @@
+{
+  "primary_hypothesis": "carry_mom_filter",
+  "secondary_hypothesis": "GBPUSD_H1_chart_prime_professor_governor",
+  "primary_verdict": true,
+  "secondary_verdict": "overlay_only",
+  "allocation_model": "portfolio_combine (85/15 core/satellite)",
+  "next_action_carry": "Run .\\scripts\\run_carry_book.ps1 — D1 tester + certification (only certified book)",
+  "next_action_scalp": "discontinued — london_orb gross negative (london_orb_gross_net.json)",
+  "next_action_h1": "overlay_only — no capital until h1_promotion",
+  "carry_train_pick": {
+    "cost_pts": 0.0,
+    "top_n": 3,
+    "design_cagr": 1.42,
+    "design_sharpe": 0.18,
+    "design_pf_pass": true,
+    "validation_2015_2019_cagr": 0.21,
+    "validation_2015_2019_sharpe": 0.07,
+    "validation_2015_2019_pass": true,
+    "OOS_2020_2026_cagr": 3.43,
+    "OOS_2020_2026_sharpe": 0.36,
+    "OOS_2020_2026_pass": true
+  },
+  "carry_train_val_oos_pass": true
+}

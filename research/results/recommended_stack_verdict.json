@@ -1,0 +1,51 @@
+{
+  "strategy": "SOV_CARRY_MOM + Sovereign Stack v1",
+  "config": "mom12_n4_v16_28_m0.45_ddoff_neu1",
+  "best_win_settings_config": "mom12_n4_v16_28_m0.45_ddoff_neu1",
+  "h1_fxmopol_promoted": false,
+  "splits": [
+    {
+      "split": "design_2005_2014",
+      "months": 119,
+      "total_return_pct": 21.42,
+      "cagr_pct": 1.99,
+      "sharpe": 0.28,
+      "maxdd_pct": -24.97,
+      "profit_factor": 1.43,
+      "profitable_split": true
+    },
+    {
+      "split": "validation_2015_2019",
+      "months": 60,
+      "total_return_pct": 3.43,
+      "cagr_pct": 0.69,
+      "sharpe": 0.13,
+      "maxdd_pct": -11.42,
+      "profit_factor": 1.19,
+      "profitable_split": true
+    },
+    {
+      "split": "OOS_2020_2026",
+      "months": 80,
+      "total_return_pct": 36.55,
+      "cagr_pct": 4.78,
+      "sharpe": 0.82,
+      "maxdd_pct": -6.92,
+      "profit_factor": 2.61,
+      "profitable_split": true
+    }
+  ],
+  "full_period": {
+    "months": 259,
+    "cagr_pct": 2.53,
+    "sharpe": 0.39,
+    "maxdd_pct": -24.97
+  },
+  "profitable_all_3_splits": true,
+  "deployable_live": false,
+  "deployable_reason": "Project FROZEN; monthly FX premia only \u2014 verify MT5 tester + broker swaps; not steady daily profit; historical max DD ~26%+ on simpler carry variants.",
+  "next_commands": [
+    ".\\scripts\\run_recommended_stack.ps1 -SkipPlaybook",
+    ".\\scripts\\run_gods_eye_tester.ps1 -From 2020.01.01 -To 2026.01.01 -NoVisual"
+  ]
+}

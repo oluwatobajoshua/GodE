@@ -1,0 +1,132 @@
+{
+  "updated": "2026-11-08",
+  "rule": "Retain only backtest winners; chart = fxmopol.tpl (EMA21/50/SMMA100, RSI9 20/50/80).",
+  "chart_template": {
+    "file": "templates/fxmopol.tpl",
+    "mt5_path": "MQL5/Profiles/Templates/fxmopol.tpl",
+    "symbol_default": "EURUSD",
+    "indicators": {
+      "InpEmaPeriod": 21,
+      "InpSlowEma": 50,
+      "InpSmmaPeriod": 100,
+      "InpRsiPeriod": 9,
+      "rsi_levels": [
+        20,
+        50,
+        80
+      ],
+      "fractals_on_chart": true,
+      "fractals_in_ea": false
+    },
+    "note": "Template matches discretionary chart; attach EA with preset EUR_CHART_ONLY unless using a promoted symbol preset."
+  },
+  "monthly_automation": {
+    "certified_strategy": "carry_mom_filter",
+    "ea": "SovereignGodsEyeEA.mq5",
+    "strategy_mode": "SOV_CARRY_MOM",
+    "stack_overlay": {
+      "source": "stack_refine.py (blend_sharpe, 3-split gate)",
+      "config": "mom12_n4_v16_28_m0.45_ddoff_neu1",
+      "OOS_sharpe": 0.82,
+      "promoted_3split": true,
+      "inputs": {
+        "InpUseSovereignStackV1": true,
+        "InpTopN": 4,
+        "InpStackVixLo": 16.0,
+        "InpStackVixHi": 28.0,
+        "InpStackVixMidScale": 0.45,
+        "InpStackRequireNeutral": true,
+        "InpStackDdHaltEnable": false
+      },
+      "blend_sharpe": 0.5655086206239477
+    },
+    "note": "Only carry_mom_filter is 3-split promoted for automation."
+  },
+  "intraday_h1": {
+    "certified": false,
+    "ea": "SovereignFxmopolEA.mq5",
+    "presets": {
+      "EUR_CHART_ONLY": {
+        "profitable_oos": false,
+        "use": "Chart + template; no auto entries on EUR (all FXMOPOL EUR OOS <= 0)",
+        "inputs": {
+          "InpPreset": "PRESET_EUR_CHART_ONLY",
+          "InpVisualMobileSetup": true,
+          "InpUsePlaybook": false,
+          "InpStreakRide": false,
+          "InpRegimeEmaOnly": false,
+          "InpEmaPeriod": 21,
+          "InpSlowEma": 50,
+          "InpSmmaPeriod": 100,
+          "InpRsiPeriod": 9,
+          "InpUseFractals": false,
+          "InpUseProxFilters": true,
+          "InpMaxPerDay": 2,
+          "InpGoodSessionsOnly": true
+        }
+      },
+      "USDJPY_STREAK": {
+        "profitable_oos": true,
+        "source": "ema_streak_ride_grid.csv",
+        "config": "USDJPY_ema21_s30_hold12",
+        "OOS_exp_bps": 1.04,
+        "OOS_pf": 1.05,
+        "OOS_n": 70,
+        "inputs": {
+          "InpPreset": "PRESET_USDJPY_STREAK",
+          "InpVisualMobileSetup": true,
+          "InpUsePlaybook": false,
+          "InpStreakRide": true,
+          "InpRegimeEmaOnly": true,
+          "InpMinStreak": 30,
+          "InpEmaPeriod": 21,
+          "InpSlowEma": 100,
+          "InpSmmaPeriod": 100,
+          "InpRsiPeriod": 9,
+          "InpUseFractals": false,
+          "InpUseProxFilters": true,
+          "InpMaxPerDay": 2,
+          "InpGoodSessionsOnly": true
+        }
+      },
+      "GBP_PLAYBOOK_PROXIMITY": {
+        "profitable_oos": true,
+        "source": "fxmopol_proximity_compare_summary.json",
+        "OOS_exp_bps": 0.42,
+        "OOS_pf": 1.08,
+        "OOS_total_pct": 0.21,
+        "warning": "Small OOS sample n=52; research only, not certified",
+        "inputs": {
+          "InpPreset": "PRESET_GBP_PLAYBOOK",
+          "InpVisualMobileSetup": true,
+          "InpUsePlaybook": true,
+          "InpStreakRide": false,
+          "InpRegimeEmaOnly": false,
+          "InpMinStreak": 5,
+          "InpEmaPeriod": 21,
+          "InpSlowEma": 50,
+          "InpSmmaPeriod": 100,
+          "InpRsiPeriod": 9,
+          "InpUseFractals": false,
+          "InpUseProxFilters": true,
+          "InpMaxEntryEma21Atr": 0.4,
+          "InpMinFanSpreadAtr": 0.12,
+          "InpExitExtEma21Atr": 1.15,
+          "InpMinBarsExtExit": 4,
+          "InpMinProfitAtrExt": 0.35,
+          "InpMaxPerDay": 2,
+          "InpGoodSessionsOnly": true
+        }
+      }
+    },
+    "dropped_presets": [
+      "baseline playbook without proximity (all pairs OOS negative)",
+      "EURUSD playbook with proximity (OOS -0.86 bps)",
+      "USDJPY playbook proximity (OOS negative)",
+      "fxmopol_tune breakout",
+      "legacy BabyPips fib/breakout",
+      "fractal+criminal visual without regime",
+      "InpUseFractals in EA (not in winners)"
+    ]
+  }
+}

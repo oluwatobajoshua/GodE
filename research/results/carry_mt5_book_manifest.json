@@ -1,0 +1,40 @@
+{
+  "profiles": {
+    "gods_eye_carry_d1": {
+      "source": "C:\\xampp\\htdocs\\GodE\\backtest\\reports\\gods_eye_carry_d1_EURUSD_D1_book.json",
+      "from_date": "2024.01.01",
+      "to_date": "2026.01.01",
+      "net": 362.46,
+      "pf": 1.93,
+      "trades": 37,
+      "max_dd": "240.02 (2.32%)"
+    },
+    "gods_eye_carry_d1_ecn": {
+      "source": "C:\\xampp\\htdocs\\GodE\\backtest\\reports\\gods_eye_carry_d1_ecn_EURUSD_D1_book.json",
+      "from_date": "2024.01.01",
+      "to_date": "2026.01.01",
+      "net": 283.3,
+      "pf": 2.1,
+      "trades": 25,
+      "max_dd": "80.01 (0.79%)"
+    }
+  },
+  "fallback_factory": {
+    "source": "C:\\xampp\\htdocs\\GodE\\backtest\\reports\\gods_eye_carry_d1_EURUSD_D1_factory.json",
+    "from_date": "2024.01.01",
+    "to_date": "2026.01.01",
+    "net": 362.46,
+    "pf": 1.93,
+    "trades": 37,
+    "max_dd": "240.02 (2.32%)"
+  },
+  "monthly_mt5": {
+    "monthly_csv": "C:\\xampp\\htdocs\\GodE\\research\\results\\carry_mt5_book_monthly.csv",
+    "compare_csv": "C:\\xampp\\htdocs\\GodE\\research\\results\\carry_mt5_python_mt5_monthly_compare.csv"
+  },
+  "recommend_attach": {
+    "ea": "SovereignGodsEyeEA.mq5",
+    "timeframe": "D1",
+    "inputs": "InpStrategy=SOV_CARRY_MOM"
+  }
+}

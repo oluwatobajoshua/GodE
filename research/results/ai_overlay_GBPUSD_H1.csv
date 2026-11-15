@@ -1,0 +1,25 @@
+#SOVEREIGN_AI_OVERLAY=1
+SYMBOL,GBPUSD
+TF,H1
+ASOF,2026-11-09 08:00:00
+READ,wait,0.20,1
+SOURCE,deterministic
+NARR,Price 1.33939. No trade: EMA21 points up but structure is downtrend (LH/LL). RSI9 68.9; structure downtrend (LH/LL); spread 3.0 pts. The rule only earns when a direction exists and cost is low; so standing aside is the correct action; not a missed one.
+VETO,momentum up fights a downtrend (LH/LL)
+PRICE,1.33939
+EMA21,1.33799
+EMA50,1.34007
+RSI,68.9
+ATR,0.00109
+SLOPE,+0.324
+STRUCT,downtrend (LH/LL)
+SPREAD,3.0,0
+RISK,momentum up fights a downtrend (LH/LL)
+LEVEL,1.33926,resistance,S/R
+LEVEL,1.33958,support,S/R
+LEVEL,1.33980,support,S/R
+LEVEL,1.33986,resistance,S/R
+LEVEL,1.33884,resistance,S/R
+LEVEL,1.34007,support,S/R
+ARROW,-117,up,RSI band
+ARROW,-57,up,RSI band

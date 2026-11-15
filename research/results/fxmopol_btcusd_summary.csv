@@ -1,0 +1,13 @@
+variant,cost_bps,proximity,strict_stayaway,split,n,exp_bps,pf,winrate,total_pct
+baseline_3bps,3.0,True,True,design,319,-7.13,0.89,40.4,-24.93
+baseline_3bps,3.0,True,True,validation,299,-1.68,0.97,41.8,-7.72
+baseline_3bps,3.0,True,True,OOS,439,-11.47,0.7,36.4,-40.53
+realistic_10bps,10.0,True,True,design,319,-14.13,0.8,38.6,-39.97
+realistic_10bps,10.0,True,True,validation,299,-8.68,0.85,39.5,-25.16
+realistic_10bps,10.0,True,True,OOS,439,-18.47,0.56,33.7,-56.29
+no_proximity,10.0,False,True,design,965,-8.23,0.88,43.1,-62.5
+no_proximity,10.0,False,True,validation,877,-11.95,0.82,42.5,-69.1
+no_proximity,10.0,False,True,OOS,1228,-9.57,0.77,41.3,-71.06
+relaxed_stayaway,10.0,True,False,design,319,-14.13,0.8,38.6,-39.97
+relaxed_stayaway,10.0,True,False,validation,299,-8.68,0.85,39.5,-25.16
+relaxed_stayaway,10.0,True,False,OOS,439,-18.47,0.56,33.7,-56.29

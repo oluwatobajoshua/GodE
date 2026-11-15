@@ -1,0 +1,59 @@
+{
+  "python": [
+    {
+      "fn": "stop_hunt_reclaim",
+      "ok": true
+    },
+    {
+      "fn": "stop_hunt_reclaim_stack",
+      "ok": true
+    },
+    {
+      "fn": "playbook_chart_entry",
+      "ok": true
+    },
+    {
+      "fn": "pullback_long",
+      "ok": true
+    },
+    {
+      "fn": "retest_short",
+      "ok": true
+    },
+    {
+      "fn": "fractal_low",
+      "ok": true
+    },
+    {
+      "fn": "fractal_high",
+      "ok": true
+    },
+    {
+      "fn": "regime_streak",
+      "ok": true
+    },
+    {
+      "fn": "stack_long",
+      "ok": true
+    },
+    {
+      "fn": "stack_short",
+      "ok": true
+    },
+    {
+      "fn": "extension_exit_trigger",
+      "ok": true
+    },
+    {
+      "fn": "passes_entry_filters",
+      "ok": true
+    }
+  ],
+  "ea_mqh": {
+    "PlaybookChartEntry": true,
+    "WickHuntReclaimStack": true,
+    "LevelTpHit": true,
+    "InpUseFullPriceAction": true
+  },
+  "note": "OOS certification unchanged \u2014 implementation only"
+}

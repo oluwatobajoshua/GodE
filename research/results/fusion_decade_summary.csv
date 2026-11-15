@@ -1,0 +1,7 @@
+split,sleeve,cagr,sharpe,maxdd,pf,n
+design,carry_mom_only,-0.99,-0.15,-24.73,0.97,84
+validation,carry_mom_only,-0.99,-0.18,-14.08,0.97,48
+OOS,carry_mom_only,3.39,1.66,-17.46,1.31,92
+design,fusion_carry_75_novel_25,-0.69,-0.18,-19.15,0.97,84
+validation,fusion_carry_75_novel_25,-0.69,-0.21,-10.64,0.97,48
+OOS,fusion_carry_75_novel_25,2.7,1.67,-13.32,1.31,93

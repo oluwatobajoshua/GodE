@@ -1,0 +1,14 @@
+{
+  "generated_at": "2026-11-08T13:53:27.066780+00:00",
+  "git": "3edf994",
+  "pass_bar": {
+    "pf": 1.05,
+    "sharpe": 0.25,
+    "maxdd_pct": -30.0
+  },
+  "candidates_oos": [
+    "nov_vov_defensive",
+    "front_silence_breakout"
+  ],
+  "n_hypotheses": 18
+}

@@ -1,0 +1,127 @@
+{
+  "note": {
+    "read": "long",
+    "confidence": 0.55,
+    "narrative": "Price 159.69500. EMA21 slope is +0.17 ATR up and RSI9 is 52.5 inside the 25-75 band. Structure reads uptrend (HH/HL), so nothing contradicts the direction. That is the regime the RSI band rule is built for: buy the pullback toward 50, leave above 75.",
+    "risks": [
+      "no structural risk flagged"
+    ],
+    "veto": false,
+    "veto_reason": "",
+    "draw": {
+      "levels": [
+        {
+          "price": 159.638,
+          "kind": "support",
+          "label": "S/R"
+        },
+        {
+          "price": 159.837,
+          "kind": "resistance",
+          "label": "S/R"
+        },
+        {
+          "price": 159.48,
+          "kind": "support",
+          "label": "S/R"
+        },
+        {
+          "price": 159.938,
+          "kind": "resistance",
+          "label": "S/R"
+        },
+        {
+          "price": 159.946,
+          "kind": "resistance",
+          "label": "S/R"
+        }
+      ],
+      "zones": [],
+      "arrows": [
+        {
+          "bar_offset": -152,
+          "direction": "down",
+          "label": "RSI band"
+        },
+        {
+          "bar_offset": -135,
+          "direction": "up",
+          "label": "RSI band"
+        }
+      ]
+    },
+    "source": "deterministic"
+  },
+  "state": {
+    "symbol": "USDJPY",
+    "tf": "H1",
+    "asof": "2026-11-12 09:00:00",
+    "bars": 55118,
+    "price": {
+      "last": 159.695,
+      "change_1_bar_pct": 0.0019,
+      "change_20_bar_pct": 0.0846
+    },
+    "indicators": {
+      "ema21": 159.61759,
+      "ema50": 159.23577,
+      "ema21_slope_atr": 0.17,
+      "ema21_slope5_atr": 0.421,
+      "rsi9": 52.47,
+      "atr": 0.15639,
+      "atr_ratio": 0.884
+    },
+    "structure": {
+      "state": "uptrend (HH/HL)"
+    },
+    "levels": [
+      {
+        "price": 159.638,
+        "kind": "support",
+        "age_bars": 5
+      },
+      {
+        "price": 159.837,
+        "kind": "resistance",
+        "age_bars": 7
+      },
+      {
+        "price": 159.48,
+        "kind": "support",
+        "age_bars": 8
+      },
+      {
+        "price": 159.938,
+        "kind": "resistance",
+        "age_bars": 16
+      },
+      {
+        "price": 159.946,
+        "kind": "resistance",
+        "age_bars": 2
+      }
+    ],
+    "bad_zones": {
+      "spread_pts": 3.0,
+      "spread_p90_pts": 3.0,
+      "spread_hostile": false,
+      "volatility_spike": false,
+      "thin_liquidity_hour": false
+    },
+    "rule": {
+      "strategy": "RSI band (min-hold 12, margin 3.0)",
+      "position": 0,
+      "trend_state": 1,
+      "recent_entries": [
+        {
+          "bar_offset": -152,
+          "direction": "short"
+        },
+        {
+          "bar_offset": -135,
+          "direction": "long"
+        }
+      ]
+    }
+  }
+}

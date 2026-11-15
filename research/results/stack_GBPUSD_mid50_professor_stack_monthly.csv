@@ -1,0 +1,17 @@
+strategy,period,date,return_pct,trades,equity,win_period
+stack_GBPUSD_mid50_professor_stack,month,2019-07-31,0.1492,1,1.001492,True
+stack_GBPUSD_mid50_professor_stack,month,2020-08-31,0.2907,2,1.004403,True
+stack_GBPUSD_mid50_professor_stack,month,2021-03-31,0.092,1,1.005327,True
+stack_GBPUSD_mid50_professor_stack,month,2021-04-30,-0.1914,1,1.003403,False
+stack_GBPUSD_mid50_professor_stack,month,2021-05-31,-0.1306,1,1.002093,False
+stack_GBPUSD_mid50_professor_stack,month,2021-06-30,0.0244,1,1.002337,True
+stack_GBPUSD_mid50_professor_stack,month,2022-04-30,0.0209,1,1.002547,True
+stack_GBPUSD_mid50_professor_stack,month,2022-06-30,-0.5948,1,0.996583,False
+stack_GBPUSD_mid50_professor_stack,month,2023-06-30,0.295,2,0.999523,True
+stack_GBPUSD_mid50_professor_stack,month,2023-07-31,-0.3756,1,0.995768,False
+stack_GBPUSD_mid50_professor_stack,month,2023-10-31,0.1516,1,0.997278,True
+stack_GBPUSD_mid50_professor_stack,month,2024-01-31,-0.3135,2,0.994152,False
+stack_GBPUSD_mid50_professor_stack,month,2024-05-31,0.0058,1,0.99421,True
+stack_GBPUSD_mid50_professor_stack,month,2024-09-30,0.3076,3,0.997268,True
+stack_GBPUSD_mid50_professor_stack,month,2025-08-31,0.1206,1,0.99847,True
+stack_GBPUSD_mid50_professor_stack,month,2025-11-30,-0.1693,1,0.99678,False

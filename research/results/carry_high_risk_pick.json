@@ -1,0 +1,20 @@
+{
+  "dd_floor_pct": -35.0,
+  "base_config": "mom12_n4_v16_28_m0.45_ddoff_neu1",
+  "vol_target": 0.12,
+  "cagr_full": 2.62,
+  "maxdd_full": -26.25,
+  "cagr_OOS": 5.1,
+  "approx_monthly_compound_pct": 0.216,
+  "caveat": "Python vol_target only; EA uses InpRisk* \u2014 align manually in tester.",
+  "ea_inputs_overlay": {
+    "InpRiskPerPosition": 2.0,
+    "InpMaxTotalRisk": 8.0,
+    "InpTopN": 4,
+    "InpStackVixLo": 16.0,
+    "InpStackVixHi": 28.0,
+    "InpStackVixMidScale": 0.45,
+    "InpStackRequireNeutral": true,
+    "InpStackDdHaltEnable": false
+  }
+}

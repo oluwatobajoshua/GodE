@@ -1,0 +1,75 @@
+{
+    "schema_version":  1,
+    "symbols":  [
+                    "EURUSD",
+                    "GBPUSD"
+                ],
+    "timeframe":  "M5",
+    "strategies":  [
+                       "london_orb",
+                       "ema21_pullback"
+                   ],
+    "london_orb":  {
+                       "box_hours_utc":  [
+                                             5,
+                                             6
+                                         ],
+                       "trade_hours_utc":  [
+                                               7,
+                                               8,
+                                               9,
+                                               10,
+                                               11
+                                           ],
+                       "max_hold_bars":  24,
+                       "sl_box_buffer_atr":  0.15,
+                       "tp_r_multiple":  1.2,
+                       "max_trades_per_day":  2,
+                       "cost_mode":  "spread_column",
+                       "slippage_points":  1
+                   },
+    "ema21_pullback":  {
+                           "trade_hours_utc":  [
+                                                   7,
+                                                   8,
+                                                   9,
+                                                   10,
+                                                   11,
+                                                   13,
+                                                   14,
+                                                   15,
+                                                   16
+                                               ],
+                           "min_adx":  22,
+                           "sl_atr":  1.0,
+                           "tp_atr":  1.5,
+                           "max_hold_bars":  18,
+                           "cost_mode":  "spread_column",
+                           "slippage_points":  1
+                       },
+    "bars":  {
+                   "research_source":  "mt5_only",
+                   "tester_oos":  {
+                                      "from":  "2024-07-01",
+                                      "to":  "2026-01-01"
+                                  },
+                   "histdata_blend_env":  "SOVEREIGN_M5_SOURCE=histdata_blend"
+               },
+    "promotion":  {
+                      "min_oos_trades":  150,
+                      "min_oos_pf":  1.05,
+                      "min_mt5_pf":  1.05,
+                      "oos_total_pct_gt":  0,
+                      "min_trades_per_month_oos":  8,
+                      "require_validation_pass":  false,
+                      "require_mt5_parity":  true,
+                      "require_mt5_tape_for_python":  true,
+                      "oos_split_key":  "tester_oos",
+                      "require_mt5_tester_for_all":  true
+                  },
+    "mt5_ea":  {
+                   "expert":  "SovereignLondonOrbEA",
+                   "default_utc_offset":  0,
+                   "pinned_utc_offset":  0
+               }
+}

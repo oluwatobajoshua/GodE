@@ -1,0 +1,142 @@
+{
+  "splits": {
+    "design": [
+      "2018-01-01",
+      "2022-01-01"
+    ],
+    "validation": [
+      "2022-01-01",
+      "2024-07-01"
+    ],
+    "OOS": [
+      "2024-07-01",
+      "2030-01-01"
+    ]
+  },
+  "symbols": {
+    "EURUSD": {
+      "d1_off": {
+        "full": {
+          "n": 1569,
+          "exp_bps": -2.66,
+          "pf": 0.72,
+          "winrate": 38.9,
+          "total_pct": -34.41
+        },
+        "design": {
+          "n": 310,
+          "exp_bps": -3.35,
+          "pf": 0.59,
+          "winrate": 38.1,
+          "total_pct": -9.91
+        },
+        "validation": {
+          "n": 199,
+          "exp_bps": -0.93,
+          "pf": 0.89,
+          "winrate": 41.7,
+          "total_pct": -1.88
+        },
+        "OOS": {
+          "n": 131,
+          "exp_bps": 0.6,
+          "pf": 1.08,
+          "winrate": 41.2,
+          "total_pct": 0.76
+        }
+      },
+      "d1_on": {
+        "full": {
+          "n": 726,
+          "exp_bps": -3.19,
+          "pf": 0.69,
+          "winrate": 38.2,
+          "total_pct": -20.87
+        },
+        "design": {
+          "n": 130,
+          "exp_bps": -4.94,
+          "pf": 0.48,
+          "winrate": 36.9,
+          "total_pct": -6.25
+        },
+        "validation": {
+          "n": 101,
+          "exp_bps": -2.51,
+          "pf": 0.74,
+          "winrate": 39.6,
+          "total_pct": -2.53
+        },
+        "OOS": {
+          "n": 59,
+          "exp_bps": -0.38,
+          "pf": 0.95,
+          "winrate": 42.4,
+          "total_pct": -0.23
+        }
+      }
+    },
+    "GBPUSD": {
+      "d1_off": {
+        "full": {
+          "n": 1570,
+          "exp_bps": -2.45,
+          "pf": 0.75,
+          "winrate": 40.3,
+          "total_pct": -32.24
+        },
+        "design": {
+          "n": 286,
+          "exp_bps": -1.28,
+          "pf": 0.85,
+          "winrate": 43.4,
+          "total_pct": -3.66
+        },
+        "validation": {
+          "n": 200,
+          "exp_bps": -2.02,
+          "pf": 0.8,
+          "winrate": 41.0,
+          "total_pct": -4.03
+        },
+        "OOS": {
+          "n": 110,
+          "exp_bps": -0.96,
+          "pf": 0.87,
+          "winrate": 45.5,
+          "total_pct": -1.07
+        }
+      },
+      "d1_on": {
+        "full": {
+          "n": 665,
+          "exp_bps": -2.81,
+          "pf": 0.71,
+          "winrate": 38.6,
+          "total_pct": -17.22
+        },
+        "design": {
+          "n": 114,
+          "exp_bps": -3.61,
+          "pf": 0.63,
+          "winrate": 40.4,
+          "total_pct": -4.06
+        },
+        "validation": {
+          "n": 87,
+          "exp_bps": -2.56,
+          "pf": 0.7,
+          "winrate": 39.1,
+          "total_pct": -2.22
+        },
+        "OOS": {
+          "n": 33,
+          "exp_bps": -0.37,
+          "pf": 0.94,
+          "winrate": 48.5,
+          "total_pct": -0.13
+        }
+      }
+    }
+  }
+}

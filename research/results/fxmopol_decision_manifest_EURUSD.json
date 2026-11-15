@@ -1,0 +1,35 @@
+{
+  "symbol": "EURUSD",
+  "ema_mid": 50,
+  "entry_rules": {
+    "entry_pullback_ema21": "Long regime: touch/hold EMA21, RSI (50,80).",
+    "entry_stop_hunt_reclaim": "Long regime: hunt wick reclaim, RSI (50,80).",
+    "entry_fractal_hunt_long": "Long regime: fractal low + hunt reclaim.",
+    "entry_rsi50_cross_long": "Long regime: RSI crosses up through 50.",
+    "entry_stack_flip_long": "First stacked long bar after chop (transition).",
+    "entry_retest_ema21": "Short regime: reject EMA21 from below, RSI (20,50).",
+    "entry_stop_hunt_reject": "Short regime: hunt reject, RSI (20,50).",
+    "entry_fractal_hunt_short": "Short regime: fractal high + hunt reject.",
+    "entry_rsi50_cross_short": "Short regime: RSI crosses down through 50."
+  },
+  "exit_rules": {
+    "exit_ema21_break": "Long: close below EMA21. Short: close above EMA21.",
+    "exit_rsi_extreme": "Long: RSI >= 80. Short: RSI <= 20.",
+    "exit_rsi_roll_long": "Long: RSI was >72 and now <68.",
+    "exit_rsi_roll_short": "Short: RSI was <28 and now >32.",
+    "exit_regime_lost": "Stack alignment lost for 2 consecutive bars.",
+    "exit_time_24bars": "Time stop at 24 H1 bars.",
+    "exit_atr_trail_1p5": "Initial stop 1.5\u00d7ATR; trail to breakeven after 1\u00d7ATR profit.",
+    "exit_scale_rsi70_long": "Long partial logic proxy: exit when RSI >= 75."
+  },
+  "questions": {
+    "why_enter_now": "Use enter_advice: GOOD grade + entry rule + historical win% from design split.",
+    "why_hold_or_close": "Use hold_*_advice columns: EMA21 break, RSI 80/20, stack grade.",
+    "will_i_win_if_i_enter": "Filter matrix where chart_grade=GOOD and split=validation or OOS; check winrate & exp_bps."
+  },
+  "outputs": {
+    "states": "fxmopol_decision_states_EURUSD.csv",
+    "advice": "fxmopol_decision_advice_EURUSD.csv",
+    "matrix": "fxmopol_decision_matrix_EURUSD.csv"
+  }
+}

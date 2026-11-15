@@ -1,0 +1,157 @@
+{
+  "note": {
+    "read": "wait",
+    "confidence": 0.2,
+    "narrative": "Price 1.33939. No trade: EMA21 points up but structure is downtrend (LH/LL). RSI9 68.9, structure downtrend (LH/LL), spread 3.0 pts. The rule only earns when a direction exists and cost is low, so standing aside is the correct action, not a missed one.",
+    "risks": [
+      "momentum up fights a downtrend (LH/LL)"
+    ],
+    "veto": true,
+    "veto_reason": "momentum up fights a downtrend (LH/LL)",
+    "draw": {
+      "levels": [
+        {
+          "price": 1.33926,
+          "kind": "resistance",
+          "label": "S/R"
+        },
+        {
+          "price": 1.33958,
+          "kind": "support",
+          "label": "S/R"
+        },
+        {
+          "price": 1.3398,
+          "kind": "support",
+          "label": "S/R"
+        },
+        {
+          "price": 1.33986,
+          "kind": "resistance",
+          "label": "S/R"
+        },
+        {
+          "price": 1.33884,
+          "kind": "resistance",
+          "label": "S/R"
+        },
+        {
+          "price": 1.34007,
+          "kind": "support",
+          "label": "S/R"
+        }
+      ],
+      "zones": [],
+      "arrows": [
+        {
+          "bar_offset": -117,
+          "direction": "up",
+          "label": "RSI band"
+        },
+        {
+          "bar_offset": -57,
+          "direction": "up",
+          "label": "RSI band"
+        }
+      ]
+    },
+    "source": "deterministic"
+  },
+  "state": {
+    "symbol": "GBPUSD",
+    "tf": "H1",
+    "asof": "2026-11-09 08:00:00",
+    "bars": 54539,
+    "price": {
+      "last": 1.33939,
+      "change_1_bar_pct": 0.0209,
+      "change_20_bar_pct": 0.0433
+    },
+    "indicators": {
+      "ema21": 1.33799,
+      "ema50": 1.34007,
+      "ema21_slope_atr": 0.324,
+      "ema21_slope5_atr": 0.372,
+      "rsi9": 68.92,
+      "atr": 0.00109,
+      "atr_ratio": 0.74
+    },
+    "structure": {
+      "state": "downtrend (LH/LL)"
+    },
+    "levels": [
+      {
+        "price": 1.33926,
+        "kind": "resistance",
+        "age_bars": 127
+      },
+      {
+        "price": 1.33958,
+        "kind": "support",
+        "age_bars": 102
+      },
+      {
+        "price": 1.3398,
+        "kind": "support",
+        "age_bars": 106
+      },
+      {
+        "price": 1.33986,
+        "kind": "resistance",
+        "age_bars": 295
+      },
+      {
+        "price": 1.33884,
+        "kind": "resistance",
+        "age_bars": 259
+      },
+      {
+        "price": 1.34007,
+        "kind": "support",
+        "age_bars": 118
+      },
+      {
+        "price": 1.34011,
+        "kind": "resistance",
+        "age_bars": 311
+      },
+      {
+        "price": 1.34018,
+        "kind": "resistance",
+        "age_bars": 303
+      },
+      {
+        "price": 1.34028,
+        "kind": "support",
+        "age_bars": 93
+      },
+      {
+        "price": 1.3385,
+        "kind": "resistance",
+        "age_bars": 325
+      }
+    ],
+    "bad_zones": {
+      "spread_pts": 3.0,
+      "spread_p90_pts": 3.0,
+      "spread_hostile": false,
+      "volatility_spike": false,
+      "thin_liquidity_hour": false
+    },
+    "rule": {
+      "strategy": "RSI band (min-hold 12, margin 3.0)",
+      "position": 0,
+      "trend_state": 1,
+      "recent_entries": [
+        {
+          "bar_offset": -117,
+          "direction": "long"
+        },
+        {
+          "bar_offset": -57,
+          "direction": "long"
+        }
+      ]
+    }
+  }
+}

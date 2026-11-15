@@ -1,0 +1,549 @@
+#!/usr/bin/env python3
+"""
+Project Sovereign — Unified Python Backend Server
+
+Combines all backend features in one process:
+
+* Synthetic analytics brain (ZeroMQ PUB 5555, TCP NDJSON 5556)
+  - Emits signals to the EA on port 5556 (same channel the EA's
+    CSovereignSignalClient connects to)
+  - Accepts CLI commands (PAUSE, RESUME, FLAT_ALL, RISK_SCALE, RESET)
+    and broadcasts them to connected EAs on 5556
+* EA telemetry uplink (TCP 5557)
+  - EA sends trade events, bar state, init snapshots here
+  - Everything logged to research/results/ea_telemetry_log.csv + .ndjson
+
+The EA works perfectly without this script — all sockets are non-blocking
+and auto-reconnect. This script is for oversight and influence only.
+
+Usage:
+    .\.venv\Scripts\python.exe research\sovereign_backend.py
+"""
+
+from __future__ import annotations
+
+import argparse
+import csv
+import json
+import queue
+import signal
+import socket
+import socketserver
+import sys
+import threading
+import time
+from datetime import datetime, timezone
+from pathlib import Path
+
+import numpy as np
+import pandas as pd
+import zmq
+
+ROOT = Path(__file__).resolve().parents[1]
+RESULTS = ROOT / "research" / "results"
+RESULTS.mkdir(parents=True, exist_ok=True)
+
+LOG_CSV = RESULTS / "ea_telemetry_log.csv"
+LOG_NDJSON = RESULTS / "ea_telemetry_log.ndjson"
+
+UPLINK_PORT = 5557   # EA -> Python telemetry
+DOWNLINK_PORT = 5556  # Python -> EA signals + commands
+
+
+# ===========================================================================
+# Telemetry logger — appends every EA uplink message to CSV + NDJSON
+# ===========================================================================
+
+class TelemetryLogger:
+    def __init__(self) -> None:
+        self._lock = threading.Lock()
+        self._csv_fields = None
+
+    def log(self, msg_type: str, payload: dict, direction: str = "EA->PY") -> None:
+        row = {
+            "time_utc": datetime.now(timezone.utc).isoformat(),
+            "direction": direction,
+            "msg_type": msg_type,
+        }
+        row.update(payload)
+
+        with self._lock:
+            with open(LOG_NDJSON, "a", encoding="utf-8") as f:
+                f.write(json.dumps(row, separators=(",", ":")) + "\n")
+
+            fields = list(row.keys())
+            write_header = self._csv_fields is None
+            if write_header:
+                self._csv_fields = fields
+            with open(LOG_CSV, "a", newline="", encoding="utf-8") as f:
+                writer = csv.DictWriter(f, fieldnames=self._csv_fields, extrasaction="ignore")
+                if write_header:
+                    writer.writeheader()
+                writer.writerow(row)
+
+    def print_summary(self, msg_type: str, payload: dict) -> None:
+        ts = datetime.now(timezone.utc).strftime("%H:%M:%S")
+        if msg_type == "init":
+            print(f"[{ts}] EA INIT  {payload.get('symbol')} strat={payload.get('strategy')} "
+                  f"rsi_band={payload.get('rsi_band_enabled')} deadband={payload.get('deadband')} "
+                  f"risk={payload.get('risk_pct')}% maxDD={payload.get('max_daily_dd')}% "
+                  f"spread={payload.get('max_spread')} algo={payload.get('algo_trading_allowed')}")
+        elif msg_type == "bar":
+            print(f"[{ts}] BAR {payload.get('symbol')} trend={payload.get('trend')} "
+                  f"rsi={payload.get('rsi')} inPos={payload.get('in_position')} "
+                  f"side={payload.get('position_side')} barsHeld={payload.get('bars_held')} "
+                  f"equity={payload.get('equity')} allowEntries={payload.get('allow_entries')}")
+        elif msg_type == "trade":
+            print(f"[{ts}] TRADE {payload.get('action')} {payload.get('symbol')} side={payload.get('side')} "
+                  f"lots={payload.get('lots')} price={payload.get('price')} retcode={payload.get('retcode')} "
+                  f"profit={payload.get('profit')} ticket={payload.get('ticket')}")
+
+
+logger = TelemetryLogger()
+
+
+# ===========================================================================
+# Uplink server — EA connects on 5557, sends NDJSON telemetry
+# ===========================================================================
+
+class UplinkHandler(socketserver.BaseRequestHandler):
+    def handle(self) -> None:
+        print(f"[UPLINK] EA connected from {self.client_address}")
+        self.request.settimeout(2.0)
+        buf = ""
+        while True:
+            try:
+                data = self.request.recv(4096)
+            except socket.timeout:
+                continue
+            except OSError:
+                break
+            if not data:
+                break
+            buf += data.decode("utf-8", errors="replace")
+            while "\n" in buf:
+                line, buf = buf.split("\n", 1)
+                line = line.strip()
+                if not line:
+                    continue
+                try:
+                    payload = json.loads(line)
+                except json.JSONDecodeError:
+                    continue
+                msg_type = payload.get("t", "unknown")
+                logger.log(msg_type, payload, "EA->PY")
+                logger.print_summary(msg_type, payload)
+        print(f"[UPLINK] EA disconnected from {self.client_address}")
+
+
+class UplinkServer(socketserver.ThreadingTCPServer):
+    allow_reuse_address = True
+    daemon_threads = True
+
+
+# ===========================================================================
+# Downlink bridge — EA connects on 5556 for signals; we broadcast commands
+# ===========================================================================
+
+# ===========================================================================
+# Downlink command delivery via the brain's existing bridge connections
+# (no separate server needed - TcpSignalBridge already accepts EA connections
+# on port 5556 and broadcasts queued messages to them)
+# ===========================================================================
+
+def send_command(engine: SovereignQuantEngine | None, cmd: str, value: float = 0.0,
+                 symbol: str | None = None) -> None:
+    if engine is None or engine.bridge is None:
+        print(f"[CMD] No EA connected on downlink - cannot send {cmd}")
+        return
+    engine.bridge.broadcast_command(cmd, value, symbol)
+    logger.log(cmd, {"value": value, "cmd": cmd, "symbol": symbol or "all"}, "PY->EA")
+    print(f"[CMD] Sent {cmd} v={value} symbol={symbol or 'all'} to EA")
+
+
+# ===========================================================================
+# Synthetic analytics brain (from institutional_quant_master.py)
+# ===========================================================================
+
+class TcpSignalBridge:
+    def __init__(self, host: str = "127.0.0.1", port: int = 5556) -> None:
+        self.host = host
+        self.port = port
+        self._lock = threading.Lock()
+        self._queues: set[queue.Queue] = set()
+        self._stopping = False
+
+        bridge = self
+
+        class _Handler(socketserver.BaseRequestHandler):
+            def setup(self) -> None:
+                self.request.settimeout(2.0)
+                self.queue = bridge.subscribe()
+
+            def handle(self) -> None:
+                while True:
+                    try:
+                        line = self.queue.get(timeout=1.0)
+                    except queue.Empty:
+                        if bridge._stopping:
+                            break
+                        continue
+                    if line is None:
+                        break
+                    try:
+                        self.request.sendall(line)
+                    except OSError:
+                        break
+
+            def finish(self) -> None:
+                bridge.unsubscribe(self.queue)
+
+        class _Server(socketserver.ThreadingTCPServer):
+            allow_reuse_address = True
+            daemon_threads = True
+
+        self._server = _Server((host, port), _Handler)
+        self._thread = threading.Thread(
+            target=self._server.serve_forever,
+            name="sovereign-tcp-bridge",
+            daemon=True,
+        )
+        self._thread.start()
+
+    def subscribe(self) -> queue.Queue:
+        client_queue: queue.Queue = queue.Queue(maxsize=64)
+        with self._lock:
+            self._queues.add(client_queue)
+        print(f"[SOVEREIGN BRAIN] TCP client connected ({self.client_count} active).")
+        return client_queue
+
+    def unsubscribe(self, client_queue: queue.Queue) -> None:
+        with self._lock:
+            self._queues.discard(client_queue)
+        print(f"[SOVEREIGN BRAIN] TCP client disconnected ({self.client_count} active).")
+
+    @property
+    def client_count(self) -> int:
+        with self._lock:
+            return len(self._queues)
+
+    def broadcast(self, payload: dict) -> None:
+        line = (json.dumps(payload, separators=(",", ":")) + "\n").encode("utf-8")
+        with self._lock:
+            targets = list(self._queues)
+
+        for client_queue in targets:
+            try:
+                client_queue.put_nowait(line)
+            except queue.Full:
+                try:
+                    client_queue.get_nowait()
+                    client_queue.put_nowait(line)
+                except (queue.Empty, queue.Full):
+                    pass
+
+    def broadcast_command(self, cmd: str, value: float = 0.0,
+                          symbol: str | None = None) -> None:
+        payload = {"t": "command", "cmd": cmd, "v": value}
+        if symbol:
+            payload["s"] = symbol
+        line = (json.dumps(payload, separators=(",", ":")) + "\n").encode("utf-8")
+        with self._lock:
+            targets = list(self._queues)
+
+        for client_queue in targets:
+            try:
+                client_queue.put_nowait(line)
+            except queue.Full:
+                try:
+                    client_queue.get_nowait()
+                    client_queue.put_nowait(line)
+                except (queue.Empty, queue.Full):
+                    pass
+
+    def close(self) -> None:
+        self._stopping = True
+        with self._lock:
+            targets = list(self._queues)
+            self._queues.clear()
+        for client_queue in targets:
+            try:
+                client_queue.put_nowait(None)
+            except queue.Full:
+                pass
+        self._server.shutdown()
+        self._server.server_close()
+        self._thread.join(timeout=3.0)
+        print("[SOVEREIGN BRAIN] TCP bridge closed.")
+
+
+class SovereignQuantEngine:
+    def __init__(
+        self,
+        port: int = 5555,
+        symbol: str = "EURUSD",
+        interval: float = 0.5,
+        tcp_port: int = 5556,
+        tcp_host: str = "127.0.0.1",
+        seed: int = 42,
+        duration: float = 0.0,
+    ) -> None:
+        self.port = port
+        self.symbol = symbol
+        self.interval = max(0.05, float(interval))
+        self.duration = max(0.0, float(duration))
+
+        self.context = zmq.Context()
+        self.socket = self.context.socket(zmq.PUB)
+        self.socket.bind(f"tcp://127.0.0.1:{port}")
+        print(
+            f"[SOVEREIGN BRAIN] ZeroMQ PUB on tcp://127.0.0.1:{port}; "
+            f"symbol={symbol}; interval={self.interval:.2f}s"
+        )
+
+        self.bridge: TcpSignalBridge | None = None
+        if tcp_port > 0:
+            try:
+                self.bridge = TcpSignalBridge(tcp_host, tcp_port)
+                print(f"[SOVEREIGN BRAIN] TCP NDJSON bridge on tcp://{tcp_host}:{tcp_port}")
+            except OSError as exc:
+                self.socket.close(linger=0)
+                self.context.term()
+                raise SystemExit(
+                    f"[FATAL] Cannot bind TCP bridge on {tcp_host}:{tcp_port}: {exc}"
+                ) from exc
+
+        self._rng = np.random.default_rng(seed)
+        self._bars: list[list[float]] = []
+        self._seed_history(120)
+
+    def _next_bar(self) -> list[float]:
+        previous_close = self._bars[-1][3] if self._bars else 1.0850
+        drift = 0.00002 * np.sin(len(self._bars) / 25.0)
+        close = max(0.5, previous_close + drift + self._rng.normal(0, 0.00025))
+        wick = abs(self._rng.normal(0, 0.00008))
+        high = max(previous_close, close) + wick
+        low = min(previous_close, close) - wick
+        volume = int(self._rng.integers(500, 2500))
+        return [previous_close, high, low, close, volume]
+
+    def _seed_history(self, count: int) -> None:
+        for _ in range(max(60, count)):
+            self._bars.append(self._next_bar())
+        if len(self._bars) > 240:
+            del self._bars[: len(self._bars) - 240]
+
+    def close(self) -> None:
+        if self.bridge is not None:
+            self.bridge.close()
+            self.bridge = None
+        self.socket.close(linger=0)
+        self.context.term()
+
+    def calculate_volume_profile_poc(self, df: pd.DataFrame) -> float:
+        price_bins = pd.cut(df["close"], bins=20)
+        volume_profile = df.groupby(price_bins, observed=False)["volume"].sum()
+        if volume_profile.empty:
+            return float(df["close"].iloc[-1])
+        return float(volume_profile.idxmax().mid)
+
+    def compute_zscore(self, df: pd.DataFrame, window: int = 20) -> float:
+        if len(df) < window + 2:
+            return 0.0
+        close = df["close"].astype(float)
+        sma = close.rolling(window=window).mean().iloc[-1]
+        sd = close.rolling(window=window).std().iloc[-1]
+        if not np.isfinite(sma) or not np.isfinite(sd) or sd <= 0.0:
+            return 0.0
+        return float((close.iloc[-1] - sma) / sd)
+
+    def evaluate_institutional_features(
+        self, df: pd.DataFrame
+    ) -> tuple[str, float, float, float, float]:
+        df["tr"] = np.maximum(
+            df["high"] - df["low"],
+            np.maximum(
+                np.abs(df["high"] - df["close"].shift()),
+                np.abs(df["low"] - df["close"].shift()),
+            ),
+        )
+        atr_short = df["tr"].rolling(window=5).mean().iloc[-1]
+        atr_long = df["tr"].rolling(window=20).mean().iloc[-1]
+        volatility_ratio = float(atr_short / atr_long) if atr_long > 0 else 1.0
+
+        rolling_high = float(df["high"].rolling(window=50).max().iloc[-1])
+        rolling_low = float(df["low"].rolling(window=50).min().iloc[-1])
+        current_price = float(df["close"].iloc[-1])
+        total_range = rolling_high - rolling_low
+        range_pos = (current_price - rolling_low) / total_range if total_range > 0 else 0.5
+
+        poc = self.calculate_volume_profile_poc(df)
+        zscore = self.compute_zscore(df, 20)
+
+        action = "HOLD"
+        confidence = 0.0
+        if zscore <= -1.5:
+            action = "BUY"
+            confidence = min(0.95, 0.5 + abs(zscore) * 0.15)
+        elif zscore >= 1.5:
+            action = "SELL"
+            confidence = min(0.95, 0.5 + abs(zscore) * 0.15)
+
+        return action, confidence, float(range_pos), volatility_ratio, poc
+
+    def build_payload(self) -> dict:
+        self._bars.append(self._next_bar())
+        if len(self._bars) > 240:
+            del self._bars[0]
+
+        df = pd.DataFrame(
+            self._bars,
+            columns=["open", "high", "low", "close", "volume"],
+        )
+        action, confidence, pos, vol_ratio, poc = self.evaluate_institutional_features(df)
+
+        return {
+            "timestamp": datetime.now(timezone.utc).isoformat(),
+            "symbol": self.symbol,
+            "action": action,
+            "confidence": round(confidence, 4),
+            "range_position": round(pos, 4),
+            "volatility_ratio": round(vol_ratio, 3),
+            "poc": round(poc, 5),
+            "zscore": round(self.compute_zscore(df, 20), 4),
+            "heartbeat": True,
+            "source": "synthetic",
+        }
+
+    def run_sovereign_loop(self) -> None:
+        started = time.monotonic()
+        try:
+            while True:
+                if self.duration > 0 and (time.monotonic() - started) >= self.duration:
+                    print("[SOVEREIGN BRAIN] Duration reached; stopping cleanly.")
+                    return
+
+                payload = self.build_payload()
+                self.socket.send_string(json.dumps(payload))
+                if self.bridge is not None:
+                    self.bridge.broadcast(payload)
+
+                print(
+                    f"[STREAM] {payload['action']} conf={payload['confidence']:.2f} "
+                    f"vol={payload['volatility_ratio']:.2f} "
+                    f"poc={payload['poc']:.5f} tcp_clients={self.bridge.client_count if self.bridge else 0}"
+                )
+                time.sleep(self.interval)
+        finally:
+            self.close()
+
+
+def _install_signal_handlers(engine: SovereignQuantEngine) -> None:
+    def _stop(_signum: int, _frame: object) -> None:
+        raise KeyboardInterrupt
+
+    signal.signal(signal.SIGINT, _stop)
+    if hasattr(signal, "SIGTERM"):
+        signal.signal(signal.SIGTERM, _stop)
+
+
+# ===========================================================================
+# CLI command loop — influence the EA from the backend
+# ===========================================================================
+
+def _command_loop(engine: SovereignQuantEngine) -> None:
+    print("\n[CLI] Commands: PAUSE, RESUME, FLAT_ALL, RISK_SCALE <0-10>, RESET, quit\n")
+    while True:
+        try:
+            line = input("> ").strip()
+        except (EOFError, KeyboardInterrupt):
+            break
+        if not line:
+            continue
+        parts = line.split()
+        cmd = parts[0].upper()
+        if cmd in ("QUIT", "EXIT", "Q"):
+            break
+        elif cmd == "PAUSE":
+            sym = parts[1] if len(parts) >= 2 else None
+            send_command(engine, "PAUSE", 0.0, sym)
+        elif cmd == "RESUME":
+            sym = parts[1] if len(parts) >= 2 else None
+            send_command(engine, "RESUME", 0.0, sym)
+        elif cmd == "FLAT_ALL":
+            sym = parts[1] if len(parts) >= 2 else None
+            send_command(engine, "FLAT_ALL", 0.0, sym)
+        elif cmd == "RESET":
+            sym = parts[1] if len(parts) >= 2 else None
+            send_command(engine, "RESET", 0.0, sym)
+        elif cmd == "RISK_SCALE" and len(parts) >= 2:
+            try:
+                val = float(parts[1])
+                sym = parts[2] if len(parts) >= 3 else None
+                send_command(engine, "RISK_SCALE", val, sym)
+            except ValueError:
+                print("[CLI] Invalid RISK_SCALE value")
+        else:
+            print("[CLI] Unknown command. Try: PAUSE, RESUME, FLAT_ALL, RISK_SCALE <n>, RESET, quit")
+
+
+# ===========================================================================
+# Main
+# ===========================================================================
+
+def main() -> int:
+    parser = argparse.ArgumentParser(description="Project Sovereign unified backend server")
+    parser.add_argument("--port", type=int, default=5555, help="ZeroMQ PUB port")
+    parser.add_argument("--symbol", default="EURUSD", help="Symbol tag emitted in payloads")
+    parser.add_argument("--interval", type=float, default=0.5, help="Seconds between payloads")
+    parser.add_argument("--tcp-port", type=int, default=5556, help="Native MQL5 NDJSON port; 0 disables")
+    parser.add_argument("--tcp-host", default="127.0.0.1", help="TCP bind address (loopback by default)")
+    parser.add_argument("--seed", type=int, default=42, help="Synthetic data seed")
+    parser.add_argument("--duration", type=float, default=0.0, help="Run seconds; 0 = forever")
+    parser.add_argument("--uplink-port", type=int, default=5557, help="EA telemetry uplink port")
+    args = parser.parse_args()
+
+    global UPLINK_PORT
+    UPLINK_PORT = args.uplink_port
+
+    print("[SOVEREIGN BACKEND] Starting unified server...")
+    print(f"[ZMQ PUB]     tcp://127.0.0.1:{args.port}")
+    print(f"[TCP NDJSON]  tcp://127.0.0.1:{args.tcp_port}  (EA signals + commands)")
+    print(f"[UPLINK]      tcp://127.0.0.1:{UPLINK_PORT}  (EA telemetry -> Python)")
+    print(f"[LOG]         CSV: {LOG_CSV}")
+    print(f"[LOG]         NDJSON: {LOG_NDJSON}")
+
+    # Start uplink server (EA connects to us on 5557)
+    uplink = UplinkServer(("127.0.0.1", UPLINK_PORT), UplinkHandler)
+    uplink_thread = threading.Thread(target=uplink.serve_forever, name="uplink", daemon=True)
+    uplink_thread.start()
+
+    # Start the synthetic brain engine (binds TCP NDJSON on 5556 internally)
+    engine = SovereignQuantEngine(
+        port=args.port,
+        symbol=args.symbol,
+        interval=args.interval,
+        tcp_port=args.tcp_port,
+        tcp_host=args.tcp_host,
+        seed=args.seed,
+        duration=args.duration,
+    )
+    _install_signal_handlers(engine)
+
+    # Start CLI command thread (commands go via engine.bridge to connected EAs)
+    cli_thread = threading.Thread(target=_command_loop, args=(engine,), name="cli", daemon=True)
+    cli_thread.start()
+
+    print("[BACKEND] Running. Start the EA, watch telemetry, type commands above. Ctrl+C to stop.\n")
+
+    try:
+        engine.run_sovereign_loop()
+    except KeyboardInterrupt:
+        print("\n[BACKEND] Shutdown requested.")
+    finally:
+        uplink.shutdown()
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

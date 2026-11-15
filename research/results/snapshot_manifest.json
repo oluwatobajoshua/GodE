@@ -1,0 +1,241 @@
+{
+  "saved_at_utc": "2026-11-08T15:09:00.657903+00:00",
+  "chart_spec_doc": "docs/FXMOPOL_CHART_SNAPSHOT.md",
+  "fine_tune_queue": [
+    "stop_hunt_reclaim while above SMMA100",
+    "stack_regime gate (M bars above all MAs)",
+    "level_tp at InpManualLevel",
+    "USDJPY H1 primary; daily/monthly reporting only"
+  ],
+  "archive_dir": "research\\results\\snapshots\\20261108_150900",
+  "files": [
+    "monthly_returns.csv",
+    "daily_returns.csv",
+    "carry_mom_filter_monthly.csv",
+    "stack_tune_default_monthly.csv",
+    "ema_streak_ride_monthly.csv",
+    "fxmopol_tune_monthly.csv",
+    "fxmopol_visual_monthly.csv"
+  ],
+  "carry_mom_last_12": [
+    {
+      "strategy": "carry_mom_filter",
+      "period": "month",
+      "date": "2025-10-01",
+      "return_pct": 2.8888,
+      "trades": 1,
+      "equity": 1.24195,
+      "win_period": true
+    },
+    {
+      "strategy": "carry_mom_filter",
+      "period": "month",
+      "date": "2025-11-01",
+      "return_pct": 3.406,
+      "trades": 1,
+      "equity": 1.284251,
+      "win_period": true
+    },
+    {
+      "strategy": "carry_mom_filter",
+      "period": "month",
+      "date": "2025-12-01",
+      "return_pct": 3.8809,
+      "trades": 1,
+      "equity": 1.334091,
+      "win_period": true
+    },
+    {
+      "strategy": "carry_mom_filter",
+      "period": "month",
+      "date": "2026-01-01",
+      "return_pct": 3.666,
+      "trades": 1,
+      "equity": 1.382999,
+      "win_period": true
+    },
+    {
+      "strategy": "carry_mom_filter",
+      "period": "month",
+      "date": "2026-02-01",
+      "return_pct": 1.6213,
+      "trades": 1,
+      "equity": 1.405421,
+      "win_period": true
+    },
+    {
+      "strategy": "carry_mom_filter",
+      "period": "month",
+      "date": "2026-03-01",
+      "return_pct": -2.3575,
+      "trades": 1,
+      "equity": 1.372288,
+      "win_period": false
+    },
+    {
+      "strategy": "carry_mom_filter",
+      "period": "month",
+      "date": "2026-04-01",
+      "return_pct": 3.6717,
+      "trades": 1,
+      "equity": 1.422673,
+      "win_period": true
+    },
+    {
+      "strategy": "carry_mom_filter",
+      "period": "month",
+      "date": "2026-05-01",
+      "return_pct": 2.1645,
+      "trades": 1,
+      "equity": 1.453467,
+      "win_period": true
+    },
+    {
+      "strategy": "carry_mom_filter",
+      "period": "month",
+      "date": "2026-06-01",
+      "return_pct": -3.2543,
+      "trades": 1,
+      "equity": 1.406167,
+      "win_period": false
+    },
+    {
+      "strategy": "carry_mom_filter",
+      "period": "month",
+      "date": "2026-07-01",
+      "return_pct": 0.6997,
+      "trades": 1,
+      "equity": 1.416006,
+      "win_period": true
+    },
+    {
+      "strategy": "carry_mom_filter",
+      "period": "month",
+      "date": "2026-08-01",
+      "return_pct": 4.803,
+      "trades": 1,
+      "equity": 1.484016,
+      "win_period": true
+    },
+    {
+      "strategy": "carry_mom_filter",
+      "period": "month",
+      "date": "2026-09-01",
+      "return_pct": -4.8249,
+      "trades": 1,
+      "equity": 1.412414,
+      "win_period": false
+    }
+  ],
+  "stack_tune_last_12": [
+    {
+      "strategy": "stack_tune_default",
+      "period": "month",
+      "date": "2025-10-01",
+      "return_pct": 3.0421,
+      "trades": 1,
+      "equity": 1.365912,
+      "win_period": true
+    },
+    {
+      "strategy": "stack_tune_default",
+      "period": "month",
+      "date": "2025-11-01",
+      "return_pct": 3.7486,
+      "trades": 1,
+      "equity": 1.417115,
+      "win_period": true
+    },
+    {
+      "strategy": "stack_tune_default",
+      "period": "month",
+      "date": "2025-12-01",
+      "return_pct": 4.1072,
+      "trades": 1,
+      "equity": 1.475318,
+      "win_period": true
+    },
+    {
+      "strategy": "stack_tune_default",
+      "period": "month",
+      "date": "2026-01-01",
+      "return_pct": 3.2115,
+      "trades": 1,
+      "equity": 1.522699,
+      "win_period": true
+    },
+    {
+      "strategy": "stack_tune_default",
+      "period": "month",
+      "date": "2026-02-01",
+      "return_pct": 2.2433,
+      "trades": 1,
+      "equity": 1.556858,
+      "win_period": true
+    },
+    {
+      "strategy": "stack_tune_default",
+      "period": "month",
+      "date": "2026-03-01",
+      "return_pct": -1.3703,
+      "trades": 1,
+      "equity": 1.535524,
+      "win_period": false
+    },
+    {
+      "strategy": "stack_tune_default",
+      "period": "month",
+      "date": "2026-04-01",
+      "return_pct": 2.0363,
+      "trades": 1,
+      "equity": 1.566793,
+      "win_period": true
+    },
+    {
+      "strategy": "stack_tune_default",
+      "period": "month",
+      "date": "2026-05-01",
+      "return_pct": 2.4194,
+      "trades": 1,
+      "equity": 1.604701,
+      "win_period": true
+    },
+    {
+      "strategy": "stack_tune_default",
+      "period": "month",
+      "date": "2026-06-01",
+      "return_pct": -3.634,
+      "trades": 1,
+      "equity": 1.546385,
+      "win_period": false
+    },
+    {
+      "strategy": "stack_tune_default",
+      "period": "month",
+      "date": "2026-07-01",
+      "return_pct": 0.759,
+      "trades": 1,
+      "equity": 1.558122,
+      "win_period": true
+    },
+    {
+      "strategy": "stack_tune_default",
+      "period": "month",
+      "date": "2026-08-01",
+      "return_pct": 5.3297,
+      "trades": 1,
+      "equity": 1.641164,
+      "win_period": true
+    },
+    {
+      "strategy": "stack_tune_default",
+      "period": "month",
+      "date": "2026-09-01",
+      "return_pct": -5.4787,
+      "trades": 1,
+      "equity": 1.551249,
+      "win_period": false
+    }
+  ],
+  "note": "User believes chart trend-window + stop-hunt entries differ from current backtest rules."
+}

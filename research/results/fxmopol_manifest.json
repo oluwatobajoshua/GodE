@@ -1,0 +1,11 @@
+{
+  "best_validation_config": "breakout_sess1_pin0_h4200_sl1.0_tp2.0",
+  "promoted_oos": false,
+  "best_oos_pf": 0.35,
+  "best_oos_exp_bps": -7.46,
+  "sources": [
+    "Formiq S/R bounce vs break H1",
+    "DailyForex pullback vs breakout",
+    "PriceActionNinja pin at major levels + HTF EMA"
+  ]
+}

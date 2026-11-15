@@ -1,0 +1,4 @@
+strategy,period,date,return_pct,trades,equity
+stack_GBPUSD_mid50_professor_governor_learned,day,2023-10-25,0.0758,1,1.000758
+stack_GBPUSD_mid50_professor_governor_learned,day,2024-05-08,0.0029,1,1.000787
+stack_GBPUSD_mid50_professor_governor_learned,day,2025-11-12,-0.0847,1,0.99994

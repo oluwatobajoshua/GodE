@@ -1,0 +1,41 @@
+{
+  "profiles": {
+    "carry_mt5_book": {
+      "months": 17,
+      "compound_return_pct": 3.62,
+      "avg_month_pct": 0.211,
+      "win_months": 8,
+      "win_month_pct": 47.1,
+      "best_month_pct": 1.16,
+      "worst_month_pct": -0.28,
+      "report": "C:\\xampp\\htdocs\\GodE\\backtest\\reports\\gods_eye_carry_d1_EURUSD_D1_book.htm",
+      "deposit": 10000.0,
+      "from_date": "2024.01.01",
+      "to_date": "2026.01.01",
+      "deals_parsed": 74
+    },
+    "carry_mt5_ecn_book": {
+      "months": 18,
+      "compound_return_pct": 2.83,
+      "avg_month_pct": 0.157,
+      "win_months": 8,
+      "win_month_pct": 44.4,
+      "best_month_pct": 2.28,
+      "worst_month_pct": -0.79,
+      "report": "C:\\xampp\\htdocs\\GodE\\backtest\\reports\\gods_eye_carry_d1_ecn_EURUSD_D1_book.htm",
+      "deposit": 10000.0,
+      "from_date": "2024.01.01",
+      "to_date": "2026.01.01",
+      "deals_parsed": 50
+    }
+  },
+  "outputs": {
+    "monthly_csv": "C:\\xampp\\htdocs\\GodE\\research\\results\\carry_mt5_book_monthly.csv",
+    "compare_csv": "C:\\xampp\\htdocs\\GodE\\research\\results\\carry_mt5_python_mt5_monthly_compare.csv"
+  },
+  "python_compare": {
+    "months": 17,
+    "correlation": 0.186,
+    "mean_abs_delta_pp": 2.19
+  }
+}

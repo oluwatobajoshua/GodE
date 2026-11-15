@@ -1,0 +1,48 @@
+{
+  "stack": "mom12_n4_v16_28_m0.45_ddoff_neu1",
+  "note": "8 pts \u2248 ECN round-turn proxy; 12 pts = Deriv retail default in carry.py",
+  "rows": [
+    {
+      "cost_pts": 0.0,
+      "label": "ecn",
+      "cagr_full": 2.67,
+      "sharpe_full": 0.41,
+      "maxdd_full": -24.38,
+      "profitable_3split": true
+    },
+    {
+      "cost_pts": 3.0,
+      "label": "ecn",
+      "cagr_full": 2.64,
+      "sharpe_full": 0.4,
+      "maxdd_full": -24.53,
+      "profitable_3split": true
+    },
+    {
+      "cost_pts": 8.0,
+      "label": "ecn",
+      "cagr_full": 2.58,
+      "sharpe_full": 0.39,
+      "maxdd_full": -24.78,
+      "profitable_3split": true
+    },
+    {
+      "cost_pts": 12.0,
+      "label": "deriv",
+      "cagr_full": 2.53,
+      "sharpe_full": 0.39,
+      "maxdd_full": -24.97,
+      "profitable_3split": true
+    },
+    {
+      "cost_pts": 20.0,
+      "label": "wide",
+      "cagr_full": 2.44,
+      "sharpe_full": 0.37,
+      "maxdd_full": -25.37,
+      "profitable_3split": true
+    }
+  ],
+  "ecn_8pts_still_3split": true,
+  "mt5_next": ".\\scripts\\run_lane1_mt5_truth.ps1"
+}

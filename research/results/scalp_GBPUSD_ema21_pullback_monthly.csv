@@ -1,0 +1,7 @@
+strategy,period,date,return_pct,trades,equity,win_period
+scalp_GBPUSD_ema21_pullback,month,2025-07-31,0.428,98,1.00428,True
+scalp_GBPUSD_ema21_pullback,month,2025-08-31,0.4369,122,1.008668,True
+scalp_GBPUSD_ema21_pullback,month,2025-09-30,-0.4082,134,1.004551,False
+scalp_GBPUSD_ema21_pullback,month,2025-10-31,0.1953,121,1.006512,True
+scalp_GBPUSD_ema21_pullback,month,2025-11-30,-0.2947,108,1.003546,False
+scalp_GBPUSD_ema21_pullback,month,2025-12-31,-0.8488,126,0.995028,False

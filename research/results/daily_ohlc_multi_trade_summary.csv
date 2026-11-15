@@ -1,0 +1,6 @@
+strategy,symbol,split,trades,trades_per_day_avg,winrate_pct,avg_win_pct,avg_loss_pct,expectancy_pct,total_pct,pf,sl_atr,tp_atr
+orb_m5_10perday,EURUSD,OOS,2221,9.49,29.7,0.024,-0.052,-0.0296,-48.2,0.19,1.0,2.0
+ema21_pullback_m5,EURUSD,OOS,2391,8.66,30.0,0.029,-0.053,-0.0285,-49.48,0.23,1.25,2.0
+d1_candle_color,EURUSD,design,934,1.0,46.5,0.246,-0.256,-0.0227,-19.54,0.83,1.5,2.0
+d1_candle_color,EURUSD,validation,775,1.0,43.9,0.352,-0.326,-0.0289,-20.71,0.84,1.5,2.0
+d1_candle_color,EURUSD,OOS,724,1.0,46.7,0.269,-0.28,-0.0239,-16.31,0.84,1.5,2.0

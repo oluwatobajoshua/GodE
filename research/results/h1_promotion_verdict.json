@@ -1,0 +1,18 @@
+{
+  "symbol": "GBPUSD",
+  "mode": "professor_governor",
+  "rule": {
+    "min_oos_trades": 30,
+    "min_oos_pf": 1.05,
+    "oos_total_pct_gt": 0
+  },
+  "promoted": false,
+  "role": "overlay_only",
+  "oos_n": 5,
+  "oos_total_pct": 0.0,
+  "oos_pf": 0.0,
+  "reasons": [
+    "OOS trades 5 < 30",
+    "OOS total_pct 0.0 <= 0"
+  ]
+}

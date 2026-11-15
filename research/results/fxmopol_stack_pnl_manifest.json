@@ -1,0 +1,163 @@
+{
+  "symbol": "GBPUSD",
+  "ema_mid": 50,
+  "modes": {
+    "chart_loose": {
+      "trades": 103,
+      "splits": {
+        "design": {
+          "n": 39,
+          "exp_bps": -2.97,
+          "pf": 0.62,
+          "winrate": 38.5,
+          "total_pct": -1.16
+        },
+        "validation": {
+          "n": 46,
+          "exp_bps": -3.67,
+          "pf": 0.58,
+          "winrate": 30.4,
+          "total_pct": -1.68
+        },
+        "OOS": {
+          "n": 18,
+          "exp_bps": 3.44,
+          "pf": 1.67,
+          "winrate": 50.0,
+          "total_pct": 0.62
+        }
+      },
+      "full": {
+        "exp_bps": -2.16,
+        "total_pct": -2.22,
+        "pf": 0.72
+      }
+    },
+    "chart_prime": {
+      "trades": 21,
+      "splits": {
+        "design": {
+          "n": 7,
+          "exp_bps": -999,
+          "pf": 0,
+          "winrate": 0,
+          "total_pct": 0
+        },
+        "validation": {
+          "n": 9,
+          "exp_bps": -999,
+          "pf": 0,
+          "winrate": 0,
+          "total_pct": 0
+        },
+        "OOS": {
+          "n": 5,
+          "exp_bps": -999,
+          "pf": 0,
+          "winrate": 0,
+          "total_pct": 0
+        }
+      },
+      "full": {
+        "exp_bps": -1.78,
+        "total_pct": -0.38,
+        "pf": 0.84
+      }
+    },
+    "professor_stack": {
+      "trades": 21,
+      "splits": {
+        "design": {
+          "n": 7,
+          "exp_bps": -999,
+          "pf": 0,
+          "winrate": 0,
+          "total_pct": 0
+        },
+        "validation": {
+          "n": 9,
+          "exp_bps": -999,
+          "pf": 0,
+          "winrate": 0,
+          "total_pct": 0
+        },
+        "OOS": {
+          "n": 5,
+          "exp_bps": -999,
+          "pf": 0,
+          "winrate": 0,
+          "total_pct": 0
+        }
+      },
+      "full": {
+        "exp_bps": -1.51,
+        "total_pct": -0.32,
+        "pf": 0.84
+      }
+    },
+    "professor_governor": {
+      "trades": 21,
+      "splits": {
+        "design": {
+          "n": 7,
+          "exp_bps": -999,
+          "pf": 0,
+          "winrate": 0,
+          "total_pct": 0
+        },
+        "validation": {
+          "n": 9,
+          "exp_bps": -999,
+          "pf": 0,
+          "winrate": 0,
+          "total_pct": 0
+        },
+        "OOS": {
+          "n": 5,
+          "exp_bps": -999,
+          "pf": 0,
+          "winrate": 0,
+          "total_pct": 0
+        }
+      },
+      "full": {
+        "exp_bps": -0.76,
+        "total_pct": -0.16,
+        "pf": 0.84
+      }
+    },
+    "professor_governor_learned": {
+      "trades": 3,
+      "splits": {
+        "design": {
+          "n": 0,
+          "exp_bps": -999,
+          "pf": 0,
+          "winrate": 0,
+          "total_pct": 0
+        },
+        "validation": {
+          "n": 2,
+          "exp_bps": -999,
+          "pf": 0,
+          "winrate": 0,
+          "total_pct": 0
+        },
+        "OOS": {
+          "n": 1,
+          "exp_bps": -999,
+          "pf": 0,
+          "winrate": 0,
+          "total_pct": 0
+        }
+      },
+      "full": {
+        "exp_bps": -0.2,
+        "total_pct": -0.01,
+        "pf": 0
+      }
+    }
+  },
+  "note": "professor_stack = prime sessions + professor blocks; not live-certified",
+  "certified_alternate": "carry_mom_filter monthly sleeve (D1) \u2014 see lanes_summary.json"
+}

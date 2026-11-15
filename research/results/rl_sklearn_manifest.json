@@ -1,0 +1,6 @@
+{
+  "backend": "sklearn_sgd_on_fx_env_core",
+  "train_acc_proxy": 0.7243,
+  "final_equity_sample": 99221.0,
+  "note": "Research smoke \u2014 not promotion. No pip.exe / gymnasium required."
+}

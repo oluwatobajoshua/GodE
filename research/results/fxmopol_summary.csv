@@ -1,0 +1,7 @@
+symbol,split,n,winrate,exp_bps,total_pct,pf
+EURUSD,design,449,39.2,-2.4,-10.23,0.66
+EURUSD,validation,298,37.9,-2.12,-6.18,0.76
+EURUSD,OOS,177,34.5,-4.08,-6.99,0.53
+GBPUSD,design,521,39.0,-3.35,-16.1,0.64
+GBPUSD,validation,292,31.5,-4.31,-11.87,0.58
+GBPUSD,OOS,200,39.0,-1.78,-3.52,0.78

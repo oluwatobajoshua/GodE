@@ -1,0 +1,23 @@
+{
+  "schema_version": 2,
+  "symbol": "GBPUSD",
+  "backend": "numpy_ofi_hawkes_euler_ode",
+  "book_source": "m5_synthetic",
+  "torch_status": "use_euler_numpy_or_ask_it_whitelist_python_exe_only",
+  "rows": 67224,
+  "meta": {
+    "symbol": "GBPUSD",
+    "book_source": "m5_synthetic",
+    "l2_path": null
+  },
+  "last": {
+    "ofi": 20.0,
+    "hawkes_lambda": 0.02,
+    "vpin_proxy": 0.02842384801704222,
+    "alpha_head": -0.0006724109816935774,
+    "toxicity_head": 0.5623466762722562,
+    "throttle_execution": false
+  },
+  "data_gap": "export_l2_ticks_for_real_bbo",
+  "csv": "research\\results\\microstructure_GBPUSD_M5.csv"
+}

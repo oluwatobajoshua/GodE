@@ -8,6 +8,8 @@
 #ifndef __SOVEREIGN_AUDIT_LOG_MQH__
 #define __SOVEREIGN_AUDIT_LOG_MQH__
 
+#include <Sovereign\SovereignError.mqh>
+
 class CSovereignAuditLog
 {
 private:
@@ -43,27 +45,58 @@ private:
    {
       string path = m_folder + "\\" + fileName;
       bool existed = FileIsExist(path);
+      SovResetLastError();
       int handle = FileOpen(path,
                             FILE_READ | FILE_WRITE | FILE_TXT | FILE_ANSI |
                             FILE_SHARE_READ | FILE_SHARE_WRITE);
       if(handle == INVALID_HANDLE)
       {
-         PrintFormat("Sovereign audit: cannot open %s (error %d)", path, GetLastError());
+         SovLogWarn("AuditLog: cannot open " + path + " err=" + IntegerToString(GetLastError()));
          return INVALID_HANDLE;
       }
 
       FileSeek(handle, 0, SEEK_END);
       if(!existed || FileSize(handle) == 0)
-         FileWriteString(handle, header + "\r\n");
+      {
+         SovResetLastError();
+         if(FileWriteString(handle, header + "\r\n") <= 0)
+         {
+            SovLogWarn("AuditLog: write header failed for " + path + " err=" + IntegerToString(GetLastError()));
+            FileClose(handle);
+            return INVALID_HANDLE;
+         }
+      }
+      SovResetLastError();
       FileFlush(handle);
+      if(GetLastError() != 0)
+         SovLogWarn("AuditLog: FileFlush failed for " + path + " err=" + IntegerToString(GetLastError()));
       return handle;
    }
 
-   void WriteLine(const int handle, const string line)
+    void WriteLine(const int handle, const string line)
    {
       if(handle == INVALID_HANDLE) return;
-      FileWriteString(handle, line + "\r\n");
+      SovResetLastError();
+      if(FileWriteString(handle, line + "\r\n") <= 0)
+         SovLogWarn("AuditLog: WriteLine failed err=" + IntegerToString(GetLastError()));
+      SovResetLastError();
       FileFlush(handle);
+      if(GetLastError() != 0)
+         SovLogWarn("AuditLog: FileFlush failed err=" + IntegerToString(GetLastError()));
+   }
+
+    int RotateIfNeeded(int &handle, const string fileName, const string header)
+   {
+      if(handle == INVALID_HANDLE) return handle;
+      if(FileSize(handle) < 1000000) return handle;
+      SovResetLastError();
+      FileClose(handle);
+      if(GetLastError() != 0)
+         SovLogWarn("AuditLog: FileClose during rotate failed err=" + IntegerToString(GetLastError()));
+      handle = OpenAppend(fileName, header);
+      if(handle == INVALID_HANDLE)
+         SovLogWarn("AuditLog: rotate reopen failed for " + fileName);
+      return handle;
    }
 
    double LookupAttemptPrice(const ulong orderTicket) const
@@ -100,10 +133,7 @@ public:
       if(!enabled) return true;
 
       if(!FolderCreate(m_folder))
-      {
-         //--- FolderCreate also returns false when the folder already exists.
-         //--- A subsequent FileOpen will surface any real directory failure.
-      }
+         SovLogWarn("AuditLog: FolderCreate(" + m_folder + ") failed");
 
       m_orderHandle = OpenAppend(
          "order_attempts.csv",
@@ -131,12 +161,12 @@ public:
               m_adaptiveHandle != INVALID_HANDLE);
    }
 
-   void Deinit()
+    void Deinit()
    {
-      if(m_orderHandle != INVALID_HANDLE)  { FileClose(m_orderHandle);  m_orderHandle = INVALID_HANDLE; }
-      if(m_dealHandle != INVALID_HANDLE)   { FileClose(m_dealHandle);   m_dealHandle = INVALID_HANDLE; }
-      if(m_signalHandle != INVALID_HANDLE) { FileClose(m_signalHandle); m_signalHandle = INVALID_HANDLE; }
-      if(m_adaptiveHandle != INVALID_HANDLE) { FileClose(m_adaptiveHandle); m_adaptiveHandle = INVALID_HANDLE; }
+      if(m_orderHandle != INVALID_HANDLE)  { SovResetLastError(); FileClose(m_orderHandle);  if(GetLastError()!=0) SovLogWarn("AuditLog: FileClose(order) failed"); m_orderHandle = INVALID_HANDLE; }
+      if(m_dealHandle != INVALID_HANDLE)   { SovResetLastError(); FileClose(m_dealHandle);   if(GetLastError()!=0) SovLogWarn("AuditLog: FileClose(deal) failed"); m_dealHandle = INVALID_HANDLE; }
+      if(m_signalHandle != INVALID_HANDLE) { SovResetLastError(); FileClose(m_signalHandle); if(GetLastError()!=0) SovLogWarn("AuditLog: FileClose(signal) failed"); m_signalHandle = INVALID_HANDLE; }
+      if(m_adaptiveHandle != INVALID_HANDLE) { SovResetLastError(); FileClose(m_adaptiveHandle); if(GetLastError()!=0) SovLogWarn("AuditLog: FileClose(adaptive) failed"); m_adaptiveHandle = INVALID_HANDLE; }
    }
 
    bool Enabled() const { return m_enabled; }
@@ -195,7 +225,11 @@ public:
          spreadPoints,
          heartbeatAge);
 
-      WriteLine(m_signalHandle, line);
+       m_signalHandle = RotateIfNeeded(m_signalHandle, "signal_audit.csv",
+            "server_time,event,local_bias,price,python_healthy,python_action,python_confidence,"
+            "poc,range_position,volatility_ratio,spread_points,heartbeat_age_s");
+
+       WriteLine(m_signalHandle, line);
    }
 
    void LogAdaptive(const string event, const string bucket, const int mode,
@@ -217,7 +251,10 @@ public:
          Fmt(riskMoney, 2),
          Csv(note));
 
-      WriteLine(m_adaptiveHandle, line);
+       m_adaptiveHandle = RotateIfNeeded(m_adaptiveHandle, "adaptive_audit.csv",
+            "server_time,event,bucket,mode,side,ml_prob,perf_mult,lot,risk_money,note");
+
+       WriteLine(m_adaptiveHandle, line);
    }
 
    void LogOrderAttempt(const string action, const string orderType,
@@ -233,6 +270,14 @@ public:
       if(resultPrice > 0 && requestedPrice > 0)
          slippage = ((action == "BUY") ? (resultPrice - requestedPrice)
                                        : (requestedPrice - resultPrice)) / _Point;
+
+      SovResetLastError();
+      double equity = AccountInfoDouble(ACCOUNT_EQUITY);
+      double freeMargin = AccountInfoDouble(ACCOUNT_MARGIN_FREE);
+      if(equity == 0.0 && GetLastError() != 0)
+         SovLogWarn("AuditLog: AccountInfoDouble(ACCOUNT_EQUITY) failed err=" + IntegerToString(GetLastError()));
+      if(freeMargin == 0.0 && GetLastError() != 0)
+         SovLogWarn("AuditLog: AccountInfoDouble(ACCOUNT_MARGIN_FREE) failed err=" + IntegerToString(GetLastError()));
 
       string line = StringFormat(
          "%s,ORDER,%s,%s,%s,%s,%s,%d,%s,%d,%s,%s,%s,%s,%s,%s,%s",
@@ -250,17 +295,135 @@ public:
          Csv(pythonAction),
          Fmt(pythonConfidence, 3),
          Fmt(poc),
-         Fmt(AccountInfoDouble(ACCOUNT_EQUITY), 2),
-         Fmt(AccountInfoDouble(ACCOUNT_MARGIN_FREE), 2));
+         Fmt(equity, 2),
+         Fmt(freeMargin, 2));
 
-      WriteLine(m_orderHandle, line);
-   }
+       m_orderHandle = RotateIfNeeded(m_orderHandle, "order_attempts.csv",
+            "server_time,event,action,order_type,requested_price,result_price,volume,"
+            "spread_points,slippage_points,retcode,comment,python_healthy,python_action,"
+            "python_confidence,poc,equity,free_margin");
 
-   void LogDeal(const MqlTradeTransaction &trans, const uint retcode)
+        WriteLine(m_orderHandle, line);
+    }
+
+    //+------------------------------------------------------------------+
+    //| LogDecision — per-bar entry decision audit (enter/skip + full   |
+    //| analysis snapshot for optimization)                              |
+    //+------------------------------------------------------------------+
+    void LogDecision(const string symbol, const string timeframe, const datetime barTime,
+                      const int entryMode, const int side, const string decision,
+                      const string reason,
+                      double rsi, double rsiPrev, double rsiPrior,
+                      double ema21, double ema50, double smma100, int trend,
+                      double closePx, double openPx, double highPx, double lowPx,
+                      double atr, int spread, double p90Spread,
+                      bool gateSpread, bool gateAtr, bool gateMaClean,
+                      bool gateConsecutive, bool gateEmaSlope, bool gateMacro,
+                      bool gateDiscretion, bool gatePortfolio,
+                      bool engulfingActive, double engulfingStop,
+                      const string note)
+    {
+       if(!m_enabled) return;
+
+       string line = StringFormat(
+          "%s,%s,%s,%d,%d,%s,%s,%s,%s,%s,%s,%s,%s,%d,%s,%s,%s,%s,%s,%s,%s,%d,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s",
+          TimeToString(TimeCurrent(), TIME_DATE | TIME_SECONDS),
+          Csv(symbol),
+          Csv(timeframe),
+          TimeToString(barTime, TIME_DATE | TIME_SECONDS),
+          entryMode,
+          side,
+          Csv(decision),
+          Csv(reason),
+          Fmt(rsi, 2), Fmt(rsiPrev, 2), Fmt(rsiPrior, 2),
+          Fmt(ema21, 5), Fmt(ema50, 5), Fmt(smma100, 5),
+          trend,
+          Fmt(closePx, 5), Fmt(openPx, 5), Fmt(highPx, 5), Fmt(lowPx, 5),
+          Fmt(atr, 5),
+          spread, Fmt(p90Spread, 1),
+          gateSpread ? "PASS" : "FAIL",
+          gateAtr ? "PASS" : "FAIL",
+          gateMaClean ? "PASS" : "FAIL",
+          gateConsecutive ? "PASS" : "FAIL",
+          gateEmaSlope ? "PASS" : "FAIL",
+          gateMacro ? "PASS" : "FAIL",
+          gateDiscretion ? "PASS" : "FAIL",
+          gatePortfolio ? "PASS" : "FAIL",
+          engulfingActive ? "true" : "false",
+          Fmt(engulfingStop, 5),
+          Csv(note));
+
+       m_signalHandle = RotateIfNeeded(m_signalHandle, "decision_audit.csv",
+            "server_time,symbol,timeframe,bar_time,entry_mode,side,decision,reason,"
+            "rsi,rsi_prev,rsi_prior,ema21,ema50,smma100,trend,"
+            "close,open,high,low,atr,spread,p90_spread,"
+            "gate_spread,gate_atr,gate_ma_clean,gate_consecutive,gate_ema_slope,"
+            "gate_macro,gate_discretion,gate_portfolio,engulfing_active,engulfing_stop,note");
+
+        WriteLine(m_signalHandle, line);
+    }
+
+    //+------------------------------------------------------------------+
+    //| LogExit — per-exit decision audit (why trade closed + full      |
+    //| trade PnL details for optimization)                              |
+    //+------------------------------------------------------------------+
+    void LogExit(const string symbol, const string timeframe, const datetime barTime,
+                  const int entryMode, const int side, const string exitReason,
+                  double entryPrice, double exitPrice, double pnlPoints,
+                  double pnlMoney, int barsHeld, int legCount,
+                  double rsi, double rsiPrev, double ema21, double ema50,
+                  double closePx, double openPx, double highPx, double lowPx,
+                  double atr, int spread, double p90Spread,
+                  bool engulfingActive, double engulfingStop,
+                  const string note)
+    {
+       if(!m_enabled) return;
+
+       double winLoss = (pnlMoney > 0.0) ? 1.0 : ((pnlMoney < 0.0) ? -1.0 : 0.0);
+       string line = StringFormat(
+          "%s,%s,%s,%d,%d,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%d,%d,%s,%s,%s,%s,%s,%s,%s",
+          TimeToString(TimeCurrent(), TIME_DATE | TIME_SECONDS),
+          Csv(symbol),
+          Csv(timeframe),
+          TimeToString(barTime, TIME_DATE | TIME_SECONDS),
+          entryMode,
+          side,
+          Csv(exitReason),
+          Fmt(entryPrice, 5),
+          Fmt(exitPrice, 5),
+          Fmt(pnlPoints, 2),
+          Fmt(pnlMoney, 2),
+          Fmt(winLoss, 2),
+          barsHeld,
+          legCount,
+          Fmt(rsi, 2), Fmt(rsiPrev, 2), Fmt(ema21, 5), Fmt(ema50, 5),
+          Fmt(closePx, 5), Fmt(openPx, 5), Fmt(highPx, 5), Fmt(lowPx, 5),
+          Fmt(atr, 5),
+          spread, Fmt(p90Spread, 1),
+          engulfingActive ? "true" : "false",
+          Fmt(engulfingStop, 5),
+          Csv(note));
+
+       m_signalHandle = RotateIfNeeded(m_signalHandle, "decision_audit.csv",
+            "server_time,symbol,timeframe,bar_time,entry_mode,side,exit_reason,"
+            "entry_price,exit_price,pnl_points,pnl_money,win_loss,bars_held,leg_count,"
+            "rsi,rsi_prev,ema21,ema50,close,open,high,low,atr,spread,p90_spread,"
+            "engulfing_active,engulfing_stop,note");
+
+       WriteLine(m_signalHandle, line);
+    }
+
+    void LogDeal(const MqlTradeTransaction &trans, const uint retcode)
    {
       if(!m_enabled) return;
       if(trans.type != TRADE_TRANSACTION_DEAL_ADD) return;
-      if(!HistoryDealSelect(trans.deal)) return;
+      SovResetLastError();
+      if(!HistoryDealSelect(trans.deal))
+      {
+         SovLogWarn("AuditLog: HistoryDealSelect(" + IntegerToString((long)trans.deal) +
+                    ") failed err=" + IntegerToString(GetLastError()));
+         return;
+      }
 
       ulong  orderTicket = (ulong)HistoryDealGetInteger(trans.deal, DEAL_ORDER);
       long   entry       = HistoryDealGetInteger(trans.deal, DEAL_ENTRY);
@@ -277,24 +440,37 @@ public:
       string typeText = (dealType == DEAL_TYPE_BUY) ? "BUY" :
                         (dealType == DEAL_TYPE_SELL) ? "SELL" : "OTHER";
 
+      SovResetLastError();
+      ulong  dealTicket = (ulong)HistoryDealGetInteger(trans.deal, DEAL_TICKET);
+      string symbol     = HistoryDealGetString(trans.deal, DEAL_SYMBOL);
+      double volume     = HistoryDealGetDouble(trans.deal, DEAL_VOLUME);
+      double commission = HistoryDealGetDouble(trans.deal, DEAL_COMMISSION);
+      double swap       = HistoryDealGetDouble(trans.deal, DEAL_SWAP);
+      double profit     = HistoryDealGetDouble(trans.deal, DEAL_PROFIT);
+      string comment    = HistoryDealGetString(trans.deal, DEAL_COMMENT);
+
       string line = StringFormat(
-         "%s,DEAL,%I64u,%I64u,%I64u,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%d,%s",
+         "%s,DEAL,%I64u,%I64u,%I64u,%s,%s,%s,%s,%s,%s,%s,%s,%s,%d,%s",
          TimeToString(TimeCurrent(), TIME_DATE | TIME_SECONDS),
-         (ulong)HistoryDealGetInteger(trans.deal, DEAL_TICKET),
+         dealTicket,
          orderTicket,
          (ulong)HistoryDealGetInteger(trans.deal, DEAL_POSITION_ID),
          entryText,
          typeText,
-         Csv(HistoryDealGetString(trans.deal, DEAL_SYMBOL)),
-         Fmt(HistoryDealGetDouble(trans.deal, DEAL_VOLUME), 2),
+         Csv(symbol),
+         Fmt(volume, 2),
          Fmt(fillPrice),
          Fmt(LookupAttemptPrice(orderTicket)),
          Fmt(slippage, 1),
-         Fmt(HistoryDealGetDouble(trans.deal, DEAL_COMMISSION), 2),
-         Fmt(HistoryDealGetDouble(trans.deal, DEAL_SWAP), 2),
-         Fmt(HistoryDealGetDouble(trans.deal, DEAL_PROFIT), 2),
+         Fmt(commission, 2),
+         Fmt(swap, 2),
+         Fmt(profit, 2),
          retcode,
-         Csv(HistoryDealGetString(trans.deal, DEAL_COMMENT)));
+         Csv(comment));
+
+      m_dealHandle = RotateIfNeeded(m_dealHandle, "trade_events.csv",
+         "server_time,event,deal_ticket,order_ticket,position_id,entry,deal_type,symbol,"
+         "volume,price,requested_price,slippage_points,commission,swap,profit,retcode,comment");
 
       WriteLine(m_dealHandle, line);
    }

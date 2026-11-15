@@ -1,0 +1,5 @@
+symbol,strategy,trades,full_pct,oos_n,oos_pct,oos_pf
+EURUSD,london_orb,250,-1.92,250,-1.92,0.83
+EURUSD,ema21_pullback,707,1.0,707,1.0,1.06
+GBPUSD,london_orb,247,-3.72,247,-3.72,0.73
+GBPUSD,ema21_pullback,709,-0.49,709,-0.49,0.97

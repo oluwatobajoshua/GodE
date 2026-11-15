@@ -1,0 +1,2 @@
+rsi_p,mid,hi,lo,db,rt,gross_design,gross_validation,gross_oos,net_design,net_validation,net_oos,gross_all3_pos,net_all3_pos
+9,50,80,20,0.1,953,1.7280097192514,-3.6146629456566104,1.1999079736861429,-4.160554375927516,-5.104522215900442,-0.42761435509209855,False,False

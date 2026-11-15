@@ -1,0 +1,37 @@
+sym,hypothesis,box_hours,tp_r,n,total_pct,pf,winrate
+GBPUSD,session_mom_h9_hold24,,,1524,-0.21,1.0,50.3
+EURUSD,session_mom_h9_hold24,,,1524,-1.8,0.97,50.9
+GBPUSD,session_mom_h7_hold24,,,1524,-4.16,0.95,47.8
+GBPUSD,session_mom_h7_hold12,,,1524,-3.44,0.94,46.1
+EURUSD,session_mom_h7_hold12,,,1524,-4.02,0.93,49.1
+EURUSD,london_orb,"[5, 6]",1.0,250,-1.04,0.91,47.6
+GBPUSD,session_mom_h8_hold12,,,1524,-5.28,0.91,46.9
+EURUSD,session_mom_h7_hold24,,,1524,-6.19,0.91,48.9
+EURUSD,session_mom_h9_hold12,,,1524,-5.03,0.89,48.4
+GBPUSD,session_mom_h7_hold6,,,1524,-5.13,0.89,47.4
+GBPUSD,session_mom_h9_hold12,,,1524,-5.18,0.89,48.0
+GBPUSD,session_mom_h8_hold24,,,1524,-8.49,0.88,47.4
+GBPUSD,session_mom_h9_hold6,,,1524,-5.34,0.86,46.6
+GBPUSD,session_mom_h8_hold6,,,1524,-6.39,0.86,47.4
+EURUSD,london_orb,"[5, 6]",1.5,250,-1.69,0.85,45.6
+EURUSD,session_mom_h7_hold6,,,1524,-6.73,0.85,46.9
+EURUSD,session_mom_h8_hold24,,,1524,-9.75,0.85,47.3
+EURUSD,london_orb,"[7, 8]",1.2,209,-1.5,0.84,47.8
+EURUSD,session_mom_h9_hold6,,,1524,-5.46,0.84,46.9
+EURUSD,london_orb,"[7, 8]",1.0,209,-1.51,0.83,47.8
+EURUSD,london_orb,"[5, 6]",1.2,250,-1.92,0.83,46.0
+EURUSD,session_mom_h8_hold12,,,1524,-8.19,0.83,48.2
+EURUSD,london_orb,"[7, 8]",1.5,209,-1.65,0.82,47.4
+EURUSD,london_orb,"[6, 7]",1.2,228,-1.92,0.81,46.9
+EURUSD,session_mom_h8_hold6,,,1524,-8.44,0.79,46.7
+EURUSD,london_orb,"[6, 7]",1.5,228,-2.29,0.78,46.5
+EURUSD,london_orb,"[6, 7]",1.0,228,-2.32,0.77,46.9
+GBPUSD,london_orb,"[6, 7]",1.5,232,-3.05,0.76,44.0
+GBPUSD,london_orb,"[6, 7]",1.2,232,-3.25,0.75,44.4
+GBPUSD,london_orb,"[5, 6]",1.0,247,-3.57,0.74,46.6
+GBPUSD,london_orb,"[6, 7]",1.0,232,-3.49,0.73,44.8
+GBPUSD,london_orb,"[5, 6]",1.2,247,-3.72,0.73,44.5
+GBPUSD,london_orb,"[5, 6]",1.5,247,-3.96,0.72,44.5
+GBPUSD,london_orb,"[7, 8]",1.2,196,-4.82,0.61,43.4
+GBPUSD,london_orb,"[7, 8]",1.5,196,-4.89,0.6,42.3
+GBPUSD,london_orb,"[7, 8]",1.0,196,-4.95,0.59,43.4

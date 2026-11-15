@@ -1,0 +1,56 @@
+{
+  "source": "https://www.babypips.com/learn/forex",
+  "rules": [
+    "H4 EMA50 trend + H1 EMA21",
+    "S/R swing + fib 50-61.8 + pivot S1/R1",
+    "Engulfing candle only",
+    "RSI band filter",
+    "1:2 R:R, 3 trades/day, 3bp cost"
+  ],
+  "pipsology_promoted": false,
+  "automated_live_candidate": "carry_mom_filter",
+  "pipsology_note": "BabyPips TA stack alone did not pass OOS on HistData if promoted=false",
+  "carry_chapter_proof": {
+    "carry_babypips_chapter": [
+      {
+        "strategy": "carry_mom_filter",
+        "split": "design_2005_2014",
+        "start": "2005-02-01",
+        "end": "2014-12-01",
+        "years": 9.8,
+        "cagr": 1.32,
+        "vol": 11.46,
+        "sharpe": 0.17,
+        "maxdd": -26.3,
+        "total": 13.73,
+        "pf": 1.15
+      },
+      {
+        "strategy": "carry_mom_filter",
+        "split": "validation_2015_2019",
+        "start": "2015-01-01",
+        "end": "2019-12-01",
+        "years": 4.9,
+        "cagr": 0.05,
+        "vol": 10.28,
+        "sharpe": 0.06,
+        "maxdd": -14.08,
+        "total": 0.26,
+        "pf": 1.04
+      },
+      {
+        "strategy": "carry_mom_filter",
+        "split": "OOS_2020_2026",
+        "start": "2020-01-01",
+        "end": "2026-09-01",
+        "years": 6.7,
+        "cagr": 3.26,
+        "vol": 11.22,
+        "sharpe": 0.34,
+        "maxdd": -17.46,
+        "total": 23.87,
+        "pf": 1.29
+      }
+    ]
+  }
+}

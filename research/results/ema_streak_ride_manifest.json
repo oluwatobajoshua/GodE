@@ -1,0 +1,10 @@
+{
+  "hypothesis": "Sustained closes above/below EMA are tradable with streak entry",
+  "picks_validation": [
+    "USDJPY_stack_s12_ema_break",
+    "EURUSD_stack_s20_ema_break",
+    "GBPUSD_stack_s20_hold12"
+  ],
+  "best_oos_exp_bps": -1.65,
+  "note": "Costs 3bps/side; streak entry on Nth consecutive close"
+}

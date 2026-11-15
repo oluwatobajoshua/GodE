@@ -1,0 +1,77 @@
+{
+  "generated_at": "2026-11-08T23:38:04.394663+00:00",
+  "steps": [
+    {
+      "step": "study_pip_budget",
+      "status": "ok",
+      "exit_code": 0,
+      "stdout_tail": "               NaN                          86.4\nGBPUSD             ema21_rr_1_2 OOS_2024+  2010.0               -4.00            -29.54         29.5                     5.5                       NaN                           NaN\nGBPUSD             ema21_rr_1_2      full  2010.0               -4.00            -29.54         29.5                     5.5                       NaN                           NaN\nGBPUSD          ema21_rr_125_25 OOS_2024+  2010.0               -3.99            -29.52         31.0                     9.2                       NaN                           NaN\nGBPUSD          ema21_rr_125_25      full  2010.0               -3.99            -29.52         31.0                     9.2                       NaN                           NaN\nGBPUSD carry_mom_filter_monthly      full     NaN                 NaN               NaN          NaN                     NaN                       NaN                         108.6\nUSDJPY             ema21_rr_1_2 OOS_2024+  2037.0               -4.62            -34.24         29.0                     9.8                       NaN                           NaN\nUSDJPY             ema21_rr_1_2      full  2037.0               -4.62            -34.24         29.0                     9.8                       NaN                           NaN\nUSDJPY          ema21_rr_125_25 OOS_2024+  2037.0               -4.53            -33.55         31.6                    12.4                       NaN                           NaN\nUSDJPY          ema21_rr_125_25      full  2037.0               -4.53            -33.55         31.6                    12.4                       NaN                           NaN\nUSDJPY carry_mom_filter_monthly      full     NaN                 NaN               NaN          NaN                     NaN                       NaN                          85.6\n\nWrote C:\\xampp\\htdocs\\GodE\\research\\results\\daily_pip_budget_summary.csv, C:\\xampp\\htdocs\\GodE\\research\\results\\daily_pip_budget_yearly.csv\n",
+      "stderr_tail": ""
+    },
+    {
+      "step": "train_filter_learn",
+      "status": "ok",
+      "exit_code": 0,
+      "stdout_tail": "=== Learn from baseline (design) -> apply frozen to val/OOS ===\nGBPUSD mask 4 hours [] | trades 59 -> 5\nEURUSD mask 0 hours [] | trades 37 -> 37\nUSDJPY mask 2 hours [8] | trades 66 -> 2\n\nWrote fxmopol_learned_filters.json, fxmopol_filter_learn_summary.csv\n\n--- GBPUSD OOS ---\n\n--- EURUSD OOS ---\n\n--- USDJPY OOS ---\n",
+      "stderr_tail": ""
+    },
+    {
+      "step": "test_stack_pnl",
+      "status": "ok",
+      "exit_code": 0,
+      "stdout_tail": " 0.0026       1 0.996350\n2024-09-05      0.0050       1 0.996400\n2024-09-06      0.0644       1 0.997042\n2024-09-19      0.0873       1 0.997913\n2025-08-28      0.0612       1 0.998524\n2025-11-12     -0.0850       1 0.997675\n\n(stack_GBPUSD_mid50_professor_governor) all months: n=48 sum_return%=-0.23 win_months=26\n\n=== stack_GBPUSD_mid50_professor_governor - monthly P&L by split ===\n  design: months=9 sum%=0.05 win=5/9\n  validation: months=7 sum%=-0.36 win=4/7\n  OOS: months=3 sum%=0.13 win=2/3\n\n=== stack_GBPUSD_mid50_professor_governor_learned - last 12 months ===\n      date  return_pct  trades   equity  win_period\n2018-06-30     -0.0477       1 0.999523       False\n2018-08-31     -0.0361       1 0.999162       False\n2023-10-31      0.0765       1 0.999927        True\n2024-05-31      0.0026       1 0.999952        True\n2025-11-30     -0.0850       1 0.999102       False\n\n=== stack_GBPUSD_mid50_professor_governor_learned - last 21 days ===\n      date  return_pct  trades   equity\n2018-06-13     -0.0477       1 0.999523\n2018-08-01     -0.0361       1 0.999162\n2023-10-25      0.0765       1 0.999927\n2024-05-08      0.0026       1 0.999952\n2025-11-12     -0.0850       1 0.999102\n\n(stack_GBPUSD_mid50_professor_governor_learned) all months: n=5 sum_return%=-0.09 win_months=2\n\n=== stack_GBPUSD_mid50_professor_governor_learned - monthly P&L by split ===\n  design: months=2 sum%=-0.08 win=0/2\n  validation: months=2 sum%=0.08 win=2/2\n  OOS: months=1 sum%=-0.09 win=0/1\n\n\n=== Stack comparison (full sample) ===\n  chart_loose: n=211 total%=-8.13 exp_bps=-4.0\n    OOS: n=17 total%=0.55 pf=1.54\n  chart_prime: n=59 total%=-0.56 exp_bps=-0.92\n    OOS: n=5 total%=0 pf=0\n  professor_stack: n=59 total%=-0.47 exp_bps=-0.78\n    OOS: n=5 total%=0 pf=0\n  professor_governor: n=59 total%=-0.23 exp_bps=-0.39\n    OOS: n=5 total%=0 pf=0\n  professor_governor_learned: n=5 total%=-0.09 exp_bps=-1.79\n    OOS: n=1 total%=0 pf=0\n\nWrote C:\\xampp\\htdocs\\GodE\\research\\results\\fxmopol_stack_pnl_manifest.json\n",
+      "stderr_tail": ""
+    },
+    {
+      "step": "test_h1_promotion",
+      "status": "ok",
+      "exit_code": 0,
+      "stdout_tail": "{\n  \"symbol\": \"GBPUSD\",\n  \"mode\": \"professor_governor\",\n  \"rule\": {\n    \"min_oos_trades\": 30,\n    \"min_oos_pf\": 1.05,\n    \"oos_total_pct_gt\": 0\n  },\n  \"promoted\": false,\n  \"role\": \"overlay_only\",\n  \"oos_n\": 5,\n  \"oos_total_pct\": 0.0,\n  \"oos_pf\": 0.0,\n  \"reasons\": [\n    \"OOS trades 5 < 30\",\n    \"OOS total_pct 0.0 <= 0\"\n  ]\n}\n\nWrote C:\\xampp\\htdocs\\GodE\\research\\results\\h1_promotion_verdict.json\n",
+      "stderr_tail": ""
+    },
+    {
+      "step": "train_carry_grid",
+      "status": "ok",
+      "exit_code": 0,
+      "stdout_tail": "{\n  \"method\": \"max design Sharpe among PF-pass rows; params frozen for val/OOS\",\n  \"pick\": {\n    \"cost_pts\": 0.0,\n    \"top_n\": 3,\n    \"design_cagr\": 1.42,\n    \"design_sharpe\": 0.18,\n    \"design_pf_pass\": true,\n    \"validation_2015_2019_cagr\": 0.21,\n    \"validation_2015_2019_sharpe\": 0.07,\n    \"validation_2015_2019_pass\": true,\n    \"OOS_2020_2026_cagr\": 3.43,\n    \"OOS_2020_2026_sharpe\": 0.36,\n    \"OOS_2020_2026_pass\": true\n  },\n  \"val_oos_still_pass\": true,\n  \"note\": \"If pick fails val/OOS, keep default cost_pts=12 top_n=3\"\n}\n\nWrote carry_train_grid.csv, carry_train_pick.json\n",
+      "stderr_tail": ""
+    },
+    {
+      "step": "test_carry_promotion",
+      "status": "ok",
+      "exit_code": 0,
+      "stdout_tail": "{\n  \"sleeve\": \"carry_mom_filter\",\n  \"role\": \"core_book\",\n  \"promoted_3split\": true,\n  \"deployable_frozen_policy\": true,\n  \"rule\": \"each split monthly sum_pct>0 and PF>=1.0; deployable also max_dd>-30% on OOS\",\n  \"splits\": {\n    \"design_2005_2014\": {\n      \"n\": 119,\n      \"cagr\": 1.32,\n      \"sharpe\": 0.17,\n      \"max_dd\": -26.3,\n      \"pf\": 1.15,\n      \"sum_pct\": 19.26\n    },\n    \"validation_2015_2019\": {\n      \"n\": 60,\n      \"cagr\": 0.05,\n      \"sharpe\": 0.06,\n      \"max_dd\": -14.08,\n      \"pf\": 1.04,\n      \"sum_pct\": 2.86\n    },\n    \"OOS_2020_2026\": {\n      \"n\": 80,\n      \"cagr\": 3.26,\n      \"sharpe\": 0.34,\n      \"max_dd\": -17.46,\n      \"pf\": 1.29,\n      \"sum_pct\": 25.62\n    }\n  },\n  \"note\": \"Weak CAGR ~1.6% full sample \\u2014 research-positive, not live per AGENTS.md unless you change policy\"\n}\n\nWrote C:\\xampp\\htdocs\\GodE\\research\\results\\carry_promotion_verdict.json\n",
+      "stderr_tail": ""
+    },
+    {
+      "step": "report_dashboard",
+      "status": "ok",
+      "exit_code": 0,
+      "stdout_tail": "6-09-01     -4.8249       1 1.412414       False\nsum_return%=16.37\n\n--- FXMOPOL GBP H1 stack: chart_prime ---\n      date  return_pct  trades   equity  win_period\n2021-05-31     -0.1522       1 0.999267       False\n2021-06-30      0.0280       1 0.999547        True\n2022-04-30      0.0269       1 0.999816        True\n2022-06-30     -0.7006       1 0.992811       False\n2023-06-30     -0.0300       1 0.992513       False\n2023-07-31      0.0523       2 0.993032        True\n2023-10-31      0.1801       1 0.994821        True\n2024-01-31     -0.3695       2 0.991145       False\n2024-05-31      0.0060       1 0.991204        True\n2024-09-30      0.3817       3 0.994988        True\n2025-08-31      0.1441       1 0.996421        True\n2025-11-30     -0.2000       1 0.994428       False\nsum_return%=-0.63\n\n--- FXMOPOL GBP H1 stack: professor_governor ---\n      date  return_pct  trades   equity  win_period\n2021-05-31     -0.0647       1 0.999806       False\n2021-06-30      0.0119       1 0.999925        True\n2022-04-30      0.0108       1 1.000033        True\n2022-06-30     -0.2978       1 0.997055       False\n2023-06-30     -0.0127       1 0.996928       False\n2023-07-31      0.0202       2 0.997129        True\n2023-10-31      0.0765       1 0.997892        True\n2024-01-31     -0.1570       2 0.996325       False\n2024-05-31      0.0026       1 0.996351        True\n2024-09-30      0.1568       3 0.997912        True\n2025-08-31      0.0612       1 0.998524        True\n2025-11-30     -0.0850       1 0.997675       False\nsum_return%=-0.28\n\n--- Lane 1 (carry ECN) 3-split ---\n  cost_pts=0.0 cagr=2.67% profitable_3split=True\n  cost_pts=3.0 cagr=2.64% profitable_3split=True\n  cost_pts=8.0 cagr=2.58% profitable_3split=True\n\n--- GBP stack full-sample (manifest) ---\n  chart_loose: trades=211 full%=-8.13 OOS n=17 OOS%=0.55\n  chart_prime: trades=59 full%=-0.56 OOS n=5 OOS%=0\n  professor_governor: trades=59 full%=-0.23 OOS n=5 OOS%=0\n\nWrote profit_dashboard.json, profit_dashboard_summary.csv\n",
+      "stderr_tail": ""
+    },
+    {
+      "step": "test_portfolio_combine",
+      "status": "ok",
+      "exit_code": 0,
+      "stdout_tail": "=== carry_mom_filter - last 12 months ===\n      date  return_pct  trades   equity  win_period\n2025-10-01      2.8888       1 1.241950        True\n2025-11-01      3.4060       1 1.284251        True\n2025-12-01      3.8809       1 1.334091        True\n2026-01-01      3.6660       1 1.382999        True\n2026-02-01      1.6213       1 1.405421        True\n2026-03-01     -2.3575       1 1.372288       False\n2026-04-01      3.6717       1 1.422673        True\n2026-05-01      2.1645       1 1.453467        True\n2026-06-01     -3.2543       1 1.406167       False\n2026-07-01      0.6997       1 1.416006        True\n2026-08-01      4.8030       1 1.484016        True\n2026-09-01     -4.8249       1 1.412414       False\n\n(carry_mom_filter) all months: n=259 sum_return%=47.74 win_months=134\n\n=== portfolio combined (monthly) last 12 ===\n      date  return_pct   equity\n2025-10-31    2.455480 1.221402\n2025-11-30    2.882350 1.256607\n2025-12-31    3.298765 1.298060\n2026-01-31    3.116100 1.338508\n2026-02-28    1.378105 1.356954\n2026-03-31   -2.003875 1.329763\n2026-04-30    3.120945 1.371264\n2026-05-31    1.839825 1.396493\n2026-06-30   -2.766155 1.357864\n2026-07-31    0.594745 1.365940\n2026-08-31    4.082550 1.421705\n2026-09-30   -4.101165 1.363398\n\nfull sum%=40.54 satellite_w=0.15\nWrote portfolio_combined_monthly.csv, portfolio_combined_manifest.json\n",
+      "stderr_tail": ""
+    },
+    {
+      "step": "parity_check",
+      "status": "ok",
+      "exit_code": 0,
+      "stdout_tail": "{\n  \"python_chart_prime_oos_trades\": 5,\n  \"python_oos_net_pct\": 0.32580000000000003,\n  \"tester_trades_csv\": \"C:\\\\xampp\\\\htdocs\\\\GodE\\\\research\\\\results\\\\tester_trades_fxmopol_gbp_playbook_GBPUSD_H1.csv\",\n  \"tester_review_json\": \"C:\\\\xampp\\\\htdocs\\\\GodE\\\\research\\\\results\\\\tester_review_fxmopol_gbp_playbook_GBPUSD_H1.json\",\n  \"tester_n\": 3,\n  \"tester_net_profit\": 6.93,\n  \"tester_bad_entries_n\": 2,\n  \"tester_bad_net\": 4.609999999999999,\n  \"tester_aligned_n\": 1,\n  \"tester_aligned_net\": 2.32,\n  \"stored_review\": {\n    \"report\": \"C:\\\\xampp\\\\htdocs\\\\GodE\\\\backtest\\\\reports\\\\fxmopol_gbp_playbook_GBPUSD_H1.htm\",\n    \"n_trades\": 3,\n    \"win_rate\": 100.0,\n    \"net_profit\": 6.93,\n    \"avg_win\": 2.31,\n    \"avg_loss\": 0,\n    \"losses_from_bad_entries\": 0,\n    \"profit_given_back_after_3_wins\": 0,\n    \"by_exit\": [\n      {\n        \"exit_reason\": \"signal_exit\",\n        \"n\": 3,\n        \"net\": 6.93,\n        \"wr\": 1.0\n      }\n    ],\n    \"by_chart_state\": [\n      {\n        \"chart_state\": \"STACK_LONG\",\n        \"n\": 2,\n        \"net\": 6.92\n      },\n      {\n        \"chart_state\": \"TRANSITION_BULL\",\n        \"n\": 1,\n        \"net\": 0.01\n      }\n    ]\n  },\n  \"parity_ok\": false\n}\n\nWrote C:\\xampp\\htdocs\\GodE\\research\\results\\ea_stack_parity_report.json\n",
+      "stderr_tail": ""
+    }
+  ],
+  "active_hypotheses": {
+    "primary_hypothesis": "carry_mom_filter",
+    "secondary_hypothesis": "GBPUSD_H1_chart_prime_professor_governor",
+    "primary_verdict": true,
+    "secondary_verdict": "overlay_only",
+    "allocation_model": "portfolio_combine (85/15 core/satellite)",
+    "next_action_carry": "optimize DD/cost on design only",
+    "next_action_h1": "MT5 parity + grow OOS n"
+  }
+}

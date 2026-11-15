@@ -1,0 +1,7 @@
+trend_filter,trend_period,total_pct,pf,winrate,n_trades
+long_only_above,50,9884.93,1.28,52.4,2559
+long_only_above,100,21372.19,1.35,52.4,2333
+long_only_above,200,11461.93,1.33,53.3,2171
+both_sides,50,9884.93,1.28,52.4,2559
+both_sides,100,21372.19,1.35,52.4,2333
+both_sides,200,11461.93,1.33,53.3,2171

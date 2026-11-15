@@ -1,0 +1,8 @@
+{
+  "symbol": "BTCUSD",
+  "bars": 75056,
+  "from": "2018-01-01 00:00:00",
+  "to": "2026-11-08 16:00:00",
+  "source": "MT5 Deriv-Demo via MetaTrader5 Python",
+  "summary_csv": "fxmopol_btcusd_summary.csv"
+}

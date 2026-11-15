@@ -1,0 +1,57 @@
+{
+  "report": "C:\\xampp\\htdocs\\GodE\\backtest\\reports\\fxmopol_gbp_smoke_GBPUSD_H1.htm",
+  "n_trades": 6,
+  "win_rate": 50.0,
+  "net_profit": 17.23,
+  "avg_win": 14.35,
+  "avg_loss": -8.61,
+  "losses_from_bad_entries": 3,
+  "profit_given_back_after_3_wins": -1.53,
+  "by_exit": [
+    {
+      "exit_reason": "signal_exit",
+      "n": 2,
+      "net": 9.99,
+      "wr": 0.5
+    },
+    {
+      "exit_reason": "stop_loss",
+      "n": 2,
+      "net": -24.299999999999997,
+      "wr": 0.0
+    },
+    {
+      "exit_reason": "take_profit",
+      "n": 2,
+      "net": 31.54,
+      "wr": 1.0
+    }
+  ],
+  "by_chart_state": [
+    {
+      "chart_state": "FLAT_NEUTRAL",
+      "n": 1,
+      "net": -1.53
+    },
+    {
+      "chart_state": "STACK_LONG",
+      "n": 2,
+      "net": 22.48
+    },
+    {
+      "chart_state": "STACK_SHORT",
+      "n": 1,
+      "net": -10.44
+    },
+    {
+      "chart_state": "TRANSITION_BEAR",
+      "n": 1,
+      "net": 20.58
+    },
+    {
+      "chart_state": "TRANSITION_BULL",
+      "n": 1,
+      "net": -13.86
+    }
+  ]
+}

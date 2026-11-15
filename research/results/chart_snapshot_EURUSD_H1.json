@@ -1,0 +1,81 @@
+{
+  "schema_version": 1,
+  "source": "python",
+  "symbol": "EURUSD",
+  "period": "H1",
+  "bar_time": "2025.12.31 21:00",
+  "bar_time_epoch": 1767214800,
+  "price": 1.17457,
+  "ema_fast": 1.1742854800966385,
+  "ema_slow": 1.175041885841522,
+  "smma": 1.17537031058322,
+  "rsi": 53.297330316351264,
+  "atr": 0.001147364571073495,
+  "swing_hi": 1.17786,
+  "swing_lo": 1.172,
+  "fib50": 1.1749299999999998,
+  "fib618": 1.17562148,
+  "s1": 1.1732700000000003,
+  "r1": 1.1769100000000001,
+  "trend": 0,
+  "bias": 0,
+  "state": "RANGE / MIXED  stack not aligned",
+  "plan": "NO TRADE - range; wait for stack/breakout",
+  "zone_lo": 1.1739986389538701,
+  "zone_hi": 1.1745723212394068,
+  "target": 0.0,
+  "invalidation": 0.0,
+  "pattern": "none",
+  "zigzag": [
+    {
+      "time": "2025.12.30 15:00",
+      "price": 1.17452,
+      "kind": -1
+    },
+    {
+      "time": "2025.12.30 17:00",
+      "price": 1.17666,
+      "kind": 1
+    },
+    {
+      "time": "2025.12.31 08:00",
+      "price": 1.172,
+      "kind": -1
+    },
+    {
+      "time": "2025.12.31 12:00",
+      "price": 1.17593,
+      "kind": 1
+    },
+    {
+      "time": "2025.12.31 15:00",
+      "price": 1.17202,
+      "kind": -1
+    },
+    {
+      "time": "2025.12.31 16:00",
+      "price": 1.17487,
+      "kind": 1
+    },
+    {
+      "time": "2025.12.31 18:00",
+      "price": 1.17302,
+      "kind": -1
+    },
+    {
+      "time": "2025.12.31 20:00",
+      "price": 1.17531,
+      "kind": 1
+    }
+  ],
+  "settings": {
+    "ema_fast": 21,
+    "ema_slow": 50,
+    "smma": 100,
+    "rsi": 9,
+    "atr": 14,
+    "swing_bars": 40,
+    "zigzag_bars": 160,
+    "zigzag_atr": 0.8
+  }
+}

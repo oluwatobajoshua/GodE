@@ -1,0 +1,34 @@
+{
+  "sleeve": "carry_mom_filter",
+  "role": "core_book",
+  "promoted_3split": true,
+  "deployable_frozen_policy": true,
+  "rule": "each split monthly sum_pct>0 and PF>=1.0; deployable also max_dd>-30% on OOS",
+  "splits": {
+    "design_2005_2014": {
+      "n": 119,
+      "cagr": 1.32,
+      "sharpe": 0.17,
+      "max_dd": -26.3,
+      "pf": 1.15,
+      "sum_pct": 19.26
+    },
+    "validation_2015_2019": {
+      "n": 60,
+      "cagr": 0.05,
+      "sharpe": 0.06,
+      "max_dd": -14.08,
+      "pf": 1.04,
+      "sum_pct": 2.86
+    },
+    "OOS_2020_2026": {
+      "n": 80,
+      "cagr": 3.26,
+      "sharpe": 0.34,
+      "max_dd": -17.46,
+      "pf": 1.29,
+      "sum_pct": 25.62
+    }
+  },
+  "note": "Weak CAGR ~1.6% full sample \u2014 research-positive, not live per AGENTS.md unless you change policy"
+}

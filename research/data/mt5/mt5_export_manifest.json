@@ -1,0 +1,22 @@
+{
+  "generated_at": "2026-11-15T04:52:22.562475+00:00",
+  "timeframe": "H1",
+  "from": "2015-01-01",
+  "to": "2026-11-16",
+  "symbols": {
+    "BTCUSD": {
+      "symbol": "BTCUSD",
+      "ok": true,
+      "path": "C:\\xampp\\htdocs\\GodE\\research\\data\\mt5\\BTCUSD_H1.csv",
+      "bars": 87213,
+      "from": "2015-01-01 22:00:00+00:00",
+      "to": "2026-11-15 04:00:00+00:00",
+      "span_days": 4335,
+      "shallow_history": false,
+      "has_spread": true,
+      "terminal": "C:\\Program Files\\MetaTrader 5 Terminal\\terminal64.exe"
+    }
+  },
+  "ok_count": 1,
+  "canonical_dir": "C:\\xampp\\htdocs\\GodE\\research\\data\\mt5"
+}

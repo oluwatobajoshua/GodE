@@ -1,0 +1,32 @@
+---
+description: Windows ASR-safe execution — never venv pip launchers; only python.exe
+alwaysApply: true
+---
+
+# ASR / Defender safe execution (mandatory)
+
+This machine may block **Attack Surface Reduction** rules on low-prevalence venv shims
+(`pip.exe`, `pip3.exe`, `pip3.11.exe`, etc.). Parent process may show as `svchost.exe`.
+
+## Never use (agents, scripts, CI)
+
+- `\.venv\Scripts\pip.exe` / `pip3.exe` / any `pip*.exe` in the venv
+- `pip install` or `python -m pip install` in automated agent or repo scripts
+- Subprocess or shell that spawns the above
+- Installers, `uv pip`, `poetry run pip`, or downloading wheels from agent turns
+
+## Always use
+
+- **`$Root\.venv\Scripts\python.exe`** with a **script path** (e.g. `research\foo.py`, `scripts\run_backtest.py`)
+- PowerShell wrappers already in `scripts\` that only call `python.exe`
+- MT5: `scripts\run_backtest.py`, `scripts\install_ea.ps1` (MetaEditor), not pip
+
+## Dependencies
+
+- Base stack: install once offline per `docs/ML_INSTALL_IT.md` (admin allowlists **`python.exe`**, not pip).
+- Missing imports: fail fast with a message pointing to that doc — **do not** auto-install.
+
+## Docs
+
+- `docs/ML_INSTALL_IT.md` — IT / ASR policy detail
+- `AGENTS.md` — Commands section (canonical `python.exe` only)

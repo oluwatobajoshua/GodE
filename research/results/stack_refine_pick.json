@@ -1,0 +1,22 @@
+{
+  "objective": "blend_sharpe = sqrt(sharpe_full * sharpe_OOS)",
+  "prior_oos_pick": "mom12_n4_v18_30_m0.75_ddoff_neu1",
+  "config": "mom12_n4_v16_28_m0.45_ddoff_neu1",
+  "cagr_full": 2.53,
+  "sharpe_full": 0.39,
+  "maxdd_full": -24.97,
+  "cagr_OOS_2020_2026": 4.78,
+  "sharpe_OOS_2020_2026": 0.82,
+  "maxdd_OOS_2020_2026": -6.92,
+  "blend_sharpe": 0.5655086206239477,
+  "ea_inputs": {
+    "InpUseSovereignStackV1": true,
+    "InpTopN": 4,
+    "InpStackVixLo": 16.0,
+    "InpStackVixHi": 28.0,
+    "InpStackVixMidScale": 0.45,
+    "InpStackRequireNeutral": true,
+    "InpStackDdHaltEnable": false
+  },
+  "caveat": "Refinement grid outside main 972-cell tune; 3-split gate unchanged; not a live deploy unlock."
+}

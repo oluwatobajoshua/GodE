@@ -1,0 +1,49 @@
+{
+  "generated_at": "2026-11-12T10:25:01.519770+00:00",
+  "symbols": [
+    "EURUSD",
+    "GBPUSD",
+    "USDJPY"
+  ],
+  "tf": "H1",
+  "pass_bar": {
+    "pf": 1.05,
+    "sharpe": 0.25,
+    "maxdd_pct": -30.0
+  },
+  "candidates_oos": [
+    "EURUSD_rsi_extreme_9_20_80",
+    "EURUSD_rsi_extreme_9_25_75",
+    "EURUSD_rsi_extreme_14_30_70",
+    "EURUSD_rubberband_21_2.0",
+    "EURUSD_rubberband_21_1.5",
+    "EURUSD_ema_extension_fade_1.5",
+    "EURUSD_ema_extension_fade_2.0",
+    "EURUSD_atr_squeeze_breakout",
+    "EURUSD_ft_cross_3_confirm1",
+    "EURUSD_ft_ema_mom_21_2.0",
+    "EURUSD_ft_cross_body_3_0.5",
+    "EURUSD_ft_delayed_rsi_9_25_75",
+    "EURUSD_compression_rubberband",
+    "GBPUSD_candle_cross_5",
+    "GBPUSD_rsi_extreme_9_20_80",
+    "GBPUSD_rsi_extreme_9_25_75",
+    "GBPUSD_rubberband_21_2.0",
+    "GBPUSD_rubberband_21_1.5",
+    "GBPUSD_ema_extension_fade_1.5",
+    "GBPUSD_ema_extension_fade_2.0",
+    "GBPUSD_structure_bos_k3",
+    "GBPUSD_ft_cross_3_confirm1",
+    "GBPUSD_ft_cross_body_3_0.5",
+    "GBPUSD_ft_delayed_rsi_9_25_75",
+    "GBPUSD_compression_rubberband",
+    "USDJPY_rsi_extreme_14_30_70",
+    "USDJPY_rubberband_21_1.5",
+    "USDJPY_ema_extension_fade_1.5",
+    "USDJPY_session_london_mom",
+    "USDJPY_structure_bos_k3",
+    "USDJPY_ma_compression_filter",
+    "USDJPY_compression_rubberband"
+  ],
+  "n_hypotheses": 84
+}

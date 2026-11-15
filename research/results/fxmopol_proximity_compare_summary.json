@@ -1,0 +1,184 @@
+{
+  "compare": [
+    {
+      "symbol": "EURUSD",
+      "variant": "baseline_no_proximity",
+      "split": "design",
+      "n": 870,
+      "exp_bps": -2.85,
+      "pf": 0.58,
+      "winrate": 35.4,
+      "total_pct": -22.0
+    },
+    {
+      "symbol": "EURUSD",
+      "variant": "baseline_no_proximity",
+      "split": "validation",
+      "n": 498,
+      "exp_bps": -2.37,
+      "pf": 0.71,
+      "winrate": 38.4,
+      "total_pct": -11.23
+    },
+    {
+      "symbol": "EURUSD",
+      "variant": "baseline_no_proximity",
+      "split": "OOS",
+      "n": 334,
+      "exp_bps": -2.75,
+      "pf": 0.63,
+      "winrate": 33.2,
+      "total_pct": -8.81
+    },
+    {
+      "symbol": "EURUSD",
+      "variant": "ema_proximity_filters",
+      "split": "design",
+      "n": 135,
+      "exp_bps": -2.03,
+      "pf": 0.66,
+      "winrate": 31.9,
+      "total_pct": -2.72
+    },
+    {
+      "symbol": "EURUSD",
+      "variant": "ema_proximity_filters",
+      "split": "validation",
+      "n": 83,
+      "exp_bps": 1.31,
+      "pf": 1.23,
+      "winrate": 34.9,
+      "total_pct": 1.08
+    },
+    {
+      "symbol": "EURUSD",
+      "variant": "ema_proximity_filters",
+      "split": "OOS",
+      "n": 61,
+      "exp_bps": -0.86,
+      "pf": 0.87,
+      "winrate": 29.5,
+      "total_pct": -0.53
+    },
+    {
+      "symbol": "GBPUSD",
+      "variant": "baseline_no_proximity",
+      "split": "design",
+      "n": 846,
+      "exp_bps": -3.92,
+      "pf": 0.56,
+      "winrate": 34.2,
+      "total_pct": -28.33
+    },
+    {
+      "symbol": "GBPUSD",
+      "variant": "baseline_no_proximity",
+      "split": "validation",
+      "n": 515,
+      "exp_bps": -2.74,
+      "pf": 0.69,
+      "winrate": 34.8,
+      "total_pct": -13.29
+    },
+    {
+      "symbol": "GBPUSD",
+      "variant": "baseline_no_proximity",
+      "split": "OOS",
+      "n": 325,
+      "exp_bps": -1.61,
+      "pf": 0.75,
+      "winrate": 37.2,
+      "total_pct": -5.12
+    },
+    {
+      "symbol": "GBPUSD",
+      "variant": "ema_proximity_filters",
+      "split": "design",
+      "n": 138,
+      "exp_bps": -3.64,
+      "pf": 0.47,
+      "winrate": 24.6,
+      "total_pct": -4.91
+    },
+    {
+      "symbol": "GBPUSD",
+      "variant": "ema_proximity_filters",
+      "split": "validation",
+      "n": 93,
+      "exp_bps": -1.57,
+      "pf": 0.77,
+      "winrate": 29.0,
+      "total_pct": -1.47
+    },
+    {
+      "symbol": "GBPUSD",
+      "variant": "ema_proximity_filters",
+      "split": "OOS",
+      "n": 52,
+      "exp_bps": 0.42,
+      "pf": 1.08,
+      "winrate": 36.5,
+      "total_pct": 0.21
+    },
+    {
+      "symbol": "USDJPY",
+      "variant": "baseline_no_proximity",
+      "split": "design",
+      "n": 909,
+      "exp_bps": -2.73,
+      "pf": 0.61,
+      "winrate": 33.1,
+      "total_pct": -22.04
+    },
+    {
+      "symbol": "USDJPY",
+      "variant": "baseline_no_proximity",
+      "split": "validation",
+      "n": 551,
+      "exp_bps": -3.62,
+      "pf": 0.6,
+      "winrate": 35.6,
+      "total_pct": -18.2
+    },
+    {
+      "symbol": "USDJPY",
+      "variant": "baseline_no_proximity",
+      "split": "OOS",
+      "n": 353,
+      "exp_bps": -4.09,
+      "pf": 0.6,
+      "winrate": 32.6,
+      "total_pct": -13.51
+    },
+    {
+      "symbol": "USDJPY",
+      "variant": "ema_proximity_filters",
+      "split": "design",
+      "n": 127,
+      "exp_bps": -2.45,
+      "pf": 0.59,
+      "winrate": 27.6,
+      "total_pct": -3.07
+    },
+    {
+      "symbol": "USDJPY",
+      "variant": "ema_proximity_filters",
+      "split": "validation",
+      "n": 65,
+      "exp_bps": -6.88,
+      "pf": 0.37,
+      "winrate": 21.5,
+      "total_pct": -4.39
+    },
+    {
+      "symbol": "USDJPY",
+      "variant": "ema_proximity_filters",
+      "split": "OOS",
+      "n": 36,
+      "exp_bps": -2.4,
+      "pf": 0.71,
+      "winrate": 27.8,
+      "total_pct": -0.87
+    }
+  ]
+}

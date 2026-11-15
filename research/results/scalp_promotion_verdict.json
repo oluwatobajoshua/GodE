@@ -1,0 +1,125 @@
+{
+  "rule": {
+    "min_oos_trades": 150,
+    "min_oos_pf": 1.05,
+    "min_mt5_pf": 1.05,
+    "oos_total_pct_gt": 0,
+    "min_trades_per_month_oos": 8,
+    "require_validation_pass": false,
+    "require_mt5_parity": true,
+    "require_mt5_tape_for_python": true,
+    "oos_split_key": "tester_oos",
+    "require_mt5_tester_for_all": true
+  },
+  "m5_policy": "mt5_only",
+  "oos_split_key": "tester_oos",
+  "candidates": [
+    {
+      "symbol": "EURUSD",
+      "strategy": "london_orb",
+      "promoted": false,
+      "role": "research_only",
+      "oos_n": 250,
+      "oos_total_pct": -1.92,
+      "oos_pf": 0.83,
+      "reasons": [
+        "london_orb gross kill: no_gross_edge_stop_orb (see london_orb_gross_net.json)",
+        "OOS total -1.92% <= 0",
+        "OOS PF 0.83 < 1.05",
+        "MT5 net -302.28 <= 0",
+        "MT5 PF 0.94 < 1.05",
+        "UTC sweep pinned in london_orb_utc_pick.json; promotion requires require_mt5_parity."
+      ],
+      "mt5_parity": {
+        "required": true,
+        "manifest": "C:\\xampp\\htdocs\\GodE\\research\\results\\london_orb_tester_manifest.json",
+        "parity_ok": false,
+        "mt5_pf": 0.94,
+        "mt5_net": -302.28,
+        "mt5_trades": 742,
+        "utc_offset_pinned": 0,
+        "reasons": [
+          "MT5 net -302.28 <= 0",
+          "MT5 PF 0.94 < 1.05",
+          "UTC sweep pinned in london_orb_utc_pick.json; promotion requires require_mt5_parity."
+        ]
+      },
+      "ea": "SovereignLondonOrbEA.mq5"
+    },
+    {
+      "symbol": "EURUSD",
+      "strategy": "ema21_pullback",
+      "promoted": false,
+      "role": "research_only",
+      "oos_n": 707,
+      "oos_total_pct": 1.0,
+      "oos_pf": 1.06,
+      "reasons": [
+        "no MT5 Strategy Tester certify path (wired: london_orb EURUSD only)"
+      ],
+      "mt5_parity": {
+        "required": false,
+        "manifest": "C:\\xampp\\htdocs\\GodE\\research\\results\\london_orb_tester_manifest.json",
+        "parity_ok": true,
+        "mt5_pf": null,
+        "mt5_net": null,
+        "mt5_trades": null,
+        "utc_offset_pinned": null,
+        "reasons": []
+      },
+      "ea": "SovereignEmaTrendEA.mq5"
+    },
+    {
+      "symbol": "GBPUSD",
+      "strategy": "london_orb",
+      "promoted": false,
+      "role": "research_only",
+      "oos_n": 247,
+      "oos_total_pct": -3.72,
+      "oos_pf": 0.73,
+      "reasons": [
+        "no MT5 Strategy Tester certify path (wired: london_orb EURUSD only)",
+        "london_orb gross kill: no_gross_edge_stop_orb (see london_orb_gross_net.json)",
+        "OOS total -3.72% <= 0",
+        "OOS PF 0.73 < 1.05"
+      ],
+      "mt5_parity": {
+        "required": false,
+        "manifest": "C:\\xampp\\htdocs\\GodE\\research\\results\\london_orb_tester_manifest.json",
+        "parity_ok": true,
+        "mt5_pf": null,
+        "mt5_net": null,
+        "mt5_trades": null,
+        "utc_offset_pinned": null,
+        "reasons": []
+      },
+      "ea": "SovereignLondonOrbEA.mq5"
+    },
+    {
+      "symbol": "GBPUSD",
+      "strategy": "ema21_pullback",
+      "promoted": false,
+      "role": "research_only",
+      "oos_n": 709,
+      "oos_total_pct": -0.49,
+      "oos_pf": 0.97,
+      "reasons": [
+        "no MT5 Strategy Tester certify path (wired: london_orb EURUSD only)",
+        "OOS total -0.49% <= 0",
+        "OOS PF 0.97 < 1.05"
+      ],
+      "mt5_parity": {
+        "required": false,
+        "manifest": "C:\\xampp\\htdocs\\GodE\\research\\results\\london_orb_tester_manifest.json",
+        "parity_ok": true,
+        "mt5_pf": null,
+        "mt5_net": null,
+        "mt5_trades": null,
+        "utc_offset_pinned": null,
+        "reasons": []
+      },
+      "ea": "SovereignEmaTrendEA.mq5"
+    }
+  ],
+  "any_promoted": false
+}

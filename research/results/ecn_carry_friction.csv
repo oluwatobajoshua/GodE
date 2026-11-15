@@ -1,0 +1,6 @@
+cost_pts,label,cagr_full,sharpe_full,maxdd_full,profitable_3split
+0.0,ecn,2.67,0.41,-24.38,True
+3.0,ecn,2.64,0.4,-24.53,True
+8.0,ecn,2.58,0.39,-24.78,True
+12.0,deriv,2.53,0.39,-24.97,True
+20.0,wide,2.44,0.37,-25.37,True

@@ -1,0 +1,23 @@
+{
+  "rule_set": "full PA + D1 + proximity; timing open (learn via filter_learn / performance buckets)",
+  "good_sessions_only": false,
+  "timing_literature_defaults": false,
+  "weekday_mask": 0,
+  "max_trades_per_day": 2,
+  "use_chart_playbook_only": true,
+  "vs_visual_legacy": {
+    "EURUSD": {
+      "legacy_exp_bps": -2.93,
+      "playbook_exp_bps": -2.85
+    },
+    "USDJPY": {
+      "legacy_exp_bps": -2.3,
+      "playbook_exp_bps": -2.14
+    },
+    "GBPUSD": {
+      "legacy_exp_bps": -3.01,
+      "playbook_exp_bps": -3.06
+    }
+  },
+  "summary_csv": "fxmopol_playbook_summary.csv"
+}
